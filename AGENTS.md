@@ -355,3 +355,7 @@ This is the **Xeno Engineering Take-Home Assignment (June 2026)**.
 Evaluation criteria: Build & deploy, Creativity in scoping, AI-native development, Code quality, System design, Thought clarity.
 
 Every line of code will be reviewed live. Understand everything you ship.
+
+## Design
+
+Use the design from DESIGN.md for the frontend landing page.
