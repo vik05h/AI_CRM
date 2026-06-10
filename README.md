@@ -242,7 +242,7 @@ CREATE TABLE campaign_analytics (
 
 | Layer | Technology | Rationale |
 |-------|-----------|-----------|
-| **Frontend** | Angular 17+ | Component-based, TypeScript-native, strong tooling for dashboard UIs |
+| **Frontend** | Angular 20+ | Component-based, TypeScript-native, strong tooling for dashboard UIs |
 | **Backend** | FastAPI (Python 3.10+) | Native async/await, automatic OpenAPI docs, high performance |
 | **Database** | PostgreSQL (Supabase/Neon) | Relational integrity, JSONB for flexible metadata, free tier hosting |
 | **AI Engine** | Google Vertex AI (Gemini) | Native Python SDK, strong reasoning + code generation for SQL |
@@ -257,7 +257,7 @@ CREATE TABLE campaign_analytics (
 
 ### Prerequisites
 - Python 3.10+
-- Node.js 18+ & Angular CLI (`npm install -g @angular/cli`)
+- Node.js 20+ & Angular CLI (`npm install -g @angular/cli`)
 - PostgreSQL (local or Supabase/Neon connection string)
 - Google Cloud account with Vertex AI API enabled
 
