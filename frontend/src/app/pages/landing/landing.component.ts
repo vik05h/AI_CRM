@@ -1,0 +1,98 @@
+import { Component, ChangeDetectionStrategy, afterNextRender, ElementRef, viewChild, OnDestroy, NgZone } from '@angular/core';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+@Component({
+  selector: 'app-landing',
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './landing.component.html',
+  styleUrl: './landing.component.css'
+})
+export class LandingComponent implements OnDestroy {
+  private ctx!: gsap.Context;
+
+  constructor(private elementRef: ElementRef, private ngZone: NgZone) {
+    afterNextRender(() => {
+      this.ngZone.runOutsideAngular(() => {
+        this.ctx = gsap.context(() => {
+          this.initAnimations();
+        }, this.elementRef.nativeElement);
+      });
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.ctx) {
+      this.ctx.revert();
+    }
+  }
+
+  private initAnimations() {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    // Nav fade in
+    tl.from('nav', {
+      y: -20,
+      opacity: 0,
+      duration: 0.8,
+    });
+
+    // Hero items staggered entrance
+    const heroItems = this.elementRef.nativeElement.querySelectorAll('.hero-item');
+    tl.from(heroItems, {
+      y: 40,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.15
+    }, "-=0.4");
+
+    // Subtle pulse for the abstract glow
+    const heroGlow = this.elementRef.nativeElement.querySelector('.absolute.right-0');
+    if (heroGlow) {
+      gsap.to(heroGlow, {
+        scale: 1.05,
+        opacity: 0.5,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+    }
+
+    // ScrollTrigger for Features Section
+    const featureHeaders = this.elementRef.nativeElement.querySelectorAll('.feature-header');
+    const featureCards = this.elementRef.nativeElement.querySelectorAll('.feature-card');
+
+    if (featureHeaders.length > 0) {
+      gsap.from(featureHeaders, {
+        scrollTrigger: {
+          trigger: '.panel-recessed',
+          start: 'top 75%',
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out'
+      });
+    }
+
+    if (featureCards.length > 0) {
+      gsap.from(featureCards, {
+        scrollTrigger: {
+          trigger: '.panel-recessed',
+          start: 'top 60%',
+        },
+        y: 60,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power3.out'
+      });
+    }
+  }
+}
+

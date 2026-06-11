@@ -358,4 +358,4 @@ Every line of code will be reviewed live. Understand everything you ship.
 
 ## Design
 
-Use the design from DESIGN.md for the frontend landing page.
+Use the design from DESIGN.md for the frontend.

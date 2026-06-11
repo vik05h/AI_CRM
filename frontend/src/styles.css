@@ -1,3 +1,203 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+@theme {
+  --color-surface: #fdf8f8;
+  --color-surface-dim: #ddd9d8;
+  --color-surface-bright: #fdf8f8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f7f3f2;
+  --color-surface-container: #f1edec;
+  --color-surface-container-high: #ebe7e6;
+  --color-surface-container-highest: #e5e2e1;
+  --color-on-surface: #1c1b1b;
+  --color-on-surface-variant: #444748;
+  --color-inverse-surface: #313030;
+  --color-inverse-on-surface: #f4f0ef;
+  --color-outline: #747878;
+  --color-outline-variant: #c4c7c7;
+  --color-surface-tint: #5f5e5e;
+  
+  --color-primary: #000000;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1c1b1b;
+  --color-on-primary-container: #858383;
+  --color-inverse-primary: #c8c6c5;
+  
+  --color-secondary: #5e5e5e;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #e1dfdf;
+  --color-on-secondary-container: #626262;
+  
+  --color-tertiary: #000000;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #1d1b1a;
+  --color-on-tertiary-container: #868381;
+  
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+  
+  --color-background: #fdf8f8;
+  --color-on-background: #1c1b1b;
+  --color-surface-variant: #e5e2e1;
+  
+  /* Brand Specific from DESIGN.md */
+  --color-base-plate: #F7F7F5;
+  --color-recessed: #F3F2EF;
+  --color-elevated: #FCFCFB;
+  --color-elevated-border: #E7E7E4;
+
+  --font-inter: 'Inter', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+
+  /* Typography based on DESIGN.md */
+  --text-h1-size: 84px;
+  --text-h1-line-height: 1.05;
+  --text-h1-letter-spacing: -0.04em;
+
+  --text-h2-size: 64px;
+  --text-h2-line-height: 1.1;
+  --text-h2-letter-spacing: -0.03em;
+
+  --text-h3-size: 32px;
+  --text-h3-line-height: 1.2;
+  --text-h3-letter-spacing: -0.02em;
+
+  --text-body-lg-size: 18px;
+  --text-body-lg-line-height: 1.6;
+  --text-body-lg-letter-spacing: -0.01em;
+
+  --text-body-md-size: 16px;
+  --text-body-md-line-height: 1.5;
+  --text-body-md-letter-spacing: 0;
+
+  --text-label-caps-size: 12px;
+  --text-label-caps-line-height: 1;
+  --text-label-caps-letter-spacing: 0.1em;
+
+  /* Rounded */
+  --radius-sm: 0.25rem;
+  --radius-DEFAULT: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+  --radius-card: 24px;
+  --radius-interactive: 8px;
+
+  /* Spacing */
+  --spacing-gutter: 32px;
+  --spacing-container-padding: 32px;
+  --spacing-section-gap: 160px; /* average of 140 and 180 */
+}
+
+@layer base {
+  body {
+    background-color: var(--color-base-plate);
+    color: var(--color-on-background);
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .text-h1 {
+    font-size: var(--text-h1-size);
+    font-weight: 600;
+    line-height: var(--text-h1-line-height);
+    letter-spacing: var(--text-h1-letter-spacing);
+  }
+  .text-h2 {
+    font-size: var(--text-h2-size);
+    font-weight: 600;
+    line-height: var(--text-h2-line-height);
+    letter-spacing: var(--text-h2-letter-spacing);
+  }
+  .text-h3 {
+    font-size: var(--text-h3-size);
+    font-weight: 600;
+    line-height: var(--text-h3-line-height);
+    letter-spacing: var(--text-h3-letter-spacing);
+  }
+  .text-body-lg {
+    font-size: var(--text-body-lg-size);
+    font-weight: 400;
+    line-height: var(--text-body-lg-line-height);
+    letter-spacing: var(--text-body-lg-letter-spacing);
+  }
+  .text-body-md {
+    font-size: var(--text-body-md-size);
+    font-weight: 400;
+    line-height: var(--text-body-md-line-height);
+    letter-spacing: var(--text-body-md-letter-spacing);
+  }
+  .text-label-caps {
+    font-size: var(--text-label-caps-size);
+    font-weight: 600;
+    line-height: var(--text-label-caps-line-height);
+    letter-spacing: var(--text-label-caps-letter-spacing);
+    text-transform: uppercase;
+  }
+
+  .panel-recessed {
+    background-color: var(--color-recessed);
+    border-radius: var(--radius-card);
+  }
+  
+  .card-elevated {
+    background-color: var(--color-elevated);
+    border: 1px solid var(--color-elevated-border);
+    border-radius: var(--radius-card);
+    transition: all 0.3s ease;
+  }
+  
+  .card-elevated:hover {
+    box-shadow: 0 -4px 30px rgba(99, 102, 241, 0.08);
+  }
+
+  .btn-primary {
+    background-color: #111111;
+    color: #FCFCFB;
+    border-radius: var(--radius-interactive);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+  }
+  
+  .btn-primary:hover {
+    opacity: 0.9;
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: #111111;
+    border: 1px solid var(--color-elevated-border);
+    border-radius: var(--radius-interactive);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-secondary:hover {
+    background-color: var(--color-recessed);
+  }
+
+  .container-max {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-container-padding);
+    padding-right: var(--spacing-container-padding);
+  }
+}

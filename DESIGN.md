@@ -1,346 +1,165 @@
-# Design PRD — AI-Native Mini CRM Landing Page
-
-## Design Philosophy
-
-NOT another generic dark SaaS template. This is a cinematic, editorial experience that feels like a premium product reveal. Think: Apple Keynote meets Stripe Press — every pixel intentional, every animation purposeful.
-
-Mood: Confident, precise, slightly mysterious. Like the AI knows something you don't.
-
+---
+name: Auralis System
+colors:
+  surface: '#fdf8f8'
+  surface-dim: '#ddd9d8'
+  surface-bright: '#fdf8f8'
+  surface-container-lowest: '#ffffff'
+  surface-container-low: '#f7f3f2'
+  surface-container: '#f1edec'
+  surface-container-high: '#ebe7e6'
+  surface-container-highest: '#e5e2e1'
+  on-surface: '#1c1b1b'
+  on-surface-variant: '#444748'
+  inverse-surface: '#313030'
+  inverse-on-surface: '#f4f0ef'
+  outline: '#747878'
+  outline-variant: '#c4c7c7'
+  surface-tint: '#5f5e5e'
+  primary: '#000000'
+  on-primary: '#ffffff'
+  primary-container: '#1c1b1b'
+  on-primary-container: '#858383'
+  inverse-primary: '#c8c6c5'
+  secondary: '#5e5e5e'
+  on-secondary: '#ffffff'
+  secondary-container: '#e1dfdf'
+  on-secondary-container: '#626262'
+  tertiary: '#000000'
+  on-tertiary: '#ffffff'
+  tertiary-container: '#1d1b1a'
+  on-tertiary-container: '#868381'
+  error: '#ba1a1a'
+  on-error: '#ffffff'
+  error-container: '#ffdad6'
+  on-error-container: '#93000a'
+  primary-fixed: '#e5e2e1'
+  primary-fixed-dim: '#c8c6c5'
+  on-primary-fixed: '#1c1b1b'
+  on-primary-fixed-variant: '#474646'
+  secondary-fixed: '#e4e2e2'
+  secondary-fixed-dim: '#c7c6c6'
+  on-secondary-fixed: '#1b1c1c'
+  on-secondary-fixed-variant: '#464747'
+  tertiary-fixed: '#e6e1df'
+  tertiary-fixed-dim: '#cac6c3'
+  on-tertiary-fixed: '#1d1b1a'
+  on-tertiary-fixed-variant: '#484645'
+  background: '#fdf8f8'
+  on-background: '#1c1b1b'
+  surface-variant: '#e5e2e1'
+typography:
+  h1:
+    fontFamily: Inter
+    fontSize: 84px
+    fontWeight: '600'
+    lineHeight: '1.05'
+    letterSpacing: -0.04em
+  h2:
+    fontFamily: Inter
+    fontSize: 64px
+    fontWeight: '600'
+    lineHeight: '1.1'
+    letterSpacing: -0.03em
+  h3:
+    fontFamily: Inter
+    fontSize: 32px
+    fontWeight: '600'
+    lineHeight: '1.2'
+    letterSpacing: -0.02em
+  body-lg:
+    fontFamily: Inter
+    fontSize: 18px
+    fontWeight: '400'
+    lineHeight: '1.6'
+    letterSpacing: -0.01em
+  body-md:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: '1.5'
+    letterSpacing: '0'
+  label-caps:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '600'
+    lineHeight: '1'
+    letterSpacing: 0.1em
+rounded:
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
+spacing:
+  max_width: 1280px
+  columns: '12'
+  gutter: 32px
+  container_padding: 32px
+  section_gap_min: 140px
+  section_gap_max: 180px
+  unit_base: 8px
 ---
 
-## Visual References (MANDATORY)
+## Brand & Style
 
-Study these before designing:
+The visual identity of this design system is rooted in "Engineered Softness." It is a premium, enterprise-grade aesthetic that balances technical precision with an approachable, editorial clarity. The target audience consists of high-level decision-makers and technical operators who value restrained sophistication over decorative excess.
 
-1. Stripe Press (press.stripe.com) — Typography hierarchy, editorial spacing
-2. Linear.app — Dark mode done right, subtle gradients, glassmorphism
-3. Vercel Ship — Landing page storytelling, scroll-driven reveals
-4. Awwwards SOTD "Made With GSAP" — ScrollTrigger pinning, text reveals
-5. Truus.co — Elastic hover, physics interactions
+The design style is a hybrid of **Minimalism** and **Tonal Layering**. It moves away from heavy shadows in favor of "mounted" UI components—elements that feel physically inset or layered through subtle shifts in neutral values. The mood is quiet, authoritative, and structured, evoking the feeling of high-end laboratory equipment or architectural blueprints. The inclusion of sparse, muted gradients provides a "technical soul," preventing the interface from feeling cold while maintaining a professional, institutional weight.
 
-Rule: If it looks like a Tailwind UI template, reject it and start over.
+## Colors
 
----
+The palette is a study in "Warm Neutrals" and "Cool Taupes." By utilizing a base of #F7F7F5, the interface avoids the sterile nature of pure white, opting instead for a soft, paper-like foundation. 
 
-## Color System
-
-| Token | Hex | Usage |
-|-------|-----|-------|
-| bg-primary | #050508 | Deepest background (almost black) |
-| bg-secondary | #0a0f1e | Card backgrounds, elevated surfaces |
-| bg-glass | rgba(10, 15, 30, 0.6) | Glassmorphism overlays |
-| accent-primary | #6366f1 | Indigo — primary actions, AI highlights |
-| accent-secondary | #8b5cf6 | Violet — gradients, secondary emphasis |
-| accent-glow | rgba(99, 102, 241, 0.15) | Subtle glow effects |
-| text-primary | #f8fafc | Headlines, primary content |
-| text-secondary | #94a3b8 | Body text, descriptions |
-| text-muted | #475569 | Labels, metadata |
-| success | #22d3ee | Cyan — positive metrics, delivered |
-| warning | #fbbf24 | Amber — pending, attention |
-| error | #f87171 | Red — failed, critical |
-
-Gradient accents:
-- Hero text gradient: linear-gradient(135deg, #f8fafc 0%, #6366f1 50%, #8b5cf6 100%)
-- Card hover glow: radial-gradient(circle at 50% 0%, rgba(99,102,241,0.15), transparent 70%)
-
----
+- **Primary Canvas:** The background (#F7F7F5) acts as the base plate.
+- **Structural Layers:** Panels (#F3F2EF) create a recessed look, while White Cards (#FCFCFB) represent the highest interactive surface level.
+- **Accents:** Muted coral, blue, and green gradients are never used as solid fills for large areas. Instead, they are applied as "Glows"—subtle blurs behind icons, thin indicator bars, or soft radial pulses that signify activity or system health.
+- **Contrast:** Typography maintains a strict hierarchy with #111111 for high-readability headers and #6B6B6B for metadata and auxiliary labels.
 
 ## Typography
 
-| Element | Font | Weight | Size | Line Height | Letter Spacing |
-|---------|------|--------|------|-------------|----------------|
-| Hero H1 | Inter | 800 | 72px / 4.5rem | 1.0 | -0.03em |
-| Section H2 | Inter | 700 | 48px / 3rem | 1.1 | -0.02em |
-| Card Title | Inter | 600 | 24px / 1.5rem | 1.3 | -0.01em |
-| Body | Inter | 400 | 16px / 1rem | 1.6 | 0 |
-| Label | Inter | 500 | 12px / 0.75rem | 1.4 | 0.05em |
-| Stat Number | Inter | 700 | 40px / 2.5rem | 1.0 | -0.02em |
+This design system utilizes **Inter** (representing the Geist aesthetic) to achieve a technical, geometric rhythm. The typography is highly editorial, favoring large-scale headlines with tight tracking to create a "dense" and impactful presence.
 
-Font loading:
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+- **Headlines:** H1 and H2 should always be set with negative letter-spacing to emphasize the engineered, locked-in feel of the characters.
+- **Body:** Standard body text is set at 16px or 18px with generous line heights to ensure readability within complex data environments.
+- **Labels:** Small utility text utilizes uppercase styling with increased letter-spacing to provide clear distinction from narrative body text. 
+- **Hierarchy:** Use weight, not just size, to define importance. Headers are consistently Semibold, while functional data is Regular.
 
----
+## Layout & Spacing
 
-## Spacing System
+The layout philosophy is a **Fixed-Modular Grid**. Content is constrained to a 1280px container to ensure a premium, centered viewing experience that feels curated rather than stretched.
 
-Base unit: 8px
+- **Grid:** A strict 12-column structure with 32px gutters provides the "engine" for the UI. Elements should align precisely to these vertical lines.
+- **Rhythm:** Section spacing is intentionally expansive (140px-180px). This "white space" is a key brand asset, elevating the content and signaling an enterprise-grade focus on clarity.
+- **Incremental Spacing:** All internal component spacing (padding, margins) follows an 8px base unit. This ensures that even the most complex panels feel mathematically consistent and "mounted."
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| space-1 | 8px | Tight gaps, icon padding |
-| space-2 | 16px | Component internal padding |
-| space-3 | 24px | Card padding |
-| space-4 | 32px | Section element gaps |
-| space-5 | 48px | Between major sections |
-| space-6 | 64px | Section vertical padding |
-| space-7 | 96px | Hero vertical padding |
+## Elevation & Depth
 
-Container: max-width 1200px, centered with px-6 (24px) mobile, px-12 (48px) desktop.
+This design system rejects traditional drop shadows in favor of **Tonal Layering** and **Low-Contrast Outlines**. 
 
----
+Depth is achieved through the relationship between the background (#F7F7F5) and the surfaces:
+1. **The Base Plate:** The background (#F7F7F5).
+2. **The Recessed Layer:** Panels (#F3F2EF) which are used for sidebars, secondary navigation, or groupings. These should appear "cut into" the base.
+3. **The Elevated Layer:** Cards (#FCFCFB) which use ultra-light borders (#E7E7E4). 
 
-## Landing Page Sections & GSAP Animations
+For interaction, use a "Glow" effect instead of a shadow. When a card is hovered or active, a very soft, low-opacity radial gradient (coral, blue, or green) may appear behind the component or along its top edge, creating a sense of internal light rather than external weight.
 
-### Section 1: Hero
+## Shapes
 
-Layout:
-- Full viewport height (100vh)
-- Centered content, NOT left-aligned
-- Background: subtle animated gradient mesh (CSS only, no heavy WebGL)
+The shape language is "Soft-Industrial." While the layout is rigid and grid-based, the corners are generously rounded to provide a modern, premium feel.
 
-Content:
-[Pill badge] "Xeno Engineering Assignment — June 2026"
-[Hero H1] "Stop blasting."
-[Hero H1] "Start connecting intelligently."
-[Body] "AI discovers your best segments, drafts personalized messages, and asks you for one confirmation. You stay in control."
-[CTA Button] "Enter Dashboard →"
+- **Primary Cards:** Use a significant radius of 24px to 28px. This large curve softens the "technical" edges of the data and creates a modular, containerized look.
+- **Interactive Elements:** Buttons and form inputs use a tighter radius (8px-12px) to signify they are precision tools within the larger containers.
+- **Consistency:** Never use sharp 0px corners. Every element, from the largest container to the smallest chip, must carry a degree of curvature to maintain the "soft enterprise" visual direction.
 
-GSAP Animation Sequence:
+## Components
 
-// Timeline: Page load, auto-plays
-const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+Components in this design system should feel "mounted" to the grid.
 
-heroTl
-  .from(".hero-badge", { 
-    y: 20, 
-    opacity: 0, 
-    duration: 0.8 
-  })
-  .from(".hero-headline-1", { 
-    y: 60, 
-    opacity: 0, 
-    duration: 1.0,
-    skewY: 3
-  }, "-=0.4")
-  .from(".hero-headline-2", { 
-    y: 60, 
-    opacity: 0, 
-    duration: 1.0,
-    skewY: 3
-  }, "-=0.7")
-  .from(".hero-body", { 
-    y: 30, 
-    opacity: 0, 
-    duration: 0.8 
-  }, "-=0.5")
-  .from(".hero-cta", { 
-    y: 20, 
-    opacity: 0, 
-    duration: 0.6 
-  }, "-=0.3");
-
-Hero H1 Gradient Effect:
-.hero-headline {
-  background: linear-gradient(135deg, #f8fafc 0%, #6366f1 50%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
----
-
-### Section 2: Stats Bar (ScrollTrigger)
-
-Layout:
-- Horizontal row of 4 stat cards
-- NOT a boring grid — cards have subtle hover lift
-
-Content:
-| Stat | Value | Label |
-|------|-------|-------|
-| Customers | 1,024 | Total shoppers |
-| Revenue | Rs 1.59L | Attributed to campaigns |
-| Delivery | 84.8% | Average delivery rate |
-| Campaigns | 3 | Active right now |
-
-GSAP Animation:
-
-// ScrollTrigger: Staggered reveal when section enters viewport
-gsap.from(".stat-card", {
-  scrollTrigger: {
-    trigger: ".stats-section",
-    start: "top 80%",
-    toggleActions: "play none none reverse"
-  },
-  y: 40,
-  opacity: 0,
-  duration: 0.8,
-  stagger: 0.15,
-  ease: "power2.out"
-});
-
-// Counter animation for numbers
-gsap.from(".stat-number", {
-  textContent: 0,
-  duration: 2,
-  ease: "power1.out",
-  snap: { textContent: 1 },
-  scrollTrigger: {
-    trigger: ".stats-section",
-    start: "top 80%"
-  }
-});
-
-Card Design:
-- Background: rgba(10, 15, 30, 0.6) with backdrop-filter: blur(12px)
-- Border: 1px solid rgba(255, 255, 255, 0.05)
-- Hover: transform: translateY(-4px), border glows with accent-primary
-- Transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
-
----
-
-### Section 3: Feature Showcase (ScrollTrigger Pinning)
-
-Layout:
-- Split screen: Left text, Right visual
-- Pinned — text scrolls, visual stays fixed
-
-Content:
-[Label] "AI-POWERED SEGMENTATION"
-[Headline] "Find your hidden champions"
-[Body] "The AI analyzes purchase history, browsing behavior, and cart abandonment patterns to surface high-opportunity segments you didn't know existed."
-[Feature list]
-  - Lapsed shoppers (6+ months cold)
-  - High-intent browsers (5+ sessions, 0 orders)
-  - Cart abandoners (items left behind)
-
-GSAP Animation:
-
-// Pin the visual, scroll the text
-ScrollTrigger.create({
-  trigger: ".feature-section",
-  start: "top top",
-  end: "+=1000",
-  pin: ".feature-visual",
-  scrub: 1
-});
-
-// Text reveals with highlight effect
-gsap.from(".feature-text", {
-  scrollTrigger: {
-    trigger: ".feature-section",
-    start: "top 60%",
-    toggleActions: "play none none reverse"
-  },
-  y: 50,
-  opacity: 0,
-  duration: 1,
-  stagger: 0.2
-});
-
----
-
-### Section 4: How It Works (Horizontal Scroll)
-
-Layout:
-- Horizontal scrolling section (vertical scroll drives horizontal movement)
-- 3 steps, each full viewport width
-
-Content:
-Step 1: "Discover" — AI finds segments
-Step 2: "Draft" — AI writes personalized messages
-Step 3: "Approve" — One click to launch
-
-GSAP Animation:
-
-// Horizontal scroll section
-const horizontalSection = gsap.to(".horizontal-track", {
-  x: () =&gt; -(horizontalTrack.scrollWidth - window.innerWidth),
-  ease: "none",
-  scrollTrigger: {
-    trigger: ".horizontal-section",
-    start: "top top",
-    end: () =&gt; `+=${horizontalTrack.scrollWidth}`,
-    pin: true,
-    scrub: 1,
-    invalidateOnRefresh: true
-  }
-});
-
----
-
-### Section 5: CTA Footer
-
-Layout:
-- Centered, massive headline
-- Single CTA button with magnetic hover effect
-
-Content:
-[Headline] "Ready to stop blasting?"
-[CTA] "Launch Your First Campaign →"
-
-GSAP Animation:
-
-// Magnetic button effect
-const ctaButton = document.querySelector(".cta-button");
-
-ctaButton.addEventListener("mousemove", (e) =&gt; {
-  const rect = ctaButton.getBoundingClientRect();
-  const x = e.clientX - rect.left - rect.width / 2;
-  const y = e.clientY - rect.top - rect.height / 2;
-  
-  gsap.to(ctaButton, {
-    x: x * 0.3,
-    y: y * 0.3,
-    duration: 0.3,
-    ease: "power2.out"
-  });
-});
-
-ctaButton.addEventListener("mouseleave", () =&gt; {
-  gsap.to(ctaButton, {
-    x: 0,
-    y: 0,
-    duration: 0.5,
-    ease: "elastic.out(1, 0.3)"
-  });
-});
-
----
-
-## Global Animation Principles
-
-1. Easing: Default to power3.out for entrances, power2.inOut for transitions, elastic.out for playful interactions
-2. Duration: UI elements: 0.3-0.5s, Content reveals: 0.8-1.2s, Hero sequence: 3-4s total
-3. Stagger: Always stagger related elements (cards, list items) by 0.1-0.15s
-4. ScrollTrigger defaults:
-   - start: "top 80%" — trigger when element top hits 80% of viewport
-   - toggleActions: "play none none reverse" — play on enter, reverse on leave back
-5. Performance:
-   - Use will-change: transform, opacity on animated elements
-   - Prefer transform and opacity only (GPU-accelerated)
-   - Avoid animating width, height, top, left
-
----
-
-## Responsive Behavior
-
-| Breakpoint | Changes |
-|------------|---------|
-| &lt; 768px (mobile) | Single column, horizontal scroll sections become vertical stack, reduce font sizes by 20% |
-| 768-1024px (tablet) | 2-column grids, maintain animations but reduce complexity |
-| &gt; 1024px (desktop) | Full experience, all animations active |
-
----
-
-## Accessibility
-
-- Respect prefers-reduced-motion: disable GSAP animations, show static content
-- All interactive elements have focus states
-- Color contrast ratio &gt; 4.5:1 for body text
-- Semantic HTML: main, section, nav, button
-
----
-
-## Anti-Slop Checklist
-
-Before accepting any design, verify:
-
-- [ ] Does it look like it could win an Awwwards SOTD?
-- [ ] Are the animations purposeful or just "because we can"?
-- [ ] Is the typography hierarchy clear at a glance?
-- [ ] Does the color palette feel intentional, not default Tailwind?
-- [ ] Are interactions delightful (magnetic buttons, hover states)?
-- [ ] Does it feel like a premium product, not a Bootstrap template?
-
-If ANY checkbox is unchecked, redesign.
+- **Buttons:** Primary buttons are solid #111111 with #FCFCFB text. Secondary buttons use the #E7E7E4 border with no fill. For "Technical" actions, buttons may include a 2px bottom-border glow in one of the accent colors.
+- **Cards:** White cards (#FCFCFB) must have a 1px border of #E7E7E4. They should always be placed on top of the #F3F2EF panel color or the #F7F7F5 background to ensure a subtle but visible "lift."
+- **Inputs:** Fields are minimal, using the #F3F2EF background and a subtle bottom-border. Focus states should trigger a soft glow in the Accent Blue gradient.
+- **Chips/Badges:** Small, pill-shaped elements using #F3F2EF backgrounds. Use the Accent UI Glows as small 6px dot indicators within the chips to represent status.
+- **Lists:** Clean, horizontal rows separated by 1px #E7E7E4 lines. Metadata should be set in #6B6B6B using the `label-caps` typography style.
+- **Additional Suggestion - The "Module Header":** A component that combines an H3 headline with a small accent glow and a "Status" label, used to anchor every major section of the UI.
