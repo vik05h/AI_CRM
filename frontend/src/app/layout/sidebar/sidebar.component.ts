@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,7 +11,7 @@ import { RouterModule } from '@angular/router';
     <aside class="w-64 h-screen bg-[#F3F2EF] border-r border-[#E7E7E4] flex flex-col fixed left-0 top-0">
       <!-- Brand -->
       <div class="h-20 flex items-center px-8 border-b border-[#E7E7E4]">
-        <div class="font-bold text-xl tracking-tighter text-[#111111]">AURALIS</div>
+        <div class="font-bold text-xl tracking-tighter text-[#111111]">AI CRM</div>
       </div>
 
       <!-- Navigation -->
@@ -38,19 +39,31 @@ import { RouterModule } from '@angular/router';
         </a>
       </nav>
 
-      <!-- User Profile (Mock) -->
+      <!-- User Profile -->
       <div class="p-4 border-t border-[#E7E7E4]">
-        <div class="flex items-center px-4 py-3 rounded-lg hover:bg-white/50 cursor-pointer transition-colors">
-          <div class="w-8 h-8 rounded-full bg-[#111111] text-white flex items-center justify-center text-sm font-bold mr-3">
-            M
+        @if (auth.currentUser(); as user) {
+          <div class="flex items-center px-4 py-3 rounded-lg hover:bg-white/50 transition-colors mb-2">
+            @if (user.photoURL) {
+              <img [src]="user.photoURL" class="w-8 h-8 rounded-full mr-3" alt="Profile">
+            } @else {
+              <div class="w-8 h-8 rounded-full bg-[#111111] text-white flex items-center justify-center text-sm font-bold mr-3">
+                {{ user.displayName?.charAt(0) || user.email?.charAt(0) | uppercase }}
+              </div>
+            }
+            <div class="flex-1 overflow-hidden">
+              <div class="text-sm font-semibold text-[#111111] truncate">{{ user.displayName || 'Marketer' }}</div>
+              <div class="text-xs text-[#6B6B6B] truncate">{{ user.email }}</div>
+            </div>
           </div>
-          <div class="flex-1 overflow-hidden">
-            <div class="text-sm font-semibold text-[#111111] truncate">Marketer</div>
-            <div class="text-xs text-[#6B6B6B] truncate">marketer&#64;xeno.com</div>
-          </div>
-        </div>
+          <button (click)="auth.logout()" class="w-full text-left px-4 py-2 text-sm text-[#6B6B6B] hover:text-[#111111] transition-colors rounded-lg hover:bg-white/60 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            Log out
+          </button>
+        }
       </div>
     </aside>
   `
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  public auth = inject(AuthService);
+}

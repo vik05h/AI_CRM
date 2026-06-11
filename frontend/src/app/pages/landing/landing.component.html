@@ -1,10 +1,10 @@
 <div class="landing-page min-h-screen">
   <!-- Navigation -->
   <nav class="container-max py-6 flex justify-between items-center" #nav>
-    <div class="font-bold text-xl tracking-tighter text-[#111111]">AURALIS</div>
+    <div class="font-bold text-xl tracking-tighter text-[#111111]">AI CRM</div>
     <div class="flex gap-4">
-      <button class="btn-secondary">Log in</button>
-      <button class="btn-primary">Get Started</button>
+      <button class="btn-secondary" (click)="login()">Log in</button>
+      <button class="btn-primary" (click)="login()">Get Started</button>
     </div>
   </nav>
 
@@ -22,8 +22,8 @@
         The CRM that proactively surfaces high-opportunity segments, drafts personalized campaigns, and tracks performance across every channel. 
       </p>
       <div class="flex gap-4 hero-item">
-        <button class="btn-primary">Start Free Trial</button>
-        <button class="btn-secondary">View Demo</button>
+        <button class="btn-primary" (click)="login()">Start Free Trial</button>
+        <button class="btn-secondary" (click)="login()">View Demo</button>
       </div>
     </div>
     
@@ -36,7 +36,7 @@
     <div class="container-max">
       <div class="text-center mb-24">
         <h2 class="text-h2 text-[#111111] mb-4 feature-header">Engineered for precision.</h2>
-        <p class="text-body-lg text-[#6B6B6B] feature-header">How Auralis transforms your workflow.</p>
+        <p class="text-body-lg text-[#6B6B6B] feature-header">How AI CRM transforms your workflow.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -88,7 +88,7 @@
   <!-- Footer -->
   <footer class="container-max py-12 mt-20 border-t border-[#E7E7E4]">
     <div class="flex justify-between items-center">
-      <div class="font-bold text-lg tracking-tighter text-[#111111]">AURALIS</div>
+      <div class="font-bold text-lg tracking-tighter text-[#111111]">AI CRM</div>
       <div class="text-label-caps text-[#6B6B6B]">© 2026 XENO ENGINEERING</div>
     </div>
   </footer>

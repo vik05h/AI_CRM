@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, afterNextRender, ElementRef, viewChild, OnDestroy, NgZone } from '@angular/core';
+import { Component, ChangeDetectionStrategy, afterNextRender, ElementRef, viewChild, OnDestroy, NgZone, inject } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { AuthService } from '../../services/auth.service';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 })
 export class LandingComponent implements OnDestroy {
   private ctx!: gsap.Context;
+  private authService = inject(AuthService);
 
   constructor(private elementRef: ElementRef, private ngZone: NgZone) {
     afterNextRender(() => {
@@ -22,6 +24,10 @@ export class LandingComponent implements OnDestroy {
         }, this.elementRef.nativeElement);
       });
     });
+  }
+
+  async login() {
+    await this.authService.loginWithGoogle();
   }
 
   ngOnDestroy() {
