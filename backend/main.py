@@ -96,7 +96,7 @@ async def preview_segment(segment_id: str, db: AsyncSession = Depends(get_db)):
         raise HTTPException(400, f"Query failed: {str(e)}")
 
 @app.post("/ai/draft_campaign", response_model=CampaignDraftResponse, summary="Draft campaign message with AI")
-async def draft_campaign(request: CampaignDraftRequest, db: AsyncSession = Depends(get_db)):
+async def create_campaign_draft(request: CampaignDraftRequest, db: AsyncSession = Depends(get_db)):
     # Get segment to pass its name to the AI
     result = await db.execute(select(Segment).filter(Segment.id == request.segment_id))
     segment = result.scalar_one_or_none()
