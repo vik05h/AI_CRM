@@ -67,9 +67,10 @@ async def preview_segment(segment_id: str, db: AsyncSession = Depends(get_db)):
     if not sql.lower().startswith("select"):
         raise HTTPException(400, "Only SELECT queries allowed")
     
+    import re
     # Prevent destructive operations
     forbidden = ['insert', 'update', 'delete', 'drop', 'alter', 'create', 'truncate']
-    if any(word in sql.lower() for word in forbidden):
+    if any(re.search(r'\b' + word + r'\b', sql.lower()) for word in forbidden):
         raise HTTPException(400, "Query contains forbidden operations")
     
     # Add limit if missing
