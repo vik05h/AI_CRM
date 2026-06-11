@@ -22,3 +22,27 @@ export interface Order {
     line_items: OrderItem[];
   };
 }
+
+export interface Segment {
+  id: string;
+  name: string;
+  description?: string;
+  criteria: string;
+  size: number;
+  created_at: string;
+}
+
+export interface CustomerPreview {
+  id: string;
+  name: string;
+  email: string;
+  total_orders: number;
+  total_spent: number;
+  last_order_date: string;
+}
+
+export interface SegmentPreviewData {
+  customers: CustomerPreview[];
+  total_count: number;
+  truncated: boolean;
+}

@@ -1,0 +1,120 @@
+<div class="max-w-[1280px] mx-auto py-8 px-4 font-inter text-[#1c1b1b]">
+  
+  <header class="mb-12">
+    <h1 class="text-[64px] font-semibold tracking-[-0.03em] leading-[1.1]">Segments</h1>
+    <p class="text-[#6b6b6b] text-[18px] tracking-[-0.01em] mt-2">Discover and manage customer segments using AI.</p>
+  </header>
+
+  <!-- Segment Discovery Input -->
+  <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-8 mb-12 relative overflow-hidden">
+    <div class="relative z-10">
+      <h2 class="text-[32px] font-semibold tracking-[-0.02em] mb-4">Discover a Segment</h2>
+      <p class="text-[#6b6b6b] mb-6">Type natural language to instantly query the CRM and build a segment.</p>
+      
+      <div class="flex gap-4">
+        <input 
+          type="text" 
+          [(ngModel)]="prompt"
+          (keyup.enter)="onDiscover()"
+          placeholder="e.g. Find customers who haven't ordered in 3 months..."
+          class="flex-1 bg-[#f3f2ef] border-b-2 border-transparent focus:border-[#c8c6c5] focus:outline-none rounded-xl px-6 py-4 text-[18px] transition-all"
+        />
+        <button 
+          (click)="onDiscover()" 
+          [disabled]="crm.loading() || !prompt"
+          class="bg-[#111111] text-[#fcfcfb] rounded-xl px-8 py-4 font-semibold hover:bg-[#313030] disabled:opacity-50 transition-colors"
+        >
+          @if (crm.loading()) {
+            Processing...
+          } @else {
+            Discover
+          }
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Error State -->
+  @if (crm.error()) {
+    <div class="bg-[#ffdad6] text-[#93000a] p-4 rounded-xl mb-12">
+      {{ crm.error() }}
+    </div>
+  }
+
+  <!-- Discovered Segments List -->
+  <section>
+    <h3 class="text-[24px] font-semibold tracking-[-0.01em] mb-6">Saved Segments</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+      @for (segment of crm.segments(); track segment.id) {
+        <div class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 hover:shadow-sm transition-shadow relative"
+             [ngClass]="{'overflow-hidden': previewingSegmentId !== segment.id}">
+             
+          <!-- Blur Overlay -->
+          @if (previewingSegmentId === segment.id && previewLoading) {
+            <div class="absolute inset-0 z-20 backdrop-blur-md bg-white/40 animate-pulse rounded-[24px]"></div>
+          }
+
+          <div class="flex justify-between items-start mb-4">
+            <h4 class="font-semibold text-[20px] leading-tight">{{ segment.name }}</h4>
+            <span class="bg-[#f3f2ef] text-[#1c1b1b] text-[12px] font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+              {{ segment.size | number }} shoppers
+            </span>
+          </div>
+          
+          <p class="text-[#6b6b6b] text-[14px] mb-6 min-h-[40px]">
+            {{ segment.description || 'AI-generated segment.' }}
+          </p>
+          
+          <div class="flex gap-3">
+            <button (click)="togglePreview(segment)"
+                    class="flex-1 bg-[#f3f2ef] text-[#1c1b1b] border border-[#e7e7e4] rounded-xl px-4 py-2 font-semibold hover:bg-[#e7e7e4] transition-colors text-[14px]">
+              {{ previewingSegmentId === segment.id ? 'Close Preview' : 'Preview Customers' }}
+            </button>
+            <button class="flex-1 bg-[#111111] text-[#fcfcfb] rounded-xl px-4 py-2 font-semibold hover:bg-[#313030] transition-colors text-[14px] flex items-center justify-center gap-2">
+              Create Campaign <span class="text-[16px]">→</span>
+            </button>
+          </div>
+
+          <!-- Preview Panel -->
+          <div id="preview-panel-{{segment.id}}" 
+               class="h-0 overflow-hidden" 
+               [ngClass]="{'mt-6 border-t border-[#e7e7e4] pt-6': previewingSegmentId === segment.id}">
+            
+            @if (previewingSegmentId === segment.id && previewData[segment.id]) {
+              <p class="text-[12px] font-semibold tracking-[0.05em] text-[#6b6b6b] mb-4">
+                Showing {{ previewData[segment.id].customers.length }} of {{ segment.size }} shoppers
+              </p>
+              
+              <div class="space-y-3 mb-4 max-h-[300px] overflow-y-auto pr-2">
+                @for (customer of previewData[segment.id].customers; track customer.id) {
+                  <div class="customer-card bg-white border border-[#e7e7e4] rounded-xl p-3 shadow-sm">
+                    <div class="flex justify-between items-center mb-1">
+                      <span class="font-semibold text-[14px]">{{ customer.name }}</span>
+                      <span class="text-[12px] text-[#6b6b6b]">{{ customer.email }}</span>
+                    </div>
+                    <div class="text-[12px] text-[#6b6b6b] flex gap-2 items-center">
+                      <span class="font-semibold text-[#1c1b1b]">${{ customer.total_spent || 0 | number:'1.2-2' }} spent</span>
+                      <span>·</span>
+                      <span>{{ customer.total_orders || 0 }} orders</span>
+                    </div>
+                  </div>
+                }
+              </div>
+              
+              <a href="#" class="text-[14px] font-semibold text-[#111111] hover:underline">
+                View all in Customers page
+              </a>
+            }
+          </div>
+
+        </div>
+      } @empty {
+        <div class="col-span-full py-12 text-center border-2 border-dashed border-[#e7e7e4] rounded-[24px]">
+          <p class="text-[#6b6b6b] text-[18px]">No segments discovered yet. Try asking the AI above!</p>
+        </div>
+      }
+    </div>
+  </section>
+
+</div>

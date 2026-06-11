@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { filter } from 'rxjs';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-shell',
@@ -26,11 +28,29 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
         </header>
 
         <!-- Page Content -->
-        <div class="flex-1 p-8 overflow-x-hidden">
+        <div class="flex-1 p-8 overflow-x-hidden" id="main-content">
           <router-outlet></router-outlet>
         </div>
       </main>
     </div>
   `
 })
-export class AppShellComponent {}
+export class AppShellComponent implements OnInit {
+  private router = inject(Router);
+  private isFirstLoad = true;
+
+  ngOnInit() {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      if (this.isFirstLoad) {
+        this.isFirstLoad = false;
+        return;
+      }
+      gsap.fromTo('#main-content', 
+        { x: 20, opacity: 0 }, 
+        { x: 0, opacity: 1, duration: 0.3, ease: 'power2.out' }
+      );
+    });
+  }
+}
