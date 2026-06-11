@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CrmService } from '../../services/crm.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  template: `
-    <div class="card-elevated p-10 bg-white">
-      <h1 class="text-h2 mb-4">Dashboard</h1>
-      <p class="text-body-lg text-[#6B6B6B]">Executive overview coming soon.</p>
-    </div>
-  `
+  imports: [CommonModule],
+  templateUrl: './dashboard.component.html'
 })
-export class DashboardComponent {}
+export class DashboardComponent implements OnInit {
+  crm = inject(CrmService);
+
+  ngOnInit() {
+    this.crm.loadCustomers(0, 5);
+    this.crm.loadOrders(0, 5);
+  }
+}
