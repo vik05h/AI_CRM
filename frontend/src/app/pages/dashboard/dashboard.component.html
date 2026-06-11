@@ -1,8 +1,8 @@
-<div class="max-w-[1280px] mx-auto py-8 px-4 font-inter text-[#1c1b1b]">
+<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
   
   <header class="mb-12">
-    <h1 class="text-[64px] font-semibold tracking-[-0.03em] leading-[1.1]">Dashboard</h1>
-    <p class="text-[#6b6b6b] text-[18px] tracking-[-0.01em] mt-2">Overview of customers and recent orders.</p>
+    <h1 class="text-[48px] md:text-[64px] font-semibold tracking-[-0.03em] leading-[1.1]">Dashboard</h1>
+    <p class="text-[#6b6b6b] text-[16px] md:text-[18px] tracking-[-0.01em] mt-2">Overview of customers and recent orders.</p>
   </header>
 
   @if (crm.loading()) {
@@ -18,8 +18,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
       <!-- Customers Panel -->
-      <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
-        <h2 class="text-[32px] font-semibold tracking-[-0.02em] mb-6">Recent Customers</h2>
+      <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-8">
+        <h2 class="text-[24px] md:text-[32px] font-semibold tracking-[-0.02em] mb-6">Recent Customers</h2>
         <div class="flex flex-col space-y-4">
           @for (customer of crm.customers(); track customer.id) {
             <div class="flex justify-between items-center py-4 border-b border-[#e7e7e4] last:border-0">
@@ -38,8 +38,8 @@
       </section>
 
       <!-- Orders Panel -->
-      <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
-        <h2 class="text-[32px] font-semibold tracking-[-0.02em] mb-6">Recent Orders</h2>
+      <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-8">
+        <h2 class="text-[24px] md:text-[32px] font-semibold tracking-[-0.02em] mb-6">Recent Orders</h2>
         <div class="flex flex-col space-y-4">
           @for (order of crm.orders(); track order.id) {
             <div class="flex justify-between items-center py-4 border-b border-[#e7e7e4] last:border-0">

@@ -46,3 +46,31 @@ export interface SegmentPreviewData {
   total_count: number;
   truncated: boolean;
 }
+
+export interface CampaignDraftResponse {
+  subject_line: string | null;
+  message_body: string;
+}
+
+export interface CampaignCreate {
+  name: string;
+  segment_id: string;
+  goal: string;
+  channel: string;
+  subject_line: string | null;
+  message_body: string;
+}
+
+export interface Campaign {
+  id: string;
+  name: string;
+  segment_id: string;
+  goal: string;
+  channel: string;
+  subject_line: string | null;
+  message_body: string;
+  status: string;
+  sent_count: number;
+  converted_count: number;
+  created_at: string;
+}

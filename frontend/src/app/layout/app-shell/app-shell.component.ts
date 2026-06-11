@@ -14,7 +14,7 @@ import gsap from 'gsap';
       <app-sidebar></app-sidebar>
       
       <!-- Main Content Area -->
-      <main class="ml-64 min-h-screen flex flex-col">
+      <main class="md:ml-64 ml-0 min-h-screen flex flex-col transition-all">
         <!-- Top Header -->
         <header class="h-20 bg-[#F7F7F5] border-b border-[#E7E7E4] flex items-center px-8 sticky top-0 z-10">
           <div class="flex-1">

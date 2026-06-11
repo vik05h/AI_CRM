@@ -46,3 +46,34 @@ class SegmentPreviewData(BaseModel):
     customers: list[CustomerPreviewResponse]
     total_count: int
     truncated: bool
+
+class CampaignDraftRequest(BaseModel):
+    segment_id: str
+    goal: str
+
+class CampaignDraftResponse(BaseModel):
+    subject_line: str | None = None
+    message_body: str
+
+class CampaignCreate(BaseModel):
+    name: str
+    segment_id: str
+    goal: str
+    channel: str
+    subject_line: str | None = None
+    message_body: str
+
+class CampaignResponse(BaseModel):
+    id: str
+    name: str
+    segment_id: str
+    goal: str
+    channel: str
+    subject_line: str | None = None
+    message_body: str
+    status: str
+    sent_count: int
+    converted_count: int
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)

@@ -1,0 +1,139 @@
+<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
+  
+  <header class="mb-12">
+    <h1 class="text-[48px] md:text-[64px] font-semibold tracking-[-0.03em] leading-[1.1]">Campaign Builder</h1>
+    <p class="text-[#6b6b6b] text-[16px] md:text-[18px] tracking-[-0.01em] mt-2">Design, review, and launch AI-crafted campaigns.</p>
+  </header>
+
+  <!-- Step 1 Container -->
+  <div [hidden]="step !== 1" #step1Container class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-10 mb-12 shadow-[0_2px_8px_rgba(28,27,27,0.04)] max-w-[800px]">
+    <h2 class="text-[28px] font-semibold tracking-[-0.02em] mb-8">Step 1: Define Your Campaign</h2>
+    
+    <div class="space-y-6">
+      <div>
+        <label class="block text-[14px] font-semibold tracking-[0.05em] uppercase text-[#6b6b6b] mb-2">Campaign Name</label>
+        <input type="text" [(ngModel)]="campaignName" placeholder="e.g. Summer VIP Sale" 
+               class="w-full bg-[#f3f2ef] rounded-[16px] px-5 py-4 text-[18px] outline-none focus:ring-2 focus:ring-[#1c1b1b] transition-shadow">
+      </div>
+      
+      <div>
+        <label class="block text-[14px] font-semibold tracking-[0.05em] uppercase text-[#6b6b6b] mb-2">Target Segment</label>
+        <select [(ngModel)]="selectedSegmentId" class="w-full bg-[#f3f2ef] rounded-[16px] px-5 py-4 text-[18px] outline-none focus:ring-2 focus:ring-[#1c1b1b] transition-shadow appearance-none cursor-pointer">
+          <option value="" disabled selected>Select a segment</option>
+          @for (segment of crm.segments(); track segment.id) {
+            <option [value]="segment.id">{{ segment.name }} ({{ segment.size }} shoppers)</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-[14px] font-semibold tracking-[0.05em] uppercase text-[#6b6b6b] mb-2">Campaign Goal</label>
+        <textarea [(ngModel)]="goal" rows="3" placeholder="e.g. Give them a 20% discount on their next purchase" 
+                  class="w-full bg-[#f3f2ef] rounded-[16px] px-5 py-4 text-[18px] outline-none focus:ring-2 focus:ring-[#1c1b1b] transition-shadow resize-none"></textarea>
+      </div>
+
+      <div class="pt-4 flex justify-end">
+        <button (click)="goToStep2()" [disabled]="!campaignName || !selectedSegmentId || !goal || drafting" 
+                class="bg-[#1c1b1b] text-white px-8 py-4 rounded-full text-[16px] font-semibold tracking-tight hover:bg-[#333333] transition-colors disabled:opacity-50 flex items-center shadow-lg">
+          @if (drafting) {
+            <span class="mr-2">Drafting...</span>
+            <div class="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+          } @else {
+            <span>Generate Draft →</span>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 Container -->
+  <div [hidden]="step !== 2" #step2Container class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-10 mb-12 shadow-[0_2px_8px_rgba(28,27,27,0.04)] max-w-[800px]">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-[28px] font-semibold tracking-[-0.02em]">Step 2: Review & Launch</h2>
+      <button (click)="backToStep1()" class="text-[#6b6b6b] hover:text-[#1c1b1b] font-medium text-[14px] tracking-tight transition-colors">
+        ← Back to Step 1
+      </button>
+    </div>
+    
+    <div class="space-y-6">
+      <!-- Readonly summary -->
+      <div class="bg-[#f3f2ef] rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between text-[14px]">
+        <div>
+          <span class="text-[#6b6b6b] uppercase font-semibold tracking-widest text-[11px]">Segment:</span> 
+          <span class="font-medium ml-1">{{ selectedSegmentName }}</span>
+        </div>
+      </div>
+
+      <!-- Channel selector -->
+      <div>
+        <label class="block text-[14px] font-semibold tracking-[0.05em] uppercase text-[#6b6b6b] mb-2">Delivery Channel</label>
+        <div class="flex flex-wrap gap-3">
+          @for (ch of channels; track ch) {
+            <button (click)="selectedChannel = ch" 
+                    class="px-6 py-3 rounded-full text-[14px] font-semibold transition-all border"
+                    [ngClass]="selectedChannel === ch ? 'bg-[#1c1b1b] text-white border-[#1c1b1b]' : 'bg-white text-[#1c1b1b] border-[#e7e7e4] hover:border-[#1c1b1b]'">
+              {{ ch }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Draft Editor -->
+      <div class="bg-white border border-[#e7e7e4] rounded-[16px] overflow-hidden focus-within:ring-2 focus-within:ring-[#1c1b1b] transition-shadow">
+        @if (draftSubject !== null) {
+          <div class="border-b border-[#e7e7e4] px-5 py-4">
+            <input type="text" [(ngModel)]="draftSubject" class="w-full text-[16px] font-semibold outline-none" placeholder="Subject Line">
+          </div>
+        }
+        <div class="px-5 py-4">
+          <textarea [(ngModel)]="draftBody" rows="6" class="w-full text-[16px] text-[#6b6b6b] outline-none resize-y" placeholder="Message body"></textarea>
+        </div>
+      </div>
+
+      <div class="pt-4 flex justify-end">
+        <button (click)="approveAndLaunch()" [disabled]="creating" 
+                class="bg-[#1c1b1b] text-white px-8 py-4 rounded-full text-[16px] font-semibold tracking-tight hover:bg-[#333333] transition-colors disabled:opacity-50 flex items-center shadow-lg">
+          @if (creating) {
+            <span class="mr-2">Launching...</span>
+            <div class="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full"></div>
+          } @else {
+            <span>Approve & Launch</span>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  @if (successToast) {
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[#1c1b1b] text-white px-6 py-3 rounded-full shadow-2xl flex items-center space-x-3 z-50 animate-in fade-in slide-in-from-bottom-4">
+      <svg class="w-5 h-5 text-[#86efac]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+      <span class="font-medium">{{ successToast }}</span>
+    </div>
+  }
+
+  <!-- Active Campaigns List -->
+  <div class="mt-16">
+    <h3 class="text-[24px] font-semibold tracking-tight mb-6">Active Campaigns</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (camp of crm.campaigns(); track camp.id) {
+        <div class="bg-white border border-[#e7e7e4] rounded-[24px] p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-start mb-4">
+              <h4 class="text-[20px] font-semibold tracking-tight leading-tight">{{ camp.name }}</h4>
+              <span class="bg-[#f3f2ef] text-[#1c1b1b] text-[11px] font-semibold px-3 py-1 rounded-full uppercase tracking-widest">{{ camp.status }}</span>
+            </div>
+            <p class="text-[#6b6b6b] text-[14px] line-clamp-2 mb-4">{{ camp.subject_line || camp.message_body }}</p>
+          </div>
+          <div class="flex justify-between items-center text-[12px] font-semibold text-[#6b6b6b] uppercase tracking-widest border-t border-[#e7e7e4] pt-4 mt-2">
+            <span>{{ camp.channel }}</span>
+            <span>Sent: {{ camp.sent_count }}</span>
+          </div>
+        </div>
+      } @empty {
+        <p class="text-[#6b6b6b] text-[14px]">No campaigns created yet.</p>
+      }
+    </div>
+  </div>
+
+</div>

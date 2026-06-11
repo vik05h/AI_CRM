@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   template: `
-    <aside class="w-64 h-screen bg-[#F3F2EF] border-r border-[#E7E7E4] flex flex-col fixed left-0 top-0">
+    <aside class="w-64 h-screen bg-[#F3F2EF] border-r border-[#E7E7E4] flex-col fixed left-0 top-0 hidden md:flex z-50">
       <!-- Brand -->
       <div class="h-20 flex items-center px-8 border-b border-[#E7E7E4]">
         <div class="font-bold text-xl tracking-tighter text-[#111111]">AI CRM</div>

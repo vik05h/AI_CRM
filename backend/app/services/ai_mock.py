@@ -82,3 +82,23 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
     await db.refresh(new_segment)
     
     return new_segment
+
+async def draft_campaign(goal: str, segment_name: str) -> dict:
+    """Mock AI campaign message drafting."""
+    goal_lower = goal.lower()
+    
+    if "discount" in goal_lower or "sale" in goal_lower:
+        return {
+            "subject_line": "Special 20% Off Just For You!",
+            "message_body": f"Hi {{name}},\n\nWe noticed you're one of our {segment_name}. To say thanks, use code SALE20 at checkout for 20% off your next order.\n\nShop now!"
+        }
+    elif "reactivate" in goal_lower or "miss" in goal_lower:
+        return {
+            "subject_line": "We miss you! Come back and save.",
+            "message_body": f"Hi {{name}},\n\nIt's been a while! We value our {segment_name} and would love to see you again. Enjoy free shipping on your next order.\n\nSee what's new!"
+        }
+    else:
+        return {
+            "subject_line": "Exciting updates from us!",
+            "message_body": f"Hi {{name}},\n\nWe have some great news to share with our {segment_name}. Check out our latest products and updates on our website.\n\nTalk soon!"
+        }

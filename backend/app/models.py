@@ -38,7 +38,12 @@ class Campaign(Base):
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=generate_uuid)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
-    status: Mapped[str] = mapped_column(String(50), default="draft")
+    segment_id: Mapped[str] = mapped_column(String(36), ForeignKey("segments.id"), nullable=False, index=True)
+    goal: Mapped[str] = mapped_column(String(255), nullable=False)
+    channel: Mapped[str] = mapped_column(String(50), nullable=False)
+    subject_line: Mapped[str] = mapped_column(String(255), nullable=True)
+    message_body: Mapped[str] = mapped_column(String, nullable=False)
+    status: Mapped[str] = mapped_column(String(50), default="draft") # draft, approved, sending, completed, failed
     sent_count: Mapped[int] = mapped_column(Integer, default=0)
     converted_count: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[datetime] = mapped_column(
