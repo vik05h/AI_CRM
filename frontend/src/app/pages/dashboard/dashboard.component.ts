@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
             duration: 0.6,
             stagger: 0.1,
             ease: 'power3.out',
-            clearProps: 'transform'
+            clearProps: 'all'
           }
         );
       }

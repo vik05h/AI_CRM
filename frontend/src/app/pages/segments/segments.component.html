@@ -1,9 +1,9 @@
-<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
+<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-white">
   
   <header class="mb-12 textflow-wrap">
     <div class="textflow-line">
       <h1 class="text-h2 mb-1">Segments</h1>
-      <p class="text-body-md text-[#6b6b6b]">Discover, manage, and engage your customer segments using AI.</p>
+      <p class="text-body-md text-gray-400">Discover, manage, and engage your customer segments using AI.</p>
     </div>
   </header>
 
@@ -13,7 +13,7 @@
       <h2 class="text-h3 mb-6">Discover a Segment</h2>
       
       <div class="input-field flex flex-col md:flex-row items-stretch md:items-center p-2">
-        <div class="pl-4 pr-2 py-3 text-[#6b6b6b] hidden md:block">
+        <div class="pl-4 pr-2 py-3 text-gray-400 hidden md:block">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         </div>
         <input 
@@ -56,17 +56,17 @@
              
           <!-- Blur Overlay -->
           @if (previewingSegmentId === segment.id && previewLoading) {
-            <div class="absolute inset-0 z-20 backdrop-blur-md bg-white/40 animate-pulse" style="border-radius: var(--radius-card);"></div>
+            <div class="absolute inset-0 z-20 backdrop-blur-md bg-black/40 animate-pulse" style="border-radius: var(--radius-card);"></div>
           }
 
           <div class="flex justify-between items-start mb-4">
             <h4 class="font-semibold text-[20px] leading-tight">{{ segment.name }}</h4>
-            <span class="bg-[#f3f2ef] text-[#1c1b1b] text-label-caps px-3 py-1 rounded-full whitespace-nowrap">
+            <span class="bg-white/5 text-white text-label-caps px-3 py-1 rounded-full whitespace-nowrap">
               {{ segment.size | number }} shoppers
             </span>
           </div>
           
-          <p class="text-body-md text-[#6b6b6b] mb-6 min-h-[40px]">
+          <p class="text-body-md text-gray-400 mb-6 min-h-[40px]">
             {{ segment.description || 'AI-generated segment.' }}
           </p>
           
@@ -83,22 +83,22 @@
           <!-- Preview Panel -->
           <div id="preview-panel-{{segment.id}}" 
                class="h-0 overflow-hidden" 
-               [ngClass]="{'mt-6 border-t border-[#e7e7e4] pt-6': previewingSegmentId === segment.id}">
+               [ngClass]="{'mt-6 border-t border-white/10 pt-6': previewingSegmentId === segment.id}">
             
             @if (previewingSegmentId === segment.id && previewData[segment.id]) {
-              <p class="text-label-caps text-[#6b6b6b] mb-4">
+              <p class="text-label-caps text-gray-400 mb-4">
                 Showing {{ previewData[segment.id].customers.length }} of {{ segment.size }} shoppers
               </p>
               
               <div class="space-y-3 mb-4 max-h-[300px] overflow-y-auto pr-2">
                 @for (customer of previewData[segment.id].customers; track customer.id) {
-                  <div class="customer-card bg-white border border-[#e7e7e4] rounded-xl p-3 shadow-sm">
+                  <div class="customer-card bg-white/5 border border-white/10 rounded-xl p-3 shadow-sm">
                     <div class="flex justify-between items-center mb-1">
                       <span class="font-semibold text-[14px]">{{ customer.name }}</span>
-                      <span class="text-[12px] text-[#6b6b6b]">{{ customer.email }}</span>
+                      <span class="text-[12px] text-gray-400">{{ customer.email }}</span>
                     </div>
-                    <div class="text-[12px] text-[#6b6b6b] flex gap-2 items-center">
-                      <span class="font-semibold text-[#1c1b1b]">${{ customer.total_spent || 0 | number:'1.2-2' }} spent</span>
+                    <div class="text-[12px] text-gray-400 flex gap-2 items-center">
+                      <span class="font-semibold text-white">${{ customer.total_spent || 0 | number:'1.2-2' }} spent</span>
                       <span>·</span>
                       <span>{{ customer.total_orders || 0 }} orders</span>
                     </div>
@@ -106,7 +106,7 @@
                 }
               </div>
               
-              <a routerLink="/customers" class="text-body-md font-semibold text-[#111111] hover:underline cursor-pointer">
+              <a routerLink="/customers" class="text-body-md font-semibold text-white hover:underline cursor-pointer">
                 View all in Customers
               </a>
             }
@@ -114,8 +114,8 @@
 
         </div>
       } @empty {
-        <div class="col-span-full py-12 text-center border-2 border-dashed border-[#e7e7e4] rounded-[24px]">
-          <p class="text-[#6b6b6b] text-[18px]">No segments discovered yet. Try asking the AI above!</p>
+        <div class="col-span-full py-12 text-center border-2 border-dashed border-white/10 rounded-[24px]">
+          <p class="text-gray-400 text-[18px]">No segments discovered yet. Try asking the AI above!</p>
         </div>
       }
     </div>

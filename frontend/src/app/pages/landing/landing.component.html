@@ -1,7 +1,7 @@
 <div class="landing-page min-h-screen">
   <!-- Navigation -->
   <nav class="container-max py-6 flex justify-between items-center" #nav>
-    <div class="font-bold text-xl tracking-tighter text-[#111111]">AI CRM</div>
+    <div class="font-bold text-xl tracking-tighter text-white">AI CRM</div>
     <div class="flex gap-4">
       <button class="btn-secondary" (click)="login()">Log in</button>
       <button class="btn-primary" (click)="login()">Get Started</button>
@@ -13,14 +13,14 @@
     <div class="flex flex-col md:flex-row items-center gap-12">
       <!-- Left: Text content -->
       <div class="flex-1" #heroContent>
-        <div class="inline-block text-label-caps text-[#6B6B6B] mb-6 tracking-[0.1em] hero-item">
+        <div class="inline-block text-label-caps text-gray-400 mb-6 tracking-[0.1em] hero-item">
           AI-Native Consumer Engagement
         </div>
-        <h1 class="text-h1 text-[#111111] mb-8 hero-item">
+        <h1 class="text-h1 text-white mb-8 hero-item">
           Stop guessing.<br>
           Start connecting.
         </h1>
-        <p class="text-body-lg text-[#6B6B6B] max-w-xl mb-10 hero-item">
+        <p class="text-body-lg text-gray-400 max-w-xl mb-10 hero-item">
           The CRM that proactively surfaces high-opportunity segments, drafts personalized campaigns, and tracks performance across every channel. 
         </p>
         <div class="flex gap-4 hero-item">
@@ -35,26 +35,26 @@
         <div class="absolute inset-0 scale-110 pointer-events-none opacity-40 blur-[80px] rounded-full bg-gradient-to-tr from-indigo-200 via-coral-100 to-teal-100 -z-10" #heroGlow></div>
         
         <!-- The Generated Dashboard Mockup -->
-        <img src="/dashboard_mockup_1781271106514.png" alt="AI CRM Dashboard" class="w-full h-auto rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-[#e7e7e4] object-cover aspect-[4/3] transform hover:-translate-y-2 transition-transform duration-500 ease-out z-10 relative">
+        <img src="/dashboard_mockup_1781271106514.png" alt="AI CRM Dashboard" class="w-full h-auto rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/10 object-cover aspect-[4/3] transform hover:-translate-y-2 transition-transform duration-500 ease-out z-10 relative">
       </div>
     </div>
   </section>
 
   <!-- Impact / Stats Section -->
-  <section class="border-y border-[#e7e7e4] bg-white py-16">
+  <section class="border-y border-white/10 bg-white/5 py-16">
     <div class="container-max">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-[#e7e7e4]">
         <div class="stat-item p-4">
-          <p class="text-h2 font-semibold text-[#111111] mb-2">300%</p>
-          <p class="text-body-md text-[#6b6b6b]">Faster Campaign Creation</p>
+          <p class="text-h2 font-semibold text-white mb-2">300%</p>
+          <p class="text-body-md text-gray-400">Faster Campaign Creation</p>
         </div>
         <div class="stat-item p-4">
-          <p class="text-h2 font-semibold text-[#111111] mb-2">0</p>
-          <p class="text-body-md text-[#6b6b6b]">SQL Queries Required</p>
+          <p class="text-h2 font-semibold text-white mb-2">0</p>
+          <p class="text-body-md text-gray-400">SQL Queries Required</p>
         </div>
         <div class="stat-item p-4">
-          <p class="text-h2 font-semibold text-[#111111] mb-2">24/7</p>
-          <p class="text-body-md text-[#6b6b6b]">Automated Segment Discovery</p>
+          <p class="text-h2 font-semibold text-white mb-2">24/7</p>
+          <p class="text-body-md text-gray-400">Automated Segment Discovery</p>
         </div>
       </div>
     </div>
@@ -64,49 +64,49 @@
   <section class="panel-recessed mt-20 py-24 md:py-32" #featuresSection>
     <div class="container-max">
       <div class="text-center mb-20 md:mb-24">
-        <h2 class="text-h2 text-[#111111] mb-4 feature-header">Engineered for precision.</h2>
-        <p class="text-body-lg text-[#6B6B6B] feature-header">How AI CRM transforms your workflow.</p>
+        <h2 class="text-h2 text-white mb-4 feature-header">Engineered for precision.</h2>
+        <p class="text-body-lg text-gray-400 feature-header">How AI CRM transforms your workflow.</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Feature 1 -->
         <div class="card-elevated p-8 md:p-10 feature-card group hover:-translate-y-2 transition-all duration-300">
-          <div class="w-12 h-12 rounded-full bg-[#F3F2EF] flex items-center justify-center mb-8 relative">
+          <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
              <div class="absolute inset-0 bg-blue-500/10 blur-xl rounded-full group-hover:bg-blue-500/20 transition-colors"></div>
-             <svg class="w-6 h-6 text-[#111111]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
              </svg>
           </div>
-          <h3 class="text-h3 text-[#111111] mb-4">Discover Segments</h3>
-          <p class="text-body-md text-[#6B6B6B]">
+          <h3 class="text-h3 text-white mb-4">Discover Segments</h3>
+          <p class="text-body-md text-gray-400">
             Our AI dynamically queries your database to find hidden behavioral patterns like lapsed shoppers or high-intent browsers.
           </p>
         </div>
 
         <!-- Feature 2 -->
         <div class="card-elevated p-8 md:p-10 feature-card group hover:-translate-y-2 transition-all duration-300">
-          <div class="w-12 h-12 rounded-full bg-[#F3F2EF] flex items-center justify-center mb-8 relative">
+          <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
              <div class="absolute inset-0 bg-coral-500/10 blur-xl rounded-full group-hover:bg-coral-500/20 transition-colors"></div>
-             <svg class="w-6 h-6 text-[#111111]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
              </svg>
           </div>
-          <h3 class="text-h3 text-[#111111] mb-4">Auto-Draft Campaigns</h3>
-          <p class="text-body-md text-[#6B6B6B]">
+          <h3 class="text-h3 text-white mb-4">Auto-Draft Campaigns</h3>
+          <p class="text-body-md text-gray-400">
             Review context-aware copy drafted by AI, complete with personalization tokens, ready for your final approval.
           </p>
         </div>
 
         <!-- Feature 3 -->
         <div class="card-elevated p-8 md:p-10 feature-card group hover:-translate-y-2 transition-all duration-300">
-          <div class="w-12 h-12 rounded-full bg-[#F3F2EF] flex items-center justify-center mb-8 relative">
+          <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
              <div class="absolute inset-0 bg-green-500/10 blur-xl rounded-full group-hover:bg-green-500/20 transition-colors"></div>
-             <svg class="w-6 h-6 text-[#111111]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
              </svg>
           </div>
-          <h3 class="text-h3 text-[#111111] mb-4">Async Delivery</h3>
-          <p class="text-body-md text-[#6B6B6B]">
+          <h3 class="text-h3 text-white mb-4">Async Delivery</h3>
+          <p class="text-body-md text-gray-400">
             Track performance across channels with real-time status updates via our robust asynchronous callback loop.
           </p>
         </div>
@@ -115,10 +115,10 @@
   </section>
 
   <!-- Footer -->
-  <footer class="container-max py-12 mt-20 border-t border-[#E7E7E4]">
+  <footer class="container-max py-12 mt-20 border-t border-white/10">
     <div class="flex justify-between items-center">
-      <div class="font-bold text-lg tracking-tighter text-[#111111]">AI CRM</div>
-      <div class="text-label-caps text-[#6B6B6B]">© 2026 XENO ENGINEERING</div>
+      <div class="font-bold text-lg tracking-tighter text-white">AI CRM</div>
+      <div class="text-label-caps text-gray-400">© 2026 XENO ENGINEERING</div>
     </div>
   </footer>
 </div>

@@ -1,12 +1,12 @@
-<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
+<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-white">
   
   <header class="mb-12 flex flex-col md:flex-row justify-between md:items-end gap-6 textflow-wrap">
     <div class="textflow-line">
       <h1 class="text-h2 mb-1">Workspace Dashboard</h1>
-      <p class="text-body-md text-[#6b6b6b]">Overview of customers and recent orders.</p>
+      <p class="text-body-md text-gray-400">Overview of customers and recent orders.</p>
     </div>
-    <div class="flex gap-3 textflow-line">
-      <button class="btn-primary" routerLink="/campaigns">Create Campaign</button>
+    <div class="flex textflow-line">
+      <button class="btn-primary mr-4" routerLink="/campaigns">Create Campaign</button>
       <button class="btn-secondary" routerLink="/customers">Add Contact</button>
     </div>
   </header>
@@ -14,7 +14,7 @@
   @if (crm.loading() && !crm.analyticsSummary()) {
     <div class="flex items-center space-x-4">
       <div class="animate-pulse w-8 h-8 rounded-full bg-[#e7e7e4]"></div>
-      <p class="text-[#6b6b6b]">Loading data...</p>
+      <p class="text-gray-400">Loading data...</p>
     </div>
   } @else if (crm.error()) {
     <div class="bg-[#ffdad6] text-[#93000a] p-4 rounded-xl">
@@ -26,7 +26,7 @@
     @if (crm.analyticsSummary(); as stats) {
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
         <div #kpiCard class="card-elevated p-6 relative overflow-hidden group">
-          <p class="text-label-caps text-[#6b6b6b] mb-2">Total Contacts</p>
+          <p class="text-label-caps text-gray-400 mb-2">Total Contacts</p>
           <div class="flex justify-between items-end">
             <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.total_customers }}</p>
             <div class="flex items-center gap-1 bg-green-50 text-green-600 px-2 py-1 rounded-md text-xs font-semibold mb-2">
@@ -36,13 +36,13 @@
           </div>
         </div>
         <div #kpiCard class="card-elevated p-6 relative overflow-hidden group">
-          <p class="text-label-caps text-[#6b6b6b] mb-2">Active Campaigns</p>
+          <p class="text-label-caps text-gray-400 mb-2">Active Campaigns</p>
           <div class="flex justify-between items-end">
             <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.campaigns_sent }}</p>
           </div>
         </div>
         <div #kpiCard class="card-elevated p-6 relative overflow-hidden group">
-          <p class="text-label-caps text-[#6b6b6b] mb-2">Conversion Rate</p>
+          <p class="text-label-caps text-gray-400 mb-2">Conversion Rate</p>
           <div class="flex justify-between items-end">
             <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">29.5%</p>
             <div class="flex items-center gap-1 bg-green-50 text-green-600 px-2 py-1 rounded-md text-xs font-semibold mb-2">
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div #kpiCard class="card-elevated p-6 relative overflow-hidden group">
-          <p class="text-label-caps text-[#6b6b6b] mb-2">Total Orders</p>
+          <p class="text-label-caps text-gray-400 mb-2">Total Orders</p>
           <div class="flex justify-between items-end">
             <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.total_orders }}</p>
             <div class="flex items-center gap-1 bg-coral-50 text-coral-600 px-2 py-1 rounded-md text-xs font-semibold mb-2">
@@ -71,21 +71,21 @@
         <h2 class="text-h3 mb-6">Recent Customers</h2>
         <div class="flex flex-col space-y-4">
           @for (customer of crm.customers(); track customer.id) {
-            <div class="flex justify-between items-center py-4 border-b border-[#e7e7e4] last:border-0">
+            <div class="flex justify-between items-center py-4 border-b border-white/10 last:border-0">
               <div>
                 <p class="text-body-md font-semibold">{{ customer.name }}</p>
-                <p class="text-label-caps text-[#6b6b6b]">{{ customer.email }}</p>
+                <p class="text-label-caps text-gray-400">{{ customer.email }}</p>
               </div>
               <span class="panel-recessed text-label-caps px-3 py-1 rounded-full">
                 {{ customer.metadata_json['source'] || 'Unknown' }}
               </span>
             </div>
           } @empty {
-            <p class="text-[#6b6b6b]">No customers found.</p>
+            <p class="text-gray-400">No customers found.</p>
           }
         </div>
-        <div class="mt-6 pt-4 border-t border-[#e7e7e4] text-center">
-          <a routerLink="/customers" class="text-body-md font-semibold text-[#111111] hover:underline cursor-pointer">
+        <div class="mt-6 pt-4 border-t border-white/10 text-center">
+          <a routerLink="/customers" class="text-body-md font-semibold text-white hover:underline cursor-pointer">
             View all customers →
           </a>
         </div>
@@ -96,10 +96,10 @@
         <h2 class="text-h3 mb-6">Recent Campaigns</h2>
         <div class="flex flex-col space-y-4">
           @for (campaign of crm.campaigns() | slice:0:5; track campaign.id) {
-            <div class="flex justify-between items-center py-4 border-b border-[#e7e7e4] last:border-0">
+            <div class="flex justify-between items-center py-4 border-b border-white/10 last:border-0">
               <div>
                 <p class="text-body-md font-semibold">{{ campaign.name }}</p>
-                <p class="text-label-caps text-[#6b6b6b]">
+                <p class="text-label-caps text-gray-400">
                   {{ campaign.channel }} • {{ campaign.created_at | date:'mediumDate' }}
                 </p>
               </div>
@@ -113,14 +113,14 @@
                 <span [ngClass]="{
                   'bg-[#e8f5e9] text-[#2e7d32]': campaign.status === 'completed',
                   'bg-[#fff3e0] text-[#ef6c00]': campaign.status === 'sending',
-                  'bg-[#f3f2ef] text-[#1c1b1b]': campaign.status === 'approved' || campaign.status === 'draft'
+                  'bg-white/5 text-white': campaign.status === 'approved' || campaign.status === 'draft'
                 }" class="text-label-caps px-3 py-1 rounded-full ml-2">
                   {{ campaign.status }}
                 </span>
               </div>
             </div>
           } @empty {
-            <p class="text-[#6b6b6b]">No campaigns found.</p>
+            <p class="text-gray-400">No campaigns found.</p>
           }
         </div>
       </section>

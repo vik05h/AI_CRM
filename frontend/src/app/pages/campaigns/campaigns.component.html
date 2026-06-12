@@ -1,9 +1,9 @@
-<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
+<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-white">
   
   <header class="mb-12 textflow-wrap">
     <div class="textflow-line">
       <h1 class="text-h2 mb-1">Campaign Builder</h1>
-      <p class="text-body-md text-[#6b6b6b]">Design, review, and launch AI-crafted campaigns.</p>
+      <p class="text-body-md text-gray-400">Design, review, and launch AI-crafted campaigns.</p>
     </div>
   </header>
 
@@ -13,13 +13,13 @@
     
     <div class="space-y-6">
       <div>
-        <label class="block text-label-caps text-[#6b6b6b] mb-2">Campaign Name</label>
+        <label class="block text-label-caps text-gray-400 mb-2">Campaign Name</label>
         <input type="text" [(ngModel)]="campaignName" placeholder="e.g. Summer VIP Sale" 
                class="input-field w-full px-5 py-4 text-body-lg">
       </div>
       
       <div>
-        <label class="block text-label-caps text-[#6b6b6b] mb-2">Target Segment</label>
+        <label class="block text-label-caps text-gray-400 mb-2">Target Segment</label>
         <select [(ngModel)]="selectedSegmentId" class="input-field w-full px-5 py-4 text-body-lg appearance-none cursor-pointer">
           <option value="" disabled selected>Select a segment</option>
           @for (segment of crm.segments(); track segment.id) {
@@ -29,7 +29,7 @@
       </div>
 
       <div>
-        <label class="block text-label-caps text-[#6b6b6b] mb-2">Campaign Goal</label>
+        <label class="block text-label-caps text-gray-400 mb-2">Campaign Goal</label>
         <textarea [(ngModel)]="goal" rows="3" placeholder="e.g. Give them a 20% discount on their next purchase" 
                   class="input-field w-full px-5 py-4 text-body-lg resize-none"></textarea>
       </div>
@@ -52,7 +52,7 @@
   <div [hidden]="step !== 2" #step2Container class="card-elevated p-6 md:p-10 mb-12 max-w-[800px]">
     <div class="flex items-center justify-between mb-8">
       <h2 class="text-h3">Step 2: Review & Launch</h2>
-      <button (click)="backToStep1()" class="text-[#6b6b6b] hover:text-[#1c1b1b] font-medium text-[14px] tracking-tight transition-colors">
+      <button (click)="backToStep1()" class="text-gray-400 hover:text-white font-medium text-[14px] tracking-tight transition-colors">
         ← Back to Step 1
       </button>
     </div>
@@ -61,14 +61,14 @@
       <!-- Readonly summary -->
       <div class="panel-recessed rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between text-[14px]">
         <div>
-          <span class="text-label-caps text-[#6b6b6b]">Segment:</span> 
+          <span class="text-label-caps text-gray-400">Segment:</span> 
           <span class="font-medium ml-1">{{ selectedSegmentName }}</span>
         </div>
       </div>
 
       <!-- Channel selector -->
       <div>
-        <label class="block text-label-caps text-[#6b6b6b] mb-2">Delivery Channel</label>
+        <label class="block text-label-caps text-gray-400 mb-2">Delivery Channel</label>
         <div class="flex flex-wrap gap-3">
           @for (ch of channels; track ch) {
             <button (click)="selectedChannel = ch" 
@@ -82,12 +82,12 @@
       <!-- Draft Editor -->
       <div class="input-field overflow-hidden">
         @if (draftSubject !== null) {
-          <div class="border-b border-[#e7e7e4] px-5 py-4">
+          <div class="border-b border-white/10 px-5 py-4">
             <input type="text" [(ngModel)]="draftSubject" class="w-full text-body-lg font-semibold bg-transparent outline-none" placeholder="Subject Line">
           </div>
         }
         <div class="px-5 py-4">
-          <textarea [(ngModel)]="draftBody" rows="6" class="w-full text-body-md text-[#6b6b6b] bg-transparent outline-none resize-y" placeholder="Message body"></textarea>
+          <textarea [(ngModel)]="draftBody" rows="6" class="w-full text-body-md text-gray-400 bg-transparent outline-none resize-y" placeholder="Message body"></textarea>
         </div>
       </div>
 
@@ -124,15 +124,15 @@
               <h4 class="text-[20px] font-semibold tracking-tight leading-tight">{{ camp.name }}</h4>
               <span class="panel-recessed text-label-caps px-3 py-1 rounded-full">{{ camp.status }}</span>
             </div>
-            <p class="text-body-md text-[#6b6b6b] line-clamp-2 mb-4">{{ camp.subject_line || camp.message_body }}</p>
+            <p class="text-body-md text-gray-400 line-clamp-2 mb-4">{{ camp.subject_line || camp.message_body }}</p>
           </div>
-          <div class="flex justify-between items-center text-label-caps text-[#6b6b6b] border-t border-[#e7e7e4] pt-4 mt-2">
+          <div class="flex justify-between items-center text-label-caps text-gray-400 border-t border-white/10 pt-4 mt-2">
             <span>{{ camp.channel }}</span>
             <span>Sent: {{ camp.sent_count }}</span>
           </div>
         </div>
       } @empty {
-        <p class="text-[#6b6b6b] text-[14px]">No campaigns created yet.</p>
+        <p class="text-gray-400 text-[14px]">No campaigns created yet.</p>
       }
     </div>
   </div>
