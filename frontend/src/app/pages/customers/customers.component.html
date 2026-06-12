@@ -1,0 +1,55 @@
+<div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
+  <header class="mb-12 flex justify-between items-end">
+    <div>
+      <h1 class="text-h1 mb-2">Customers</h1>
+      <p class="text-body-lg text-[#6b6b6b]">View and manage your entire customer database.</p>
+    </div>
+    <div>
+      <span class="text-body-md font-semibold">{{ crm.analyticsSummary()?.total_customers | number }} Total</span>
+    </div>
+  </header>
+
+  <div class="card-elevated p-0 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-[#f3f2ef] border-b border-[#e7e7e4]">
+            <th class="px-6 py-4 text-label-caps text-[#6b6b6b] font-semibold">Name</th>
+            <th class="px-6 py-4 text-label-caps text-[#6b6b6b] font-semibold">Email</th>
+            <th class="px-6 py-4 text-label-caps text-[#6b6b6b] font-semibold">Location</th>
+            <th class="px-6 py-4 text-label-caps text-[#6b6b6b] font-semibold">Source</th>
+            <th class="px-6 py-4 text-label-caps text-[#6b6b6b] font-semibold">Joined</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (customer of crm.customers(); track customer.id) {
+            <tr class="border-b border-[#e7e7e4] last:border-0 hover:bg-[#fcfcfb] transition-colors">
+              <td class="px-6 py-4 font-semibold text-[15px]">{{ customer.name }}</td>
+              <td class="px-6 py-4 text-[#6b6b6b] text-[14px]">{{ customer.email }}</td>
+              <td class="px-6 py-4 text-[#6b6b6b] text-[14px]">{{ customer.metadata_json['location'] || 'Unknown' }}</td>
+              <td class="px-6 py-4">
+                <span class="panel-recessed text-label-caps px-3 py-1 rounded-full">
+                  {{ customer.metadata_json['source'] || 'Unknown' }}
+                </span>
+              </td>
+              <td class="px-6 py-4 text-[#6b6b6b] text-[14px]">{{ customer.created_at | date:'mediumDate' }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="px-6 py-12 text-center text-[#6b6b6b]">
+                @if (crm.loading()) {
+                  <div class="flex justify-center items-center space-x-3">
+                    <div class="animate-pulse w-4 h-4 rounded-full bg-[#e7e7e4]"></div>
+                    <span>Loading customers...</span>
+                  </div>
+                } @else {
+                  No customers found.
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

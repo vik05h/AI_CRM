@@ -1,8 +1,8 @@
 <div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
   
   <header class="mb-12">
-    <h1 class="text-[48px] md:text-[64px] font-semibold tracking-[-0.03em] leading-[1.1]">Dashboard</h1>
-    <p class="text-[#6b6b6b] text-[16px] md:text-[18px] tracking-[-0.01em] mt-2">Overview of customers and recent orders.</p>
+    <h1 class="text-h1 mb-2">Dashboard</h1>
+    <p class="text-body-lg text-[#6b6b6b]">Overview of customers and recent orders.</p>
   </header>
 
   @if (crm.loading() && !crm.analyticsSummary()) {
@@ -19,20 +19,20 @@
     <!-- KPI Cards Row -->
     @if (crm.analyticsSummary(); as stats) {
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
-        <div #kpiCard class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
-          <p class="text-[#6b6b6b] text-[14px] font-semibold uppercase tracking-[0.05em] mb-2">Total Customers</p>
+        <div #kpiCard class="card-elevated p-6">
+          <p class="text-label-caps text-[#6b6b6b] mb-2">Total Customers</p>
           <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.total_customers }}</p>
         </div>
-        <div #kpiCard class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
-          <p class="text-[#6b6b6b] text-[14px] font-semibold uppercase tracking-[0.05em] mb-2">Total Orders</p>
+        <div #kpiCard class="card-elevated p-6">
+          <p class="text-label-caps text-[#6b6b6b] mb-2">Total Orders</p>
           <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.total_orders }}</p>
         </div>
-        <div #kpiCard class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
-          <p class="text-[#6b6b6b] text-[14px] font-semibold uppercase tracking-[0.05em] mb-2">Total Revenue</p>
+        <div #kpiCard class="card-elevated p-6">
+          <p class="text-label-caps text-[#6b6b6b] mb-2">Total Revenue</p>
           <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">${{ stats.total_revenue | number:'1.0-0' }}</p>
         </div>
-        <div #kpiCard class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
-          <p class="text-[#6b6b6b] text-[14px] font-semibold uppercase tracking-[0.05em] mb-2">Campaigns Sent</p>
+        <div #kpiCard class="card-elevated p-6">
+          <p class="text-label-caps text-[#6b6b6b] mb-2">Campaigns Sent</p>
           <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.campaigns_sent }}</p>
         </div>
       </div>
@@ -41,16 +41,16 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
       <!-- Customers Panel -->
-      <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-8">
-        <h2 class="text-[24px] md:text-[32px] font-semibold tracking-[-0.02em] mb-6">Recent Customers</h2>
+      <section class="card-elevated p-6 md:p-8">
+        <h2 class="text-h3 mb-6">Recent Customers</h2>
         <div class="flex flex-col space-y-4">
           @for (customer of crm.customers(); track customer.id) {
             <div class="flex justify-between items-center py-4 border-b border-[#e7e7e4] last:border-0">
               <div>
-                <p class="font-semibold text-[16px]">{{ customer.name }}</p>
-                <p class="text-[12px] font-semibold tracking-[0.1em] text-[#6b6b6b] uppercase">{{ customer.email }}</p>
+                <p class="text-body-md font-semibold">{{ customer.name }}</p>
+                <p class="text-label-caps text-[#6b6b6b]">{{ customer.email }}</p>
               </div>
-              <span class="bg-[#f3f2ef] text-[#1c1b1b] text-[12px] font-semibold px-3 py-1 rounded-full">
+              <span class="panel-recessed text-label-caps px-3 py-1 rounded-full">
                 {{ customer.metadata_json['source'] || 'Unknown' }}
               </span>
             </div>
@@ -58,17 +58,22 @@
             <p class="text-[#6b6b6b]">No customers found.</p>
           }
         </div>
+        <div class="mt-6 pt-4 border-t border-[#e7e7e4] text-center">
+          <a routerLink="/customers" class="text-body-md font-semibold text-[#111111] hover:underline cursor-pointer">
+            View all customers →
+          </a>
+        </div>
       </section>
 
       <!-- Campaigns Panel -->
-      <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-8">
-        <h2 class="text-[24px] md:text-[32px] font-semibold tracking-[-0.02em] mb-6">Recent Campaigns</h2>
+      <section class="card-elevated p-6 md:p-8">
+        <h2 class="text-h3 mb-6">Recent Campaigns</h2>
         <div class="flex flex-col space-y-4">
           @for (campaign of crm.campaigns() | slice:0:5; track campaign.id) {
             <div class="flex justify-between items-center py-4 border-b border-[#e7e7e4] last:border-0">
               <div>
-                <p class="font-semibold text-[16px]">{{ campaign.name }}</p>
-                <p class="text-[12px] font-semibold tracking-[0.1em] text-[#6b6b6b] uppercase">
+                <p class="text-body-md font-semibold">{{ campaign.name }}</p>
+                <p class="text-label-caps text-[#6b6b6b]">
                   {{ campaign.channel }} • {{ campaign.created_at | date:'mediumDate' }}
                 </p>
               </div>
@@ -83,7 +88,7 @@
                   'bg-[#e8f5e9] text-[#2e7d32]': campaign.status === 'completed',
                   'bg-[#fff3e0] text-[#ef6c00]': campaign.status === 'sending',
                   'bg-[#f3f2ef] text-[#1c1b1b]': campaign.status === 'approved' || campaign.status === 'draft'
-                }" class="text-[12px] font-semibold px-3 py-1 rounded-full uppercase ml-2">
+                }" class="text-label-caps px-3 py-1 rounded-full ml-2">
                   {{ campaign.status }}
                 </span>
               </div>

@@ -1,16 +1,16 @@
 <div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
   
   <header class="mb-12">
-    <h1 class="text-[48px] md:text-[64px] font-semibold tracking-[-0.03em] leading-[1.1]">Segments</h1>
-    <p class="text-[#6b6b6b] text-[16px] md:text-[18px] tracking-[-0.01em] mt-2">Discover, manage, and engage your customer segments using AI.</p>
+    <h1 class="text-h1 mb-2">Segments</h1>
+    <p class="text-body-lg text-[#6b6b6b]">Discover, manage, and engage your customer segments using AI.</p>
   </header>
 
   <!-- Segment Discovery Input -->
-  <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-8 mb-12 relative overflow-hidden">
+  <section class="panel-recessed p-8 mb-12 relative overflow-hidden">
     <div class="relative z-10">
-      <h2 class="text-[24px] md:text-[32px] font-semibold tracking-[-0.02em] mb-6">Discover a Segment</h2>
+      <h2 class="text-h3 mb-6">Discover a Segment</h2>
       
-      <div class="relative flex flex-col md:flex-row items-stretch md:items-center bg-white border border-[#e7e7e4] rounded-2xl md:rounded-full p-2 focus-within:ring-2 focus-within:ring-[#1c1b1b] transition-shadow">
+      <div class="input-field flex flex-col md:flex-row items-stretch md:items-center p-2">
         <div class="pl-4 pr-2 py-3 text-[#6b6b6b] hidden md:block">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         </div>
@@ -19,12 +19,12 @@
           [(ngModel)]="prompt"
           (keyup.enter)="onDiscover()"
           placeholder="e.g. Find customers who haven't ordered in 3 months..."
-          class="flex-1 bg-transparent border-none outline-none text-[16px] md:text-[18px] px-4 py-3 md:py-0 w-full mb-2 md:mb-0"
+          class="flex-1 bg-transparent border-none outline-none text-body-lg px-4 py-3 md:py-0 w-full mb-2 md:mb-0"
         />
         <button 
           (click)="onDiscover()" 
           [disabled]="crm.loading() || !prompt"
-          class="bg-[#111111] text-[#fcfcfb] rounded-xl md:rounded-full px-8 py-3 md:py-4 font-semibold hover:bg-[#313030] disabled:opacity-50 transition-colors"
+          class="btn-primary disabled:opacity-50"
         >
           @if (crm.loading()) {
             Processing...
@@ -45,36 +45,36 @@
 
   <!-- Discovered Segments List -->
   <div class="mt-16">
-    <h3 class="text-[20px] md:text-[24px] font-semibold tracking-tight mb-6">Saved Segments</h3>
+    <h3 class="text-h3 mb-6">Saved Segments</h3>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (segment of crm.segments(); track segment.id) {
-        <div class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-8 hover:shadow-sm transition-shadow relative"
+        <div class="card-elevated p-6 md:p-8 relative"
              [ngClass]="{'overflow-hidden': previewingSegmentId !== segment.id}">
              
           <!-- Blur Overlay -->
           @if (previewingSegmentId === segment.id && previewLoading) {
-            <div class="absolute inset-0 z-20 backdrop-blur-md bg-white/40 animate-pulse rounded-[24px]"></div>
+            <div class="absolute inset-0 z-20 backdrop-blur-md bg-white/40 animate-pulse" style="border-radius: var(--radius-card);"></div>
           }
 
           <div class="flex justify-between items-start mb-4">
             <h4 class="font-semibold text-[20px] leading-tight">{{ segment.name }}</h4>
-            <span class="bg-[#f3f2ef] text-[#1c1b1b] text-[12px] font-semibold px-3 py-1 rounded-full whitespace-nowrap">
+            <span class="bg-[#f3f2ef] text-[#1c1b1b] text-label-caps px-3 py-1 rounded-full whitespace-nowrap">
               {{ segment.size | number }} shoppers
             </span>
           </div>
           
-          <p class="text-[#6b6b6b] text-[14px] mb-6 min-h-[40px]">
+          <p class="text-body-md text-[#6b6b6b] mb-6 min-h-[40px]">
             {{ segment.description || 'AI-generated segment.' }}
           </p>
           
           <div class="flex gap-3">
             <button (click)="togglePreview(segment)"
-                    class="flex-1 bg-[#f3f2ef] text-[#1c1b1b] border border-[#e7e7e4] rounded-xl px-4 py-2 font-semibold hover:bg-[#e7e7e4] transition-colors text-[14px]">
+                    class="btn-secondary flex-1">
               {{ previewingSegmentId === segment.id ? 'Close Preview' : 'Preview Customers' }}
             </button>
-            <button (click)="createCampaignFor(segment)" class="flex-1 bg-[#111111] text-[#fcfcfb] rounded-xl px-4 py-2 font-semibold hover:bg-[#313030] transition-colors text-[14px] flex items-center justify-center gap-2">
-              Create Campaign <span class="text-[16px]">→</span>
+            <button (click)="createCampaignFor(segment)" class="btn-primary flex-1 gap-2">
+              Create Campaign <span>→</span>
             </button>
           </div>
 
@@ -84,7 +84,7 @@
                [ngClass]="{'mt-6 border-t border-[#e7e7e4] pt-6': previewingSegmentId === segment.id}">
             
             @if (previewingSegmentId === segment.id && previewData[segment.id]) {
-              <p class="text-[12px] font-semibold tracking-[0.05em] text-[#6b6b6b] mb-4">
+              <p class="text-label-caps text-[#6b6b6b] mb-4">
                 Showing {{ previewData[segment.id].customers.length }} of {{ segment.size }} shoppers
               </p>
               
@@ -104,8 +104,8 @@
                 }
               </div>
               
-              <a routerLink="/dashboard" class="text-[14px] font-semibold text-[#111111] hover:underline cursor-pointer">
-                View all in Dashboard
+              <a routerLink="/customers" class="text-body-md font-semibold text-[#111111] hover:underline cursor-pointer">
+                View all in Customers
               </a>
             }
           </div>

@@ -9,8 +9,8 @@ import { CrmService } from '../../services/crm.service';
   template: `
     <div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
       <header class="mb-12">
-        <h1 class="text-[48px] md:text-[64px] font-semibold tracking-[-0.03em] leading-[1.1]">Analytics</h1>
-        <p class="text-[#6b6b6b] text-[16px] md:text-[18px] tracking-[-0.01em] mt-2">Track campaign delivery and performance.</p>
+        <h1 class="text-h1 mb-2">Analytics</h1>
+        <p class="text-body-lg text-[#6b6b6b]">Track campaign delivery and performance.</p>
       </header>
 
       @if (crm.loading() && !crm.campaigns().length) {
@@ -21,11 +21,11 @@ import { CrmService } from '../../services/crm.service';
       } @else {
         <div class="space-y-8">
           @for (campaign of crm.campaigns(); track campaign.id) {
-            <div class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-8">
+            <div class="card-elevated p-6 md:p-8">
               <div class="flex flex-col md:flex-row justify-between md:items-center mb-6">
                 <div>
-                  <h3 class="text-[24px] font-semibold">{{ campaign.name }}</h3>
-                  <p class="text-[#6b6b6b] text-[14px]">
+                  <h3 class="text-h3 mb-2">{{ campaign.name }}</h3>
+                  <p class="text-body-md text-[#6b6b6b]">
                     Goal: {{ campaign.goal }} • Channel: {{ campaign.channel }}
                   </p>
                 </div>
@@ -34,7 +34,7 @@ import { CrmService } from '../../services/crm.service';
                     'bg-[#e8f5e9] text-[#2e7d32]': campaign.status === 'completed',
                     'bg-[#fff3e0] text-[#ef6c00]': campaign.status === 'sending',
                     'bg-[#f3f2ef] text-[#1c1b1b]': campaign.status === 'approved' || campaign.status === 'draft'
-                  }" class="text-[12px] font-semibold px-3 py-1 rounded-full uppercase">
+                  }" class="text-label-caps px-3 py-1 rounded-full">
                     {{ campaign.status }}
                   </span>
                 </div>
@@ -43,16 +43,16 @@ import { CrmService } from '../../services/crm.service';
               <!-- Funnel / Stats -->
               @if (campaign.status === 'completed' || campaign.status === 'sending') {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div class="bg-white border border-[#e7e7e4] p-4 rounded-xl">
-                    <p class="text-[12px] font-semibold uppercase tracking-[0.05em] text-[#6b6b6b] mb-1">Delivered</p>
+                  <div class="panel-recessed p-4">
+                    <p class="text-label-caps text-[#6b6b6b] mb-1">Delivered</p>
                     <p class="text-[24px] font-semibold">{{ campaign.sent_count }}</p>
                   </div>
-                  <div class="bg-white border border-[#e7e7e4] p-4 rounded-xl">
-                    <p class="text-[12px] font-semibold uppercase tracking-[0.05em] text-[#6b6b6b] mb-1">Converted</p>
+                  <div class="panel-recessed p-4">
+                    <p class="text-label-caps text-[#6b6b6b] mb-1">Converted</p>
                     <p class="text-[24px] font-semibold">{{ campaign.converted_count }}</p>
                   </div>
-                  <div class="bg-white border border-[#e7e7e4] p-4 rounded-xl">
-                    <p class="text-[12px] font-semibold uppercase tracking-[0.05em] text-[#6b6b6b] mb-1">Conversion Rate</p>
+                  <div class="panel-recessed p-4">
+                    <p class="text-label-caps text-[#6b6b6b] mb-1">Conversion Rate</p>
                     <p class="text-[24px] font-semibold">
                       {{ campaign.sent_count > 0 ? ((campaign.converted_count / campaign.sent_count) * 100).toFixed(1) : 0 }}%
                     </p>
