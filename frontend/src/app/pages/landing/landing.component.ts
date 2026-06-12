@@ -85,47 +85,58 @@ export class LandingComponent implements OnDestroy {
     const featureCards = this.elementRef.nativeElement.querySelectorAll('.feature-card');
 
     if (featureHeaders.length > 0) {
-      gsap.from(featureHeaders, {
-        scrollTrigger: {
-          trigger: '.panel-recessed',
-          start: 'top 75%',
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power2.out'
-      });
+      gsap.fromTo(featureHeaders,
+        { y: 30, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: '.panel-recessed',
+            start: 'top 80%',
+          },
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: 'power2.out'
+        }
+      );
     }
 
     if (featureCards.length > 0) {
-      gsap.from(featureCards, {
-        scrollTrigger: {
-          trigger: '.panel-recessed',
-          start: 'top 60%',
-        },
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power3.out'
-      });
+      const cardsContainer = this.elementRef.nativeElement.querySelector('.grid');
+      gsap.fromTo(featureCards, 
+        { y: 60, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: cardsContainer || '.panel-recessed',
+            start: 'top 80%',
+          },
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.2,
+          ease: 'power3.out',
+          clearProps: 'transform' // Clear transform so CSS hover works after animation
+        }
+      );
     }
 
     // ScrollTrigger for Stats Section
     const statItems = this.elementRef.nativeElement.querySelectorAll('.stat-item');
     if (statItems.length > 0) {
-      gsap.from(statItems, {
-        scrollTrigger: {
-          trigger: '.border-y', // Trigger is the stats section container
-          start: 'top 85%',
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: 'power3.out'
-      });
+      gsap.fromTo(statItems,
+        { y: 30, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: '.border-y', // Trigger is the stats section container
+            start: 'top 85%',
+          },
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: 'power3.out'
+        }
+      );
     }
   }
 }
