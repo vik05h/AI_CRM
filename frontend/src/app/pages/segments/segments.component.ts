@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CrmService } from '../../services/crm.service';
 import { Segment, SegmentPreviewData } from '../../models/api.model';
 import gsap from 'gsap';
@@ -14,6 +15,7 @@ import gsap from 'gsap';
 export class SegmentsComponent implements OnInit {
   crm = inject(CrmService);
   cdr = inject(ChangeDetectorRef);
+  router = inject(Router);
   prompt: string = '';
   
   previewingSegmentId: string | null = null;
@@ -28,6 +30,14 @@ export class SegmentsComponent implements OnInit {
     if (!this.prompt.trim()) return;
     this.crm.discoverSegment(this.prompt);
     this.prompt = '';
+  }
+
+  /**
+   * Navigate to the Campaign Builder with the selected segment pre-filled.
+   * Uses query params so CampaignsComponent can read and prefill the dropdown.
+   */
+  createCampaignFor(segment: Segment) {
+    this.router.navigate(['/campaigns'], { queryParams: { segmentId: segment.id } });
   }
 
   togglePreview(segment: Segment) {

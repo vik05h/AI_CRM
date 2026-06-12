@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { CrmService } from '../../services/crm.service';
 import { CampaignCreate, CampaignDraftResponse } from '../../models/api.model';
 import gsap from 'gsap';
@@ -14,6 +15,7 @@ import gsap from 'gsap';
 export class CampaignsComponent implements OnInit {
   crm = inject(CrmService);
   cdr = inject(ChangeDetectorRef);
+  route = inject(ActivatedRoute);
   
   @ViewChild('step1Container') step1Container!: ElementRef;
   @ViewChild('step2Container') step2Container!: ElementRef;
@@ -37,6 +39,13 @@ export class CampaignsComponent implements OnInit {
   ngOnInit() {
     this.crm.loadSegments();
     this.crm.loadCampaigns();
+    
+    // Pre-select segment if provided in URL
+    this.route.queryParams.subscribe(params => {
+      if (params['segmentId']) {
+        this.selectedSegmentId = params['segmentId'];
+      }
+    });
   }
 
   get selectedSegmentName(): string {

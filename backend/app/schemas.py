@@ -77,3 +77,17 @@ class CampaignResponse(BaseModel):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+class CampaignCallback(BaseModel):
+    campaign_id: str
+    sent_count: int
+    converted_count: int
+    status: str
+
+class AnalyticsSummary(BaseModel):
+    total_customers: int
+    total_orders: int
+    total_revenue: float
+    campaigns_sent: int
+    campaigns_converted: int
+    active_segments: int

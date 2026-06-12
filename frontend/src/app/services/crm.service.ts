@@ -1,8 +1,9 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Customer, Order, Segment, SegmentPreviewData, Campaign, CampaignDraftResponse, CampaignCreate } from '../models/api.model';
+import { Customer, Order, Segment, SegmentPreviewData, Campaign, CampaignDraftResponse, CampaignCreate, AnalyticsSummary } from '../models/api.model';
 import { catchError, finalize } from 'rxjs/operators';
+import { Subscription, interval } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,8 @@ export class CrmService {
   private _campaigns = signal<Campaign[]>([]);
   private _loading = signal<boolean>(false);
   private _error = signal<string | null>(null);
+  private _analyticsSummary = signal<AnalyticsSummary | null>(null);
+  private pollingSub: Subscription | null = null;
 
   // Computed Selectors
   readonly customers = computed(() => this._customers());
@@ -26,6 +29,7 @@ export class CrmService {
   readonly campaigns = computed(() => this._campaigns());
   readonly loading = computed(() => this._loading());
   readonly error = computed(() => this._error());
+  readonly analyticsSummary = computed(() => this._analyticsSummary());
 
   /**
    * Loads customers from the API
@@ -140,5 +144,30 @@ export class CrmService {
 
   createCampaign(campaign: CampaignCreate) {
     return this.http.post<Campaign>(`${this.apiUrl}/campaigns`, campaign);
+  }
+
+  loadAnalytics() {
+    this.http.get<AnalyticsSummary>(`${this.apiUrl}/analytics/summary`)
+      .subscribe({
+        next: (data) => this._analyticsSummary.set(data),
+        error: (err) => console.error('Failed to load analytics summary', err)
+      });
+  }
+  
+  startPollingCampaigns() {
+    if (!this.pollingSub) {
+      // Poll every 5 seconds
+      this.pollingSub = interval(5000).subscribe(() => {
+        this.loadCampaigns();
+        this.loadAnalytics();
+      });
+    }
+  }
+  
+  stopPollingCampaigns() {
+    if (this.pollingSub) {
+      this.pollingSub.unsubscribe();
+      this.pollingSub = null;
+    }
   }
 }

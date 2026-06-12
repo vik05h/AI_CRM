@@ -9,8 +9,22 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
     """
     criteria_lower = criteria.lower()
     
-    # Keyword-based routing
-    if any(keyword in criteria_lower for keyword in ["lapsed", "churn", "inactive"]):
+    # --- Keyword-based routing ---
+    # Lapsed / inactive: customers who haven't ordered recently
+    lapsed_keywords = [
+        "lapsed", "churn", "inactive", "haven't ordered", "havent ordered",
+        "not ordered", "didn't order", "didnt order", "months", "dormant",
+        "no order", "no purchase", "no recent", "gone cold", "come back", "win back",
+        "miss", "lost"
+    ]
+    
+    # High-value / VIP customers
+    vip_keywords = ["vip", "high value", "high-value", "expensive", "top", "best", "premium", "loyal"]
+    
+    # Recent / new buyers
+    recent_keywords = ["recent", "new", "just bought", "last week", "last month", "active"]
+
+    if any(keyword in criteria_lower for keyword in lapsed_keywords):
         name = "Lapsed Customers"
         description = "Customers who haven't placed an order in the last 90 days."
         sql_criteria = """
@@ -25,12 +39,13 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
             LEFT JOIN orders o ON c.id = o.customer_id 
             GROUP BY c.id, c.name, c.email
             HAVING MAX(o.created_at) < NOW() - INTERVAL '90 days'
+               OR MAX(o.created_at) IS NULL
         """
         result = await db.execute(select(func.count(Customer.id)))
         size = result.scalar() or 0
-        size = int(size * 0.2)
+        size = int(size * 0.25)
         
-    elif any(keyword in criteria_lower for keyword in ["vip", "high", "expensive"]):
+    elif any(keyword in criteria_lower for keyword in vip_keywords):
         name = "High-Value Customers"
         description = "Customers who have spent more than $1000 in total."
         sql_criteria = """
@@ -50,7 +65,7 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
         size = result.scalar() or 0
         size = int(size * 0.05)
         
-    else:
+    elif any(keyword in criteria_lower for keyword in recent_keywords):
         name = "Recent Buyers"
         description = "Customers who placed an order in the last 30 days."
         sql_criteria = """
@@ -68,7 +83,27 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
         """
         result = await db.execute(select(func.count(Customer.id)))
         size = result.scalar() or 0
-        size = int(size * 0.5)
+        size = int(size * 0.3)
+        
+    else:
+        # Default: all customers with at least one order, so it's always useful
+        name = "All Active Customers"
+        description = "All customers who have placed at least one order."
+        sql_criteria = """
+            SELECT 
+              c.id, 
+              c.name, 
+              c.email,
+              COUNT(o.id) as total_orders,
+              SUM(o.total_amount) as total_spent,
+              MAX(o.created_at) as last_order_date
+            FROM customers c 
+            INNER JOIN orders o ON c.id = o.customer_id 
+            GROUP BY c.id, c.name, c.email
+            ORDER BY total_spent DESC
+        """
+        result = await db.execute(select(func.count(Customer.id)))
+        size = result.scalar() or 0
 
     # Create the segment in the database
     new_segment = Segment(

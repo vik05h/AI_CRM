@@ -5,7 +5,7 @@
     <p class="text-[#6b6b6b] text-[16px] md:text-[18px] tracking-[-0.01em] mt-2">Overview of customers and recent orders.</p>
   </header>
 
-  @if (crm.loading()) {
+  @if (crm.loading() && !crm.analyticsSummary()) {
     <div class="flex items-center space-x-4">
       <div class="animate-pulse w-8 h-8 rounded-full bg-[#e7e7e4]"></div>
       <p class="text-[#6b6b6b]">Loading data...</p>
@@ -15,6 +15,29 @@
       {{ crm.error() }}
     </div>
   } @else {
+    
+    <!-- KPI Cards Row -->
+    @if (crm.analyticsSummary(); as stats) {
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
+        <div #kpiCard class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
+          <p class="text-[#6b6b6b] text-[14px] font-semibold uppercase tracking-[0.05em] mb-2">Total Customers</p>
+          <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.total_customers }}</p>
+        </div>
+        <div #kpiCard class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
+          <p class="text-[#6b6b6b] text-[14px] font-semibold uppercase tracking-[0.05em] mb-2">Total Orders</p>
+          <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.total_orders }}</p>
+        </div>
+        <div #kpiCard class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
+          <p class="text-[#6b6b6b] text-[14px] font-semibold uppercase tracking-[0.05em] mb-2">Total Revenue</p>
+          <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">${{ stats.total_revenue | number:'1.0-0' }}</p>
+        </div>
+        <div #kpiCard class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6">
+          <p class="text-[#6b6b6b] text-[14px] font-semibold uppercase tracking-[0.05em] mb-2">Campaigns Sent</p>
+          <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]">{{ stats.campaigns_sent }}</p>
+        </div>
+      </div>
+    }
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
       <!-- Customers Panel -->
@@ -37,27 +60,36 @@
         </div>
       </section>
 
-      <!-- Orders Panel -->
+      <!-- Campaigns Panel -->
       <section class="bg-[#fcfcfb] border border-[#e7e7e4] rounded-[24px] p-6 md:p-8">
-        <h2 class="text-[24px] md:text-[32px] font-semibold tracking-[-0.02em] mb-6">Recent Orders</h2>
+        <h2 class="text-[24px] md:text-[32px] font-semibold tracking-[-0.02em] mb-6">Recent Campaigns</h2>
         <div class="flex flex-col space-y-4">
-          @for (order of crm.orders(); track order.id) {
+          @for (campaign of crm.campaigns() | slice:0:5; track campaign.id) {
             <div class="flex justify-between items-center py-4 border-b border-[#e7e7e4] last:border-0">
               <div>
-                <p class="font-semibold text-[16px]">Order: {{ order.id | slice:0:8 }}</p>
+                <p class="font-semibold text-[16px]">{{ campaign.name }}</p>
                 <p class="text-[12px] font-semibold tracking-[0.1em] text-[#6b6b6b] uppercase">
-                  {{ order.created_at | date:'mediumDate' }}
+                  {{ campaign.channel }} • {{ campaign.created_at | date:'mediumDate' }}
                 </p>
               </div>
-              <div class="text-right">
-                <p class="font-semibold text-[16px]">${{ order.total_amount }}</p>
-                <span class="bg-[#f3f2ef] text-[#1c1b1b] text-[12px] font-semibold px-3 py-1 rounded-full uppercase">
-                  {{ order.status }}
+              <div class="text-right flex items-center space-x-3">
+                @if (campaign.status === 'completed') {
+                  <div class="flex flex-col items-end">
+                    <span class="text-[14px] font-semibold">{{ campaign.sent_count }} sent</span>
+                    <span class="text-[12px] text-[#2e7d32]">{{ campaign.converted_count }} conv</span>
+                  </div>
+                }
+                <span [ngClass]="{
+                  'bg-[#e8f5e9] text-[#2e7d32]': campaign.status === 'completed',
+                  'bg-[#fff3e0] text-[#ef6c00]': campaign.status === 'sending',
+                  'bg-[#f3f2ef] text-[#1c1b1b]': campaign.status === 'approved' || campaign.status === 'draft'
+                }" class="text-[12px] font-semibold px-3 py-1 rounded-full uppercase ml-2">
+                  {{ campaign.status }}
                 </span>
               </div>
             </div>
           } @empty {
-            <p class="text-[#6b6b6b]">No orders found.</p>
+            <p class="text-[#6b6b6b]">No campaigns found.</p>
           }
         </div>
       </section>

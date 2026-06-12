@@ -14,5 +14,14 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
+  channel_stub:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.stub
+    container_name: aicrm-stub
+    ports:
+      - "8001:8001"
+    restart: unless-stopped
+
 volumes:
   postgres_data:

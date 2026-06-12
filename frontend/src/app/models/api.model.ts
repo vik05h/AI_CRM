@@ -74,3 +74,12 @@ export interface Campaign {
   converted_count: number;
   created_at: string;
 }
+
+export interface AnalyticsSummary {
+  total_customers: number;
+  total_orders: number;
+  total_revenue: number;
+  campaigns_sent: number;
+  campaigns_converted: number;
+  active_segments: number;
+}
