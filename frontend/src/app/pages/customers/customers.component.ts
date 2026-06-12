@@ -2,11 +2,12 @@ import { Component, inject, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CrmService } from '../../services/crm.service';
 import gsap from 'gsap';
+import { ScrollHintDirective } from '../../shared/directives/scroll-hint.directive';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ScrollHintDirective],
   templateUrl: './customers.component.html'
 })
 export class CustomersComponent implements OnInit, AfterViewInit {

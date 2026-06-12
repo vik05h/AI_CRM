@@ -71,7 +71,7 @@
             {{ segment.description || 'AI-generated segment.' }}
           </p>
           
-          <div class="flex gap-3">
+          <div class="flex flex-col sm:flex-row gap-3">
             <button appMagnetic (click)="togglePreview(segment)"
                     class="btn-secondary flex-1">
               {{ previewingSegmentId === segment.id ? 'Close Preview' : 'Preview Customers' }}

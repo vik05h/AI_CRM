@@ -17,16 +17,6 @@ import gsap from 'gsap';
       <header class="h-20 bg-black/40 backdrop-blur-2xl border-b border-white/10 sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
         <!-- Brand -->
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-md">
-            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <!-- Central user silhouette (CRM) -->
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <!-- Sparkle icons (AI) -->
-              <path d="M19 2l0.5 1.5L21 4l-1.5 0.5L19 6l-0.5-1.5L17 4l1.5-0.5z" fill="currentColor" stroke="none" />
-              <path d="M21 9l0.3 0.9L22.2 10l-0.9 0.3L21 11.2l-0.3-0.9L19.8 10l0.9-0.3z" fill="currentColor" stroke="none" />
-            </svg>
-          </div>
           <div class="font-bold text-xl tracking-tighter text-white">AI CRM</div>
         </div>
 
@@ -73,7 +63,7 @@ import gsap from 'gsap';
               </button>
               
               @if (showUserMenu) {
-                <div class="absolute right-0 mt-2 w-48 card-elevated rounded-xl shadow-2xl py-1 z-50 overflow-hidden transform origin-top-right transition-all">
+                <div class="absolute right-0 mt-2 w-48 bg-[#151515] border border-white/10 rounded-xl shadow-2xl py-1 z-[100] overflow-hidden transform origin-top-right transition-all">
                   <div class="px-4 py-3 border-b border-white/10">
                     <p class="text-sm font-semibold text-white truncate">{{ auth.currentUser()?.displayName || 'User' }}</p>
                     <p class="text-xs text-gray-400 truncate">{{ auth.currentUser()?.email }}</p>
@@ -97,7 +87,7 @@ import gsap from 'gsap';
       <app-sidebar [isOpen]="sidebarOpen" (closeSidebar)="sidebarOpen = false"></app-sidebar>
       
       <!-- Main Content Area -->
-      <main class="min-h-[calc(100vh-80px)] flex flex-col transition-all">
+      <main class="min-h-[calc(100vh-80px)] flex flex-col transition-all relative z-0">
         <!-- Page Content -->
         <div class="flex-1 p-4 md:p-8 overflow-x-hidden container-max w-full" id="main-content">
           <router-outlet></router-outlet>

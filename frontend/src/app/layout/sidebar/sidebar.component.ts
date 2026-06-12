@@ -19,16 +19,6 @@ import { AuthService } from '../../services/auth.service';
       <!-- Brand -->
       <div class="h-20 flex items-center justify-between px-6 border-b border-white/10">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <!-- Central user silhouette (CRM) -->
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <!-- Sparkle icons (AI) -->
-              <path d="M19 2l0.5 1.5L21 4l-1.5 0.5L19 6l-0.5-1.5L17 4l1.5-0.5z" fill="currentColor" stroke="none" />
-              <path d="M21 9l0.3 0.9L22.2 10l-0.9 0.3L21 11.2l-0.3-0.9L19.8 10l0.9-0.3z" fill="currentColor" stroke="none" />
-            </svg>
-          </div>
           <div class="font-bold text-xl tracking-tighter text-white">AI CRM</div>
         </div>
         <button (click)="close()" class="text-gray-400 hover:text-white p-2 bg-white/5 rounded-lg">
