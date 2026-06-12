@@ -242,7 +242,7 @@ CREATE TABLE campaign_analytics (
 
 | Layer | Technology | Rationale |
 |-------|-----------|-----------|
-| **Frontend** | Angular 20+ | Component-based, TypeScript-native, strong tooling for dashboard UIs |
+| **Frontend** | Angular 21+ | Component-based, TypeScript-native, strong tooling for dashboard UIs |
 | **Backend** | FastAPI (Python 3.10+) | Native async/await, automatic OpenAPI docs, high performance |
 | **Database** | PostgreSQL (Supabase/Neon) | Relational integrity, JSONB for flexible metadata, free tier hosting |
 | **AI Engine** | Google Vertex AI (Gemini) | Native Python SDK, strong reasoning + code generation for SQL |
@@ -299,9 +299,7 @@ ai-native-mini-crm/
 ### 2. Backend Setup
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt
+uv sync
 ```
 
 Create `backend/.env`:
@@ -325,10 +323,11 @@ CRM_CALLBACK_URL=http://localhost:8000/api/callbacks
 
 Run migrations & start:
 ```bash
-alembic upgrade head
-uvicorn app.main:app --reload --port 8000
+uv run alembic upgrade head
+uv run uvicorn main:app --reload --port 8000
 # In another terminal:
-uvicorn channel_stub.main:app --reload --port 8001
+cd backend/channel_stub
+uv run uvicorn main:app --port 8001
 ```
 
 API docs: `http://localhost:8000/docs` (Swagger UI)
@@ -356,7 +355,7 @@ Since we don't have real customers/orders, we generate realistic synthetic data:
 # - Behavioral signals: session counts, cart events, checkout flags
 
 # Run:
-python scripts/seed_data.py --customers 1000 --orders 5000
+uv run python scripts/seed_data.py --customers 1000 --orders 5000
 ```
 
 **Data realism principles:**
