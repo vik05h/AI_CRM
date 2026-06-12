@@ -5,11 +5,13 @@ import { ActivatedRoute } from '@angular/router';
 import { CrmService } from '../../services/crm.service';
 import { CampaignCreate, CampaignDraftResponse } from '../../models/api.model';
 import gsap from 'gsap';
+import { TextSplitRevealDirective } from '../../shared/directives/text-split-reveal.directive';
+import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 
 @Component({
   selector: 'app-campaigns',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TextSplitRevealDirective, MagneticDirective],
   templateUrl: './campaigns.component.html'
 })
 export class CampaignsComponent implements OnInit {

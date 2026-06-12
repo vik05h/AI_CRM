@@ -5,11 +5,13 @@ import { Router } from '@angular/router';
 import { CrmService } from '../../services/crm.service';
 import { Segment, SegmentPreviewData } from '../../models/api.model';
 import gsap from 'gsap';
+import { TextSplitRevealDirective } from '../../shared/directives/text-split-reveal.directive';
+import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 
 @Component({
   selector: 'app-segments',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TextSplitRevealDirective, MagneticDirective],
   templateUrl: './segments.component.html'
 })
 export class SegmentsComponent implements OnInit {

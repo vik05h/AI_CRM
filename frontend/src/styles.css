@@ -94,9 +94,15 @@
 }
 
 @layer base {
+  :root {
+    --bg-x1: 15%;
+    --bg-y1: 50%;
+    --bg-x2: 85%;
+    --bg-y2: 30%;
+  }
   body {
-    background: radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.06), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.04), transparent 25%),
+    background: radial-gradient(circle at var(--bg-x1) var(--bg-y1), rgba(255, 255, 255, 0.06), transparent 25%),
+                radial-gradient(circle at var(--bg-x2) var(--bg-y2), rgba(255, 255, 255, 0.04), transparent 25%),
                 linear-gradient(135deg, #2a2a2a 0%, #000000 100%);
     background-color: #000000;
     color: #ffffff;

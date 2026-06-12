@@ -3,8 +3,8 @@
   <nav class="container-max py-6 flex justify-between items-center" #nav>
     <div class="font-bold text-xl tracking-tighter text-white">AI CRM</div>
     <div class="flex gap-4">
-      <button class="btn-secondary" (click)="login()">Log in</button>
-      <button class="btn-primary" (click)="login()">Get Started</button>
+      <button appMagnetic class="btn-secondary" (click)="login()">Log in</button>
+      <button appMagnetic class="btn-primary" (click)="login()">Get Started</button>
     </div>
   </nav>
 
@@ -24,8 +24,8 @@
           The CRM that proactively surfaces high-opportunity segments, drafts personalized campaigns, and tracks performance across every channel. 
         </p>
         <div class="flex gap-4 hero-item">
-          <button class="btn-primary" (click)="login()">Start Free Trial</button>
-          <button class="btn-secondary" (click)="login()">View Demo</button>
+          <button appMagnetic class="btn-primary" (click)="login()">Start Free Trial</button>
+          <button appMagnetic class="btn-secondary" (click)="login()">View Demo</button>
         </div>
       </div>
       
@@ -35,7 +35,7 @@
         <div class="absolute inset-0 scale-110 pointer-events-none opacity-40 blur-[80px] rounded-full bg-gradient-to-tr from-indigo-200 via-coral-100 to-teal-100 -z-10" #heroGlow></div>
         
         <!-- The Generated Dashboard Mockup -->
-        <img src="/dashboard_mockup_1781271106514.png" alt="AI CRM Dashboard" class="w-full h-auto rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-white/10 object-cover aspect-[4/3] transform hover:-translate-y-2 transition-transform duration-500 ease-out z-10 relative">
+        <img appTilt3d [tiltStrength]="20" src="/dashboard_mockup_1781271106514.png" alt="AI CRM Dashboard" class="w-full h-auto rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-white/10 object-cover aspect-[4/3] transform hover:-translate-y-2 transition-transform duration-500 ease-out z-10 relative">
       </div>
     </div>
   </section>
@@ -70,8 +70,11 @@
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Feature 1 -->
-        <div class="card-elevated p-8 md:p-10 feature-card group hover:-translate-y-2 transition-all duration-300">
-          <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
+        <div appSpotlight appMagnetic [magneticPull]="0.05" class="card-elevated p-8 md:p-10 feature-card group transition-all duration-300 relative overflow-hidden">
+          <div class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+               style="background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);"></div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
              <div class="absolute inset-0 bg-blue-500/10 blur-xl rounded-full group-hover:bg-blue-500/20 transition-colors"></div>
              <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -81,11 +84,15 @@
           <p class="text-body-md text-gray-400">
             Our AI dynamically queries your database to find hidden behavioral patterns like lapsed shoppers or high-intent browsers.
           </p>
+          </div>
         </div>
 
         <!-- Feature 2 -->
-        <div class="card-elevated p-8 md:p-10 feature-card group hover:-translate-y-2 transition-all duration-300">
-          <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
+        <div appSpotlight appMagnetic [magneticPull]="0.05" class="card-elevated p-8 md:p-10 feature-card group transition-all duration-300 relative overflow-hidden">
+          <div class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+               style="background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);"></div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
              <div class="absolute inset-0 bg-coral-500/10 blur-xl rounded-full group-hover:bg-coral-500/20 transition-colors"></div>
              <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -95,11 +102,15 @@
           <p class="text-body-md text-gray-400">
             Review context-aware copy drafted by AI, complete with personalization tokens, ready for your final approval.
           </p>
+          </div>
         </div>
 
         <!-- Feature 3 -->
-        <div class="card-elevated p-8 md:p-10 feature-card group hover:-translate-y-2 transition-all duration-300">
-          <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
+        <div appSpotlight appMagnetic [magneticPull]="0.05" class="card-elevated p-8 md:p-10 feature-card group transition-all duration-300 relative overflow-hidden">
+          <div class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+               style="background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);"></div>
+          <div class="relative z-10">
+            <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-8 relative">
              <div class="absolute inset-0 bg-green-500/10 blur-xl rounded-full group-hover:bg-green-500/20 transition-colors"></div>
              <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -109,6 +120,7 @@
           <p class="text-body-md text-gray-400">
             Track performance across channels with real-time status updates via our robust asynchronous callback loop.
           </p>
+          </div>
         </div>
       </div>
     </div>

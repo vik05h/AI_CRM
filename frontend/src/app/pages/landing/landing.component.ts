@@ -2,6 +2,9 @@ import { Component, ChangeDetectionStrategy, afterNextRender, ElementRef, viewCh
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AuthService } from '../../services/auth.service';
+import { Tilt3DDirective } from '../../shared/directives/tilt-3d.directive';
+import { SpotlightDirective } from '../../shared/directives/spotlight.directive';
+import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,7 +13,8 @@ gsap.registerPlugin(ScrollTrigger);
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+  styleUrl: './landing.component.css',
+  imports: [Tilt3DDirective, SpotlightDirective, MagneticDirective]
 })
 export class LandingComponent implements OnDestroy {
   private ctx!: gsap.Context;
@@ -104,7 +108,7 @@ export class LandingComponent implements OnDestroy {
     if (featureCards.length > 0) {
       const cardsContainer = this.elementRef.nativeElement.querySelector('.grid');
       gsap.fromTo(featureCards, 
-        { y: 60, opacity: 0 },
+        { y: 100, opacity: 0, scale: 0.85 },
         {
           scrollTrigger: {
             trigger: cardsContainer || '.panel-recessed',
@@ -112,9 +116,10 @@ export class LandingComponent implements OnDestroy {
           },
           y: 0,
           opacity: 1,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: 'power3.out',
+          scale: 1,
+          duration: 1,
+          stagger: 0.15,
+          ease: 'back.out(1.2)',
           clearProps: 'transform' // Clear transform so CSS hover works after animation
         }
       );

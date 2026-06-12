@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CrmService } from '../../services/crm.service';
 import gsap from 'gsap';
+import { NumberCounterDirective } from '../../shared/directives/number-counter.directive';
+import { TextSplitRevealDirective } from '../../shared/directives/text-split-reveal.directive';
+import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NumberCounterDirective, TextSplitRevealDirective, MagneticDirective],
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {

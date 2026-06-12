@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -78,15 +78,39 @@ import gsap from 'gsap';
     </div>
   `
 })
-export class AppShellComponent implements OnInit {
+export class AppShellComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
+  private ngZone = inject(NgZone);
   
   pageTitle = 'Dashboard';
   sidebarOpen = false;
   private isFirstLoad = true;
+  private mouseMoveListener: (e: MouseEvent) => void;
+
+  constructor() {
+    this.mouseMoveListener = (e: MouseEvent) => {
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+
+      // Calculate subtle inverse shifts from the base percentages (15%, 85%)
+      const x1 = 15 + (x * -5);
+      const y1 = 50 + (y * -5);
+      
+      const x2 = 85 + (x * 5);
+      const y2 = 30 + (y * 5);
+
+      document.documentElement.style.setProperty('--bg-x1', `${x1}%`);
+      document.documentElement.style.setProperty('--bg-y1', `${y1}%`);
+      document.documentElement.style.setProperty('--bg-x2', `${x2}%`);
+      document.documentElement.style.setProperty('--bg-y2', `${y2}%`);
+    };
+  }
 
   ngOnInit() {
+    this.ngZone.runOutsideAngular(() => {
+      document.addEventListener('mousemove', this.mouseMoveListener);
+    });
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => this.activatedRoute),
@@ -125,5 +149,9 @@ export class AppShellComponent implements OnInit {
         { x: 0, opacity: 1, duration: 0.5, ease: 'power3.out', clearProps: 'all' }
       );
     });
+  }
+
+  ngOnDestroy() {
+    document.removeEventListener('mousemove', this.mouseMoveListener);
   }
 }

@@ -2,7 +2,7 @@
   
   <header class="mb-12 textflow-wrap">
     <div class="textflow-line">
-      <h1 class="text-h2 mb-1">Segments</h1>
+      <h1 appTextSplitReveal class="text-h2 mb-1">Segments</h1>
       <p class="text-body-md text-gray-400">Discover, manage, and engage your customer segments using AI.</p>
     </div>
   </header>
@@ -24,6 +24,7 @@
           class="flex-1 bg-transparent border-none outline-none text-body-lg px-4 py-3 md:py-0 w-full mb-2 md:mb-0"
         />
         <button 
+          appMagnetic
           (click)="onDiscover()" 
           [disabled]="crm.loading() || !prompt"
           class="btn-primary disabled:opacity-50"
@@ -71,11 +72,11 @@
           </p>
           
           <div class="flex gap-3">
-            <button (click)="togglePreview(segment)"
+            <button appMagnetic (click)="togglePreview(segment)"
                     class="btn-secondary flex-1">
               {{ previewingSegmentId === segment.id ? 'Close Preview' : 'Preview Customers' }}
             </button>
-            <button (click)="createCampaignFor(segment)" class="btn-primary flex-1 gap-2">
+            <button appMagnetic (click)="createCampaignFor(segment)" class="btn-primary flex-1 gap-2">
               Create Campaign <span>→</span>
             </button>
           </div>
