@@ -20,6 +20,15 @@ export class LandingComponent implements OnDestroy {
   private ctx!: gsap.Context;
   private authService = inject(AuthService);
 
+  screenshots = [
+    '/image.png',
+    '/image-1.png',
+    '/image-2.png',
+    '/image-3.png',
+    '/image-4.png',
+    '/image-5.png'
+  ];
+
   constructor(private elementRef: ElementRef, private ngZone: NgZone) {
     afterNextRender(() => {
       this.ngZone.runOutsideAngular(() => {
@@ -59,16 +68,69 @@ export class LandingComponent implements OnDestroy {
       stagger: 0.15
     }, "-=0.4");
 
-    // Hero mockup float effect
-    const heroImage = this.elementRef.nativeElement.querySelector('.hero-item img');
-    if (heroImage) {
-      gsap.to(heroImage, {
-        y: -15,
-        duration: 2.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut'
+    // Stack Animation
+    const stackCards = gsap.utils.toArray('.stack-card') as HTMLElement[];
+    if (stackCards.length > 0) {
+      const totalCards = stackCards.length;
+
+      // Initial positioning
+      stackCards.forEach((card, i) => {
+        gsap.set(card, {
+          scale: 1 - i * 0.05,
+          y: i * 30,
+          opacity: 1 - i * 0.15,
+          transformOrigin: "top center",
+          zIndex: totalCards - i
+        });
       });
+
+      let currentIndex = 0;
+
+      const nextCard = () => {
+        const currentCard = stackCards[currentIndex];
+
+        // Ensure animating card stays on top
+        gsap.set(currentCard, { zIndex: totalCards + 1 });
+
+        // Fly up and fade out
+        gsap.to(currentCard, {
+          y: -100,
+          opacity: 0,
+          scale: 1.05,
+          duration: 0.8,
+          ease: 'power3.inOut',
+          onComplete: () => {
+            // Send to back of stack
+            gsap.set(currentCard, {
+              y: (totalCards - 1) * 30,
+              scale: 1 - (totalCards - 1) * 0.05,
+              opacity: 1 - (totalCards - 1) * 0.15,
+              zIndex: 1
+            });
+          }
+        });
+
+        // Move remaining cards up the stack
+        for (let i = 1; i < totalCards; i++) {
+          const index = (currentIndex + i) % totalCards;
+          const card = stackCards[index];
+          const newPos = i - 1;
+
+          gsap.to(card, {
+            y: newPos * 30,
+            scale: 1 - newPos * 0.05,
+            opacity: 1 - newPos * 0.15,
+            duration: 0.8,
+            ease: 'power3.inOut',
+            zIndex: totalCards - newPos
+          });
+        }
+
+        currentIndex = (currentIndex + 1) % totalCards;
+        gsap.delayedCall(3, nextCard);
+      };
+
+      gsap.delayedCall(3, nextCard);
     }
 
     // Subtle pulse for the abstract glow
@@ -107,7 +169,7 @@ export class LandingComponent implements OnDestroy {
 
     if (featureCards.length > 0) {
       const cardsContainer = this.elementRef.nativeElement.querySelector('.grid');
-      gsap.fromTo(featureCards, 
+      gsap.fromTo(featureCards,
         { y: 100, opacity: 0, scale: 0.85 },
         {
           scrollTrigger: {

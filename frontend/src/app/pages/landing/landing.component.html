@@ -34,8 +34,14 @@
         <!-- Abstract glowing shape -->
         <div class="absolute inset-0 scale-110 pointer-events-none opacity-40 blur-[80px] rounded-full bg-gradient-to-tr from-indigo-200 via-coral-100 to-teal-100 -z-10" #heroGlow></div>
         
-        <!-- The Generated Dashboard Mockup -->
-        <img appTilt3d [tiltStrength]="20" src="/dashboard_mockup_1781271106514.png" alt="AI CRM Dashboard" class="w-full h-auto rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-white/10 object-cover aspect-[4/3] transform hover:-translate-y-2 transition-transform duration-500 ease-out z-10 relative">
+        <!-- The Generated Dashboard Mockup Stack -->
+        <div appTilt3d [tiltStrength]="20" class="relative w-full aspect-[4/3] z-10 hero-item perspective-[1200px]">
+          @for (img of screenshots; track $index) {
+            <img [src]="img" 
+                 class="absolute inset-0 w-full h-full rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-white/10 object-cover stack-card"
+                 alt="AI CRM Screenshot">
+          }
+        </div>
       </div>
     </div>
   </section>
