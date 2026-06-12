@@ -11,13 +11,16 @@ import gsap from 'gsap';
   imports: [CommonModule, RouterModule, SidebarComponent],
   template: `
     <div class="min-h-screen bg-bg-primary">
-      <app-sidebar></app-sidebar>
+      <app-sidebar [isOpen]="sidebarOpen" (closeSidebar)="sidebarOpen = false"></app-sidebar>
       
       <!-- Main Content Area -->
       <main class="md:ml-64 ml-0 min-h-screen flex flex-col transition-all">
         <!-- Top Header -->
-        <header class="h-20 bg-[#F7F7F5] border-b border-[#E7E7E4] flex items-center px-8 sticky top-0 z-10">
-          <div class="flex-1">
+        <header class="h-20 bg-[#F7F7F5] border-b border-[#E7E7E4] flex items-center px-4 md:px-8 sticky top-0 z-10">
+          <div class="flex items-center gap-4 flex-1">
+            <button (click)="sidebarOpen = !sidebarOpen" class="md:hidden text-[#111111] p-2 hover:bg-[#E7E7E4] rounded-lg transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
             <h2 class="text-[18px] font-semibold text-[#1c1b1b]">{{ pageTitle }}</h2>
           </div>
           <div class="flex gap-3">
@@ -40,6 +43,7 @@ export class AppShellComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   
   pageTitle = 'Dashboard';
+  sidebarOpen = false;
   private isFirstLoad = true;
 
   ngOnInit() {

@@ -55,8 +55,20 @@ export class LandingComponent implements OnDestroy {
       stagger: 0.15
     }, "-=0.4");
 
+    // Hero mockup float effect
+    const heroImage = this.elementRef.nativeElement.querySelector('.hero-item img');
+    if (heroImage) {
+      gsap.to(heroImage, {
+        y: -15,
+        duration: 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      });
+    }
+
     // Subtle pulse for the abstract glow
-    const heroGlow = this.elementRef.nativeElement.querySelector('.absolute.right-0');
+    const heroGlow = this.elementRef.nativeElement.querySelector('.absolute.inset-0.scale-110');
     if (heroGlow) {
       gsap.to(heroGlow, {
         scale: 1.05,
@@ -96,6 +108,22 @@ export class LandingComponent implements OnDestroy {
         opacity: 0,
         duration: 0.8,
         stagger: 0.2,
+        ease: 'power3.out'
+      });
+    }
+
+    // ScrollTrigger for Stats Section
+    const statItems = this.elementRef.nativeElement.querySelectorAll('.stat-item');
+    if (statItems.length > 0) {
+      gsap.from(statItems, {
+        scrollTrigger: {
+          trigger: '.border-y', // Trigger is the stats section container
+          start: 'top 85%',
+        },
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
         ease: 'power3.out'
       });
     }
