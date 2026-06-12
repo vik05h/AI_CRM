@@ -22,6 +22,18 @@ export class SegmentsComponent implements OnInit {
   previewLoading: boolean = false;
   previewData: Record<string, SegmentPreviewData> = {};
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      const textLines = document.querySelectorAll('app-segments .textflow-line');
+      if (textLines.length > 0) {
+        gsap.fromTo(textLines, 
+          { y: '100%' }, 
+          { y: '0%', duration: 0.8, ease: 'power4.out', stagger: 0.1 }
+        );
+      }
+    }, 100);
+  }
+
   ngOnInit() {
     this.crm.loadSegments();
   }

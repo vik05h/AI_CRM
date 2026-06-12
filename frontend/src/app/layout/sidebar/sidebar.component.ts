@@ -14,12 +14,17 @@ import { AuthService } from '../../services/auth.service';
     }
 
     <!-- Sidebar Content -->
-    <aside class="w-64 h-screen bg-[#F3F2EF] border-r border-[#E7E7E4] flex-col fixed left-0 top-0 z-50 transition-transform duration-300 md:translate-x-0 flex"
+    <aside class="w-64 h-screen bg-white border-r border-[#E7E7E4] flex-col fixed left-0 top-0 z-50 transition-transform duration-300 md:hidden flex"
            [ngClass]="isOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'">
       <!-- Brand -->
-      <div class="h-20 flex items-center justify-between px-8 border-b border-[#E7E7E4]">
-        <div class="font-bold text-xl tracking-tighter text-[#111111]">AI CRM</div>
-        <button (click)="close()" class="md:hidden text-[#6B6B6B] hover:text-[#111111]">
+      <div class="h-20 flex items-center justify-between px-6 border-b border-[#E7E7E4]">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="font-bold text-xl tracking-tighter text-[#111111]">NEXUS AI</div>
+        </div>
+        <button (click)="close()" class="text-[#6B6B6B] hover:text-[#111111] p-2 bg-black/5 rounded-lg">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>

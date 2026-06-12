@@ -43,10 +43,10 @@
   --color-surface-variant: #e5e2e1;
   
   /* Brand Specific from DESIGN.md */
-  --color-base-plate: #F7F7F5;
-  --color-recessed: #F3F2EF;
-  --color-elevated: #FCFCFB;
-  --color-elevated-border: #E7E7E4;
+  --color-base-plate: #f5f7f9;
+  --color-recessed: #ffffff;
+  --color-elevated: rgba(255, 255, 255, 0.85);
+  --color-elevated-border: rgba(255, 255, 255, 0.4);
 
   --font-inter: 'Inter', sans-serif;
   --font-sans: 'Inter', sans-serif;
@@ -151,13 +151,16 @@
   
   .card-elevated {
     background-color: var(--color-elevated);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--color-elevated-border);
     border-radius: var(--radius-card);
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255,255,255,0.6);
     transition: all 0.3s ease;
   }
   
   .card-elevated:hover {
-    box-shadow: 0 -4px 30px rgba(99, 102, 241, 0.08);
+    box-shadow: 0 20px 40px -10px rgba(79, 70, 229, 0.1), inset 0 1px 0 rgba(255,255,255,0.8);
   }
 
   .input-field {
@@ -177,18 +180,19 @@
 
   .btn-primary {
     background-color: #111111;
-    color: #FCFCFB;
+    color: #ffffff;
     border-radius: var(--radius-interactive);
     padding: 0.75rem 1.5rem;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
   
   .btn-primary:hover {
     opacity: 0.9;
+    transform: translateY(-1px);
   }
 
   .btn-secondary {
@@ -201,11 +205,39 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease;
   }
   
   .btn-secondary:hover {
-    background-color: var(--color-recessed);
+    background-color: rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: #111111;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--radius-interactive);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+  }
+
+  .btn-outline:hover {
+    background-color: rgba(0,0,0,0.05);
+  }
+
+  .textflow-wrap {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .textflow-line {
+    display: inline-block;
+    transform: translateY(100%);
   }
 
   .container-max {

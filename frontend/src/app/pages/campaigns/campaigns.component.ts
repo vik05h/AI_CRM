@@ -48,6 +48,18 @@ export class CampaignsComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      const textLines = document.querySelectorAll('app-campaigns .textflow-line');
+      if (textLines.length > 0) {
+        gsap.fromTo(textLines, 
+          { y: '100%' }, 
+          { y: '0%', duration: 0.8, ease: 'power4.out', stagger: 0.1 }
+        );
+      }
+    }, 100);
+  }
+
   get selectedSegmentName(): string {
     const segment = this.crm.segments().find(s => s.id === this.selectedSegmentId);
     return segment ? segment.name : '';

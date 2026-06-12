@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CrmService } from '../../services/crm.service';
+import gsap from 'gsap';
 
 @Component({
   selector: 'app-analytics',
@@ -8,9 +9,11 @@ import { CrmService } from '../../services/crm.service';
   imports: [CommonModule],
   template: `
     <div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-[#1c1b1b]">
-      <header class="mb-12">
-        <h1 class="text-h1 mb-2">Analytics</h1>
-        <p class="text-body-lg text-[#6b6b6b]">Track campaign delivery and performance.</p>
+      <header class="mb-12 textflow-wrap">
+        <div class="textflow-line">
+          <h1 class="text-h2 mb-1">Analytics</h1>
+          <p class="text-body-md text-[#6b6b6b]">Track campaign delivery and performance.</p>
+        </div>
       </header>
 
       @if (crm.loading() && !crm.campaigns().length) {
@@ -43,15 +46,15 @@ import { CrmService } from '../../services/crm.service';
               <!-- Funnel / Stats -->
               @if (campaign.status === 'completed' || campaign.status === 'sending') {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div class="panel-recessed p-4">
+                  <div class="panel-recessed p-4 relative overflow-hidden group">
                     <p class="text-label-caps text-[#6b6b6b] mb-1">Delivered</p>
                     <p class="text-[24px] font-semibold">{{ campaign.sent_count }}</p>
                   </div>
-                  <div class="panel-recessed p-4">
+                  <div class="panel-recessed p-4 relative overflow-hidden group">
                     <p class="text-label-caps text-[#6b6b6b] mb-1">Converted</p>
                     <p class="text-[24px] font-semibold">{{ campaign.converted_count }}</p>
                   </div>
-                  <div class="panel-recessed p-4">
+                  <div class="panel-recessed p-4 relative overflow-hidden group">
                     <p class="text-label-caps text-[#6b6b6b] mb-1">Conversion Rate</p>
                     <p class="text-[24px] font-semibold">
                       {{ campaign.sent_count > 0 ? ((campaign.converted_count / campaign.sent_count) * 100).toFixed(1) : 0 }}%
@@ -70,11 +73,23 @@ import { CrmService } from '../../services/crm.service';
     </div>
   `
 })
-export class AnalyticsComponent implements OnInit, OnDestroy {
+export class AnalyticsComponent implements OnInit, OnDestroy, AfterViewInit {
   crm = inject(CrmService);
 
   ngOnInit() {
     this.crm.startPollingCampaigns();
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      const textLines = document.querySelectorAll('app-analytics .textflow-line');
+      if (textLines.length > 0) {
+        gsap.fromTo(textLines, 
+          { y: '100%' }, 
+          { y: '0%', duration: 0.8, ease: 'power4.out', stagger: 0.1 }
+        );
+      }
+    }, 100);
   }
 
   ngOnDestroy() {
