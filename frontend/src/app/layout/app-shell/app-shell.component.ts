@@ -2,6 +2,7 @@ import { Component, inject, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { AuthService } from '../../services/auth.service';
 import { filter, map, mergeMap } from 'rxjs';
 import gsap from 'gsap';
 
@@ -59,6 +60,33 @@ import gsap from 'gsap';
         <!-- Right Side: User & Mobile Toggle -->
         <div class="flex items-center gap-4">
           
+          @if (auth.currentUser()) {
+            <div class="relative">
+              <button (click)="showUserMenu = !showUserMenu" class="flex items-center gap-2 focus:outline-none rounded-full ring-2 ring-transparent hover:ring-white/20 transition-all">
+                @if (auth.currentUser()?.photoURL) {
+                  <img [src]="auth.currentUser()?.photoURL" alt="User Avatar" class="w-9 h-9 rounded-full object-cover">
+                } @else {
+                  <div class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+                    {{ auth.currentUser()?.displayName?.charAt(0) || 'U' }}
+                  </div>
+                }
+              </button>
+              
+              @if (showUserMenu) {
+                <div class="absolute right-0 mt-2 w-48 card-elevated rounded-xl shadow-2xl py-1 z-50 overflow-hidden transform origin-top-right transition-all">
+                  <div class="px-4 py-3 border-b border-white/10">
+                    <p class="text-sm font-semibold text-white truncate">{{ auth.currentUser()?.displayName || 'User' }}</p>
+                    <p class="text-xs text-gray-400 truncate">{{ auth.currentUser()?.email }}</p>
+                  </div>
+                  <button (click)="auth.logout(); showUserMenu = false" class="w-full text-left px-4 py-2 text-sm text-[#ffdad6] hover:bg-white/5 transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[#ba1a1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Log out
+                  </button>
+                </div>
+              }
+            </div>
+          }
+
           <button (click)="sidebarOpen = !sidebarOpen" class="md:hidden text-white p-2 hover:bg-white/5 rounded-lg transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
           </button>
@@ -82,9 +110,11 @@ export class AppShellComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private ngZone = inject(NgZone);
+  auth = inject(AuthService);
   
   pageTitle = 'Dashboard';
   sidebarOpen = false;
+  showUserMenu = false;
   private isFirstLoad = true;
   private mouseMoveListener: (e: MouseEvent) => void;
 
