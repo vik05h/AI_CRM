@@ -57,6 +57,7 @@ export class SegmentsComponent implements OnInit {
       // close it
       gsap.to(`#preview-panel-${segment.id}`, { height: 0, duration: 0.3, ease: 'power2.out', onComplete: () => {
         this.previewingSegmentId = null;
+        this.cdr.detectChanges();
       }});
       return;
     }
