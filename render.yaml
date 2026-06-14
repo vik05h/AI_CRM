@@ -1,3 +1,7 @@
+databases:
+  - name: crm-db
+    plan: free
+
 services:
   - type: web
     name: crm-backend
@@ -13,7 +17,9 @@ services:
       - key: SUPABASE_KEY
         sync: false
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: crm-db
+          property: connectionString
       - key: GEMINI_API_KEY
         sync: false
       - key: FRONTEND_URL

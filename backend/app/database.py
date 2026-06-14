@@ -11,6 +11,12 @@ SQLALCHEMY_DATABASE_URL = os.getenv(
     "postgresql+asyncpg://postgres:postgres@localhost:5432/aicrm"
 )
 
+# Render provides postgres:// or postgresql:// by default, but asyncpg needs postgresql+asyncpg://
+if SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
+elif SQLALCHEMY_DATABASE_URL.startswith("postgresql://"):
+    SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+
 engine_kwargs = {"echo": False}
 if "6543" in SQLALCHEMY_DATABASE_URL:
     engine_kwargs["poolclass"] = NullPool
