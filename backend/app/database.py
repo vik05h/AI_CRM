@@ -1,18 +1,8 @@
 import os
-import socket
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import declarative_base
+from sqlalchemy.pool import NullPool
 from dotenv import load_dotenv
-
-# --- RENDER IPV6 FIX ---
-# Render free tier does not support IPv6, but Supabase DNS sometimes returns IPv6 first.
-# This forces Python to only use IPv4 for all network connections.
-old_getaddrinfo = socket.getaddrinfo
-def force_ipv4_getaddrinfo(*args, **kwargs):
-    res = old_getaddrinfo(*args, **kwargs)
-    return [r for r in res if r[0] == socket.AF_INET]
-socket.getaddrinfo = force_ipv4_getaddrinfo
-# -----------------------
 
 load_dotenv()
 
@@ -21,7 +11,15 @@ SQLALCHEMY_DATABASE_URL = os.getenv(
     "postgresql+asyncpg://postgres:postgres@localhost:5432/aicrm"
 )
 
-engine = create_async_engine(SQLALCHEMY_DATABASE_URL, echo=False)
+engine_kwargs = {"echo": False}
+if "6543" in SQLALCHEMY_DATABASE_URL:
+    engine_kwargs["poolclass"] = NullPool
+    engine_kwargs["connect_args"] = {
+        "statement_cache_size": 0,
+        "prepared_statement_cache_size": 0,
+    }
+
+engine = create_async_engine(SQLALCHEMY_DATABASE_URL, **engine_kwargs)
 AsyncSessionLocal = async_sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False
 )
