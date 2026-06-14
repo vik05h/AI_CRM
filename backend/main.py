@@ -58,6 +58,22 @@ async def get_segments(db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Segment).order_by(Segment.created_at.desc()))
     return result.scalars().all()
 
+@app.delete("/segments/{segment_id}", summary="Delete a segment")
+async def delete_segment(segment_id: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Segment).filter(Segment.id == segment_id))
+    segment = result.scalar_one_or_none()
+    if not segment:
+        raise HTTPException(404, "Segment not found")
+        
+    # Delete child campaigns first to avoid foreign key constraints
+    campaigns_res = await db.execute(select(Campaign).filter(Campaign.segment_id == segment_id))
+    for c in campaigns_res.scalars().all():
+        await db.delete(c)
+        
+    await db.delete(segment)
+    await db.commit()
+    return {"message": "Segment deleted"}
+
 @app.get("/segments/{segment_id}/preview", response_model=SegmentPreviewData, summary="Preview segment customers")
 async def preview_segment(segment_id: str, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Segment).filter(Segment.id == segment_id))
@@ -155,6 +171,17 @@ async def create_campaign(request: CampaignCreate, background_tasks: BackgroundT
 async def get_campaigns(skip: int = 0, limit: int = 100, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Campaign).order_by(Campaign.created_at.desc()).offset(skip).limit(limit))
     return list(result.scalars().all())
+
+@app.delete("/campaigns/{campaign_id}", summary="Delete a campaign")
+async def delete_campaign(campaign_id: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Campaign).filter(Campaign.id == campaign_id))
+    campaign = result.scalar_one_or_none()
+    if not campaign:
+        raise HTTPException(404, "Campaign not found")
+        
+    await db.delete(campaign)
+    await db.commit()
+    return {"message": "Campaign deleted"}
 
 @app.post("/api/callbacks", summary="Receive delivery stats from channel stub")
 async def receive_callback(payload: CampaignCallback, db: AsyncSession = Depends(get_db)):

@@ -146,6 +146,24 @@ export class CrmService {
     return this.http.post<Campaign>(`${this.apiUrl}/campaigns`, campaign);
   }
 
+  deleteSegment(id: string) {
+    this.http.delete(`${this.apiUrl}/segments/${id}`).subscribe({
+      next: () => {
+        this._segments.update(segments => segments.filter(s => s.id !== id));
+      },
+      error: (err) => console.error('Failed to delete segment', err)
+    });
+  }
+
+  deleteCampaign(id: string) {
+    this.http.delete(`${this.apiUrl}/campaigns/${id}`).subscribe({
+      next: () => {
+        this._campaigns.update(campaigns => campaigns.filter(c => c.id !== id));
+      },
+      error: (err) => console.error('Failed to delete campaign', err)
+    });
+  }
+
   loadAnalytics() {
     this.http.get<AnalyticsSummary>(`${this.apiUrl}/analytics/summary`)
       .subscribe({
