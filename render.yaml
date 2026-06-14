@@ -2,6 +2,7 @@ services:
   - type: web
     name: crm-backend
     env: python
+    plan: free
     buildCommand: "cd backend && uv sync"
     startCommand: "cd backend && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
@@ -21,6 +22,7 @@ services:
   - type: web
     name: channel-stub
     env: python
+    plan: free
     buildCommand: "cd backend && uv sync"
     startCommand: "cd backend/channel_stub && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
