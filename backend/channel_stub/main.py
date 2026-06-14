@@ -10,12 +10,14 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Channel Stub API", description="Simulates delivery for SMS/Email/WhatsApp")
 
+import os
+
 class SendRequest(BaseModel):
     campaign_id: str
     channel: str
     message: str
     recipient_count: int
-    callback_url: str = "http://localhost:8000/api/callbacks"
+    callback_url: str = f"{os.environ.get('CRM_BACKEND_URL', 'http://localhost:8000')}/api/callbacks"
 
 async def process_delivery(req: SendRequest):
     """Simulates a slow delivery process and then calls back."""

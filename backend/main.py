@@ -1,6 +1,7 @@
 import httpx
 from fastapi import FastAPI, Depends, HTTPException, Query, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
+import os
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, text, func
 from typing import List
@@ -17,9 +18,12 @@ from app.services.ai_mock import discover_segments, draft_campaign
 
 app = FastAPI(title="AI CRM API", description="Core API for AI CRM", version="1.0.0")
 
+frontend_url_env = os.environ.get("FRONTEND_URL", "*")
+origins = [url.strip() for url in frontend_url_env.split(",")] if frontend_url_env != "*" else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # For development
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -125,9 +129,10 @@ async def create_campaign_draft(request: CampaignDraftRequest, db: AsyncSession 
     return draft
 
 async def send_to_channel_stub(campaign_id: str, channel: str, message: str, recipient_count: int):
+    channel_stub_url = os.environ.get("CHANNEL_STUB_URL", "http://localhost:8001")
     try:
         async with httpx.AsyncClient() as client:
-            await client.post("http://localhost:8001/send", json={
+            await client.post(f"{channel_stub_url}/send", json={
                 "campaign_id": campaign_id,
                 "channel": channel,
                 "message": message,
