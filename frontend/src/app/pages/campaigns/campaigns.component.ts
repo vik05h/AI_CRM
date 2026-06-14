@@ -24,6 +24,7 @@ export class CampaignsComponent implements OnInit {
   @ViewChild('campaignNameInput') campaignNameInput!: ElementRef;
   @ViewChild('campaignNameLabel') campaignNameLabel!: ElementRef;
   @ViewChild('confirmModal') confirmModal!: ElementRef;
+  @ViewChild('confirmModalOverlay') confirmModalOverlay!: ElementRef;
   @ViewChild('modalContent') modalContent!: ElementRef;
 
   step: number = 1;
@@ -173,16 +174,21 @@ export class CampaignsComponent implements OnInit {
   requestDelete(campaignId: string) {
     this.campaignToDelete = campaignId;
     gsap.set(this.confirmModal.nativeElement, { pointerEvents: 'auto' });
-    gsap.to(this.confirmModal.nativeElement, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    
+    // Animate overlay (blur + bg) smoothly
+    gsap.to(this.confirmModalOverlay.nativeElement, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    
+    // Animate modal content with a slight delay
     gsap.fromTo(this.modalContent.nativeElement, 
-      { scale: 0.95, y: 20 },
-      { scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.5)' }
+      { scale: 0.95, y: 20, opacity: 0 },
+      { scale: 1, y: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.5)', delay: 0.05 }
     );
   }
   
   cancelDelete() {
-    gsap.to(this.confirmModal.nativeElement, { opacity: 0, pointerEvents: 'none', duration: 0.3, ease: 'power2.in' });
-    gsap.to(this.modalContent.nativeElement, { scale: 0.95, y: 10, duration: 0.3, ease: 'power2.in', onComplete: () => {
+    gsap.set(this.confirmModal.nativeElement, { pointerEvents: 'none' });
+    gsap.to(this.confirmModalOverlay.nativeElement, { opacity: 0, duration: 0.3, ease: 'power2.in' });
+    gsap.to(this.modalContent.nativeElement, { scale: 0.95, y: 10, opacity: 0, duration: 0.3, ease: 'power2.in', onComplete: () => {
       this.campaignToDelete = null;
     }});
   }

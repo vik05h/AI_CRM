@@ -143,9 +143,9 @@
   </div>
 
   <!-- GSAP Confirmation Modal -->
-  <div #confirmModal class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none opacity-0">
-    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" (click)="cancelDelete()"></div>
-    <div class="relative bg-[#1a1a1a] border border-white/10 p-6 md:p-8 rounded-[24px] max-w-md w-full mx-4 shadow-2xl transform scale-95" #modalContent>
+  <div #confirmModal class="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+    <div #confirmModalOverlay class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0" (click)="cancelDelete()"></div>
+    <div class="relative bg-[#1a1a1a] border border-white/10 p-6 md:p-8 rounded-[24px] max-w-md w-full mx-4 shadow-2xl transform scale-95 opacity-0" #modalContent>
       <h3 class="text-h3 mb-2 text-white">Delete Campaign?</h3>
       <p class="text-gray-400 mb-8">Are you sure you want to delete this campaign? This action cannot be undone.</p>
       <div class="flex gap-3 justify-end">

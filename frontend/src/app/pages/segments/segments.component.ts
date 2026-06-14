@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -25,8 +25,18 @@ export class SegmentsComponent implements OnInit {
   previewData: Record<string, SegmentPreviewData> = {};
 
   @ViewChild('confirmModal') confirmModal!: ElementRef;
+  @ViewChild('confirmModalOverlay') confirmModalOverlay!: ElementRef;
   @ViewChild('modalContent') modalContent!: ElementRef;
   segmentToDelete: string | null = null;
+
+  columns = 3;
+
+  @HostListener('window:resize')
+  onResize() {
+    if (window.innerWidth >= 1024) this.columns = 3; // lg
+    else if (window.innerWidth >= 768) this.columns = 2; // md
+    else this.columns = 1; // sm
+  }
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -41,6 +51,7 @@ export class SegmentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.onResize();
     this.crm.loadSegments();
   }
 
@@ -58,63 +69,99 @@ export class SegmentsComponent implements OnInit {
     this.router.navigate(['/campaigns'], { queryParams: { segmentId: segment.id } });
   }
 
+  isRowExpanded(index: number): boolean {
+    if (!this.previewingSegmentId) return false;
+    const segments = this.crm.segments();
+    const expandedIndex = segments.findIndex(s => s.id === this.previewingSegmentId);
+    if (expandedIndex === -1) return false;
+    
+    const rowStart = Math.floor(expandedIndex / this.columns) * this.columns;
+    const rowEnd = rowStart + this.columns - 1;
+    
+    return expandedIndex >= rowStart && expandedIndex <= rowEnd && index >= rowStart && index <= rowEnd;
+  }
+
+  getPreviewSegment(): Segment | undefined {
+    return this.crm.segments().find(s => s.id === this.previewingSegmentId);
+  }
+
   togglePreview(segment: Segment) {
     if (this.previewingSegmentId === segment.id) {
-      // close it
-      gsap.to(`#preview-panel-${segment.id}`, { height: 0, duration: 0.3, ease: 'power2.out', onComplete: () => {
-        this.previewingSegmentId = null;
-        this.cdr.detectChanges();
-      }});
+      this.closePreview();
       return;
     }
 
+    const previousId = this.previewingSegmentId;
     this.previewingSegmentId = segment.id;
-
-    // Fetch if not already fetched
+    
     if (!this.previewData[segment.id]) {
       this.previewLoading = true;
       this.crm.previewSegment(segment.id).subscribe({
         next: (data) => {
           this.previewData[segment.id] = data;
           this.previewLoading = false;
-          
-          // Force Angular to render the DOM synchronously
           this.cdr.detectChanges();
-          
-          gsap.to(`#preview-panel-${segment.id}`, { height: 'auto', duration: 0.3, ease: 'power2.out' });
-          if (data.customers && data.customers.length > 0) {
-            gsap.from(`#preview-panel-${segment.id} .customer-card`, { y: 15, opacity: 0, stagger: 0.04, duration: 0.3, delay: 0.1 });
-          }
+          this.animatePreviewOpen(previousId !== null);
         },
         error: (err) => {
           console.error(err);
           this.previewLoading = false;
-          this.previewingSegmentId = null;
         }
       });
     } else {
-      // Just animate in since we already have data
       this.cdr.detectChanges();
-      gsap.to(`#preview-panel-${segment.id}`, { height: 'auto', duration: 0.3, ease: 'power2.out' });
-      if (this.previewData[segment.id].customers && this.previewData[segment.id].customers.length > 0) {
-        gsap.from(`#preview-panel-${segment.id} .customer-card`, { y: 15, opacity: 0, stagger: 0.04, duration: 0.3, delay: 0.1 });
-      }
+      this.animatePreviewOpen(previousId !== null);
+    }
+  }
+
+  animatePreviewOpen(wasAlreadyOpen: boolean) {
+    if (wasAlreadyOpen) {
+      gsap.fromTo('#full-width-preview', { opacity: 0 }, { opacity: 1, duration: 0.3 });
+    } else {
+      gsap.fromTo('#full-width-preview', 
+        { height: 0, opacity: 0 }, 
+        { height: 'auto', opacity: 1, duration: 0.4, ease: 'power3.out' }
+      );
+    }
+    
+    const segId = this.previewingSegmentId;
+    if (segId && this.previewData[segId]?.customers?.length) {
+       gsap.fromTo('.preview-customer-card', { y: 15, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.04, duration: 0.3, delay: 0.1 });
+    }
+  }
+
+  closePreview() {
+    gsap.to('#full-width-preview', { height: 0, opacity: 0, duration: 0.3, ease: 'power2.in', onComplete: () => {
+      this.previewingSegmentId = null;
+      this.cdr.detectChanges();
+    }});
+  }
+
+  createCampaignFromPreview() {
+    if (this.previewingSegmentId) {
+      const seg = this.crm.segments().find(s => s.id === this.previewingSegmentId);
+      if (seg) this.createCampaignFor(seg);
     }
   }
 
   requestDelete(segmentId: string) {
     this.segmentToDelete = segmentId;
     gsap.set(this.confirmModal.nativeElement, { pointerEvents: 'auto' });
-    gsap.to(this.confirmModal.nativeElement, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    
+    // Animate overlay (blur + bg) smoothly
+    gsap.to(this.confirmModalOverlay.nativeElement, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    
+    // Animate modal content with a slight delay
     gsap.fromTo(this.modalContent.nativeElement, 
-      { scale: 0.95, y: 20 },
-      { scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.5)' }
+      { scale: 0.95, y: 20, opacity: 0 },
+      { scale: 1, y: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.5)', delay: 0.05 }
     );
   }
   
   cancelDelete() {
-    gsap.to(this.confirmModal.nativeElement, { opacity: 0, pointerEvents: 'none', duration: 0.3, ease: 'power2.in' });
-    gsap.to(this.modalContent.nativeElement, { scale: 0.95, y: 10, duration: 0.3, ease: 'power2.in', onComplete: () => {
+    gsap.set(this.confirmModal.nativeElement, { pointerEvents: 'none' });
+    gsap.to(this.confirmModalOverlay.nativeElement, { opacity: 0, duration: 0.3, ease: 'power2.in' });
+    gsap.to(this.modalContent.nativeElement, { scale: 0.95, y: 10, opacity: 0, duration: 0.3, ease: 'power2.in', onComplete: () => {
       this.segmentToDelete = null;
     }});
   }
