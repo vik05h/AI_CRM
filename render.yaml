@@ -3,7 +3,7 @@ services:
     name: crm-backend
     env: python
     plan: free
-    buildCommand: "cd backend && uv sync"
+    buildCommand: "pip install uv && cd backend && uv sync"
     startCommand: "cd backend && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: CHANNEL_STUB_URL
@@ -23,7 +23,7 @@ services:
     name: channel-stub
     env: python
     plan: free
-    buildCommand: "cd backend && uv sync"
+    buildCommand: "pip install uv && cd backend && uv sync"
     startCommand: "cd backend/channel_stub && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: CRM_BACKEND_URL
