@@ -17,6 +17,11 @@ if SQLALCHEMY_DATABASE_URL.startswith("postgres://"):
 elif SQLALCHEMY_DATABASE_URL.startswith("postgresql://"):
     SQLALCHEMY_DATABASE_URL = SQLALCHEMY_DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
 
+# If using Render's External URL, SSL is strictly required.
+if ".render.com" in SQLALCHEMY_DATABASE_URL and "ssl=require" not in SQLALCHEMY_DATABASE_URL:
+    join_char = "&" if "?" in SQLALCHEMY_DATABASE_URL else "?"
+    SQLALCHEMY_DATABASE_URL += f"{join_char}ssl=require"
+
 engine_kwargs = {"echo": False}
 if "6543" in SQLALCHEMY_DATABASE_URL:
     engine_kwargs["poolclass"] = NullPool
