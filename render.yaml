@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: crm-backend
+    env: python
+    buildCommand: "cd backend && uv sync"
+    startCommand: "cd backend && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: CHANNEL_STUB_URL
+        value: "https://channel-stub-url.onrender.com" # TODO: Update after deployment
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+        
+  - type: web
+    name: channel-stub
+    env: python
+    buildCommand: "cd backend && uv sync"
+    startCommand: "cd backend/channel_stub && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: CRM_BACKEND_URL
+        value: "https://crm-backend-url.onrender.com" # TODO: Update after deployment
