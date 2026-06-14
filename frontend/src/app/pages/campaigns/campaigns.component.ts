@@ -23,6 +23,8 @@ export class CampaignsComponent implements OnInit {
   @ViewChild('step2Container') step2Container!: ElementRef;
   @ViewChild('campaignNameInput') campaignNameInput!: ElementRef;
   @ViewChild('campaignNameLabel') campaignNameLabel!: ElementRef;
+  @ViewChild('confirmModal') confirmModal!: ElementRef;
+  @ViewChild('modalContent') modalContent!: ElementRef;
 
   step: number = 1;
   drafting: boolean = false;
@@ -42,6 +44,8 @@ export class CampaignsComponent implements OnInit {
   draftBody: string = '';
   selectedChannel: string = 'Email';
   channels: string[] = ['Email', 'SMS', 'WhatsApp', 'RCS'];
+
+  campaignToDelete: string | null = null;
 
   ngOnInit() {
     this.crm.loadSegments();
@@ -160,12 +164,36 @@ export class CampaignsComponent implements OnInit {
         gsap.set(this.step1Container.nativeElement, { x: 0, opacity: 1 });
       },
       error: (err: any) => {
-        console.error(err);
         this.creating = false;
+        console.error(err);
       }
     });
   }
   
+  requestDelete(campaignId: string) {
+    this.campaignToDelete = campaignId;
+    gsap.set(this.confirmModal.nativeElement, { pointerEvents: 'auto' });
+    gsap.to(this.confirmModal.nativeElement, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    gsap.fromTo(this.modalContent.nativeElement, 
+      { scale: 0.95, y: 20 },
+      { scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.5)' }
+    );
+  }
+  
+  cancelDelete() {
+    gsap.to(this.confirmModal.nativeElement, { opacity: 0, pointerEvents: 'none', duration: 0.3, ease: 'power2.in' });
+    gsap.to(this.modalContent.nativeElement, { scale: 0.95, y: 10, duration: 0.3, ease: 'power2.in', onComplete: () => {
+      this.campaignToDelete = null;
+    }});
+  }
+  
+  confirmDelete() {
+    if (this.campaignToDelete) {
+      this.crm.deleteCampaign(this.campaignToDelete);
+    }
+    this.cancelDelete();
+  }
+
   showToast(msg: string) {
     this.successToast = msg;
     // hide toast after 3s

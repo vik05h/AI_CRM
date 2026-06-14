@@ -18,6 +18,12 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   crm = inject(CrmService);
   @ViewChildren('kpiCard') kpiCards!: QueryList<ElementRef>;
 
+  get conversionRate(): number {
+    const summary = this.crm.analyticsSummary();
+    if (!summary || summary.campaigns_sent === 0) return 0;
+    return Number(((summary.campaigns_converted / summary.campaigns_sent) * 100).toFixed(1));
+  }
+
   ngOnInit() {
     this.crm.loadCustomers(0, 5);
     this.crm.loadOrders(0, 5);

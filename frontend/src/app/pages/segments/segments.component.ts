@@ -1,7 +1,7 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CrmService } from '../../services/crm.service';
 import { Segment, SegmentPreviewData } from '../../models/api.model';
 import gsap from 'gsap';
@@ -11,7 +11,7 @@ import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 @Component({
   selector: 'app-segments',
   standalone: true,
-  imports: [CommonModule, FormsModule, TextSplitRevealDirective, MagneticDirective],
+  imports: [CommonModule, FormsModule, RouterModule, TextSplitRevealDirective, MagneticDirective],
   templateUrl: './segments.component.html'
 })
 export class SegmentsComponent implements OnInit {
@@ -23,6 +23,10 @@ export class SegmentsComponent implements OnInit {
   previewingSegmentId: string | null = null;
   previewLoading: boolean = false;
   previewData: Record<string, SegmentPreviewData> = {};
+
+  @ViewChild('confirmModal') confirmModal!: ElementRef;
+  @ViewChild('modalContent') modalContent!: ElementRef;
+  segmentToDelete: string | null = null;
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -97,5 +101,28 @@ export class SegmentsComponent implements OnInit {
       }
     }
   }
-}
 
+  requestDelete(segmentId: string) {
+    this.segmentToDelete = segmentId;
+    gsap.set(this.confirmModal.nativeElement, { pointerEvents: 'auto' });
+    gsap.to(this.confirmModal.nativeElement, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    gsap.fromTo(this.modalContent.nativeElement, 
+      { scale: 0.95, y: 20 },
+      { scale: 1, y: 0, duration: 0.4, ease: 'back.out(1.5)' }
+    );
+  }
+  
+  cancelDelete() {
+    gsap.to(this.confirmModal.nativeElement, { opacity: 0, pointerEvents: 'none', duration: 0.3, ease: 'power2.in' });
+    gsap.to(this.modalContent.nativeElement, { scale: 0.95, y: 10, duration: 0.3, ease: 'power2.in', onComplete: () => {
+      this.segmentToDelete = null;
+    }});
+  }
+  
+  confirmDelete() {
+    if (this.segmentToDelete) {
+      this.crm.deleteSegment(this.segmentToDelete);
+    }
+    this.cancelDelete();
+  }
+}
