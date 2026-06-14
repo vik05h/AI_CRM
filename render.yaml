@@ -4,10 +4,10 @@ services:
     env: python
     plan: free
     buildCommand: "pip install uv && cd backend && uv sync"
-    startCommand: "cd backend && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
+    startCommand: "cd backend && uv run alembic upgrade head && uv run python scripts/seed_data.py && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: CHANNEL_STUB_URL
-        value: "https://channel-stub-url.onrender.com" # TODO: Update after deployment
+        value: "https://channel-stub-ugn2.onrender.com"
       - key: SUPABASE_URL
         sync: false
       - key: SUPABASE_KEY
@@ -27,4 +27,4 @@ services:
     startCommand: "cd backend/channel_stub && uv run uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: CRM_BACKEND_URL
-        value: "https://crm-backend-url.onrender.com" # TODO: Update after deployment
+        value: "https://crm-backend-15tu.onrender.com"

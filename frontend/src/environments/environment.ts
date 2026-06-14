@@ -9,5 +9,5 @@ export const environment = {
     appId: "1:643085026607:web:1debc814f67c423dbbcdda",
     measurementId: "G-P9TKN5ZXYB"
   },
-  apiUrl: 'http://localhost:8000'
+  apiUrl: 'https://crm-backend-15tu.onrender.com'
 };
