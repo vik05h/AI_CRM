@@ -13,17 +13,17 @@
     
     <div class="space-y-6">
       <div>
-        <label class="block text-label-caps text-gray-400 mb-2">Campaign Name</label>
-        <input type="text" [(ngModel)]="campaignName" placeholder="e.g. Summer VIP Sale" 
+        <label #campaignNameLabel class="block text-label-caps text-gray-400 mb-2">Campaign Name</label>
+        <input #campaignNameInput type="text" [(ngModel)]="campaignName" (input)="onTyping()" placeholder="e.g. Summer VIP Sale" 
                class="input-field w-full px-5 py-4 text-body-lg">
       </div>
       
       <div>
         <label class="block text-label-caps text-gray-400 mb-2">Target Segment</label>
         <select [(ngModel)]="selectedSegmentId" class="input-field w-full px-5 py-4 text-body-lg appearance-none cursor-pointer">
-          <option value="" disabled selected>Select a segment</option>
+          <option value="" disabled selected class="bg-[#1c1b1b] text-white">Select a segment</option>
           @for (segment of crm.segments(); track segment.id) {
-            <option [value]="segment.id">{{ segment.name }} ({{ segment.size }} shoppers)</option>
+            <option [value]="segment.id" class="bg-[#1c1b1b] text-white">{{ segment.name }} ({{ segment.size }} shoppers)</option>
           }
         </select>
       </div>

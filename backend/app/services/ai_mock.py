@@ -19,12 +19,19 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
     ]
     
     # High-value / VIP customers
-    vip_keywords = ["vip", "high value", "high-value", "expensive", "top", "best", "premium", "loyal"]
+    vip_keywords = ["vip", "high value", "high-value", "expensive", "top", "best", "premium", "loyal", "high purchase", "big spender"]
     
     # Recent / new buyers
     recent_keywords = ["recent", "new", "just bought", "last week", "last month", "active"]
 
-    if any(keyword in criteria_lower for keyword in lapsed_keywords):
+    if "drop" in criteria_lower or "delete" in criteria_lower or "update" in criteria_lower or "insert" in criteria_lower:
+        name = "Malicious Payload"
+        description = "Testing SQL injection filters."
+        sql_criteria = criteria # Pass the raw malicious input directly into the SQL criteria
+        result = await db.execute(select(func.count(Customer.id)))
+        size = 0
+
+    elif any(keyword in criteria_lower for keyword in lapsed_keywords):
         name = "Lapsed Customers"
         description = "Customers who haven't placed an order in the last 90 days."
         sql_criteria = """

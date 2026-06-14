@@ -21,12 +21,17 @@ export class CampaignsComponent implements OnInit {
   
   @ViewChild('step1Container') step1Container!: ElementRef;
   @ViewChild('step2Container') step2Container!: ElementRef;
+  @ViewChild('campaignNameInput') campaignNameInput!: ElementRef;
+  @ViewChild('campaignNameLabel') campaignNameLabel!: ElementRef;
 
   step: number = 1;
   drafting: boolean = false;
   creating: boolean = false;
   successToast: string | null = null;
   
+  private typingAnim: gsap.core.Tween | null = null;
+  private labelAnim: gsap.core.Tween | null = null;
+
   // Form State
   campaignName: string = '';
   selectedSegmentId: string = '';
@@ -65,6 +70,21 @@ export class CampaignsComponent implements OnInit {
   get selectedSegmentName(): string {
     const segment = this.crm.segments().find(s => s.id === this.selectedSegmentId);
     return segment ? segment.name : '';
+  }
+
+  onTyping() {
+    if (this.typingAnim) this.typingAnim.kill();
+    if (this.labelAnim) this.labelAnim.kill();
+    
+    this.typingAnim = gsap.fromTo(this.campaignNameInput.nativeElement,
+      { borderColor: 'rgba(255, 255, 255, 0.8)', scale: 1.01 },
+      { borderColor: 'rgba(255, 255, 255, 0.4)', scale: 1, duration: 0.4, ease: 'power2.out' }
+    );
+    
+    this.labelAnim = gsap.fromTo(this.campaignNameLabel.nativeElement,
+      { color: '#ffffff', textShadow: '0 0 8px rgba(255,255,255,0.8)', x: 2 },
+      { color: '#9ca3af', textShadow: 'none', x: 0, duration: 0.6, ease: 'power2.out' }
+    );
   }
 
   goToStep2() {
