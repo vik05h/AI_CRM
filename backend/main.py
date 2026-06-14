@@ -19,7 +19,7 @@ from app.services.ai_mock import discover_segments, draft_campaign
 app = FastAPI(title="AI CRM API", description="Core API for AI CRM", version="1.0.0")
 
 frontend_url_env = os.environ.get("FRONTEND_URL", "*")
-origins = [url.strip() for url in frontend_url_env.split(",")] if frontend_url_env != "*" else ["*"]
+origins = [url.strip().rstrip('/') for url in frontend_url_env.split(",")] if frontend_url_env != "*" else ["*"]
 
 app.add_middleware(
     CORSMiddleware,
