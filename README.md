@@ -345,6 +345,31 @@ App: `http://localhost:4200`
 
 ---
 
+## Production Deployment (Render + Firebase)
+
+### Hosted URLs
+- **Frontend (Firebase Hosting):** `https://ai-crm-edba6.web.app`
+- **Backend API (Render):** `https://crm-backend-15tu.onrender.com`
+- **Channel Stub (Render):** `https://channel-stub-ugn2.onrender.com`
+
+### ⚠️ Important: Render Free Database Maintenance (Action Required After 31st Oct)
+
+> [!WARNING]
+> **Render Free PostgreSQL 30-Day Expiry Notice:**
+> Free PostgreSQL instances created on Render have a strict **30-day lifespan**. The active free database will expire after **31st October 2026**.
+> 
+> **To redo this step and keep the backend running after 31st Oct:**
+> 1. Open your [Render Dashboard](https://dashboard.render.com).
+> 2. Click **New +** → **PostgreSQL**.
+> 3. Set Name to `crm-db`, select Region **`Oregon (US West)`**, and choose the **Free** instance type.
+> 4. Once created, copy the **Internal Database URL** (`postgres://...`).
+> 5. Go to your `crm-backend` service → **Environment** tab.
+> 6. Update `DATABASE_URL` with the new Internal Database URL and click **Save Changes**.
+> 7. The backend will automatically boot up, apply migrations (`alembic upgrade head`), and re-seed 1,000 customers & 5,000 orders!
+> *(Alternatively, connect a free Supabase or Neon database for permanent persistence).*
+
+---
+
 ## Simulated Data Strategy
 
 Since we don't have real customers/orders, we generate realistic synthetic data:
