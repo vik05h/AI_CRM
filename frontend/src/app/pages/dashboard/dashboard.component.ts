@@ -7,11 +7,20 @@ import { NumberCounterDirective } from '../../shared/directives/number-counter.d
 import { TextSplitRevealDirective } from '../../shared/directives/text-split-reveal.directive';
 import { MagneticDirective } from '../../shared/directives/magnetic.directive';
 import { ScrollHintDirective } from '../../shared/directives/scroll-hint.directive';
+import { NanoBananaBootComponent } from '../../shared/components/nano-banana-boot/nano-banana-boot.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, NumberCounterDirective, TextSplitRevealDirective, MagneticDirective, ScrollHintDirective],
+  imports: [
+    CommonModule, 
+    RouterModule, 
+    NumberCounterDirective, 
+    TextSplitRevealDirective, 
+    MagneticDirective, 
+    ScrollHintDirective,
+    NanoBananaBootComponent
+  ],
   templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -91,11 +100,11 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.crm.loadCustomers(0, 5);
-    this.crm.loadOrders(0, 5);
-    this.crm.loadCampaigns();    // ← initial fetch immediately
-    this.crm.loadAnalytics();
-    this.crm.startPollingCampaigns();
+    this.crm.checkBackendHealth();
+  }
+
+  manualRetry() {
+    this.crm.checkBackendHealth();
   }
 
   ngAfterViewInit() {

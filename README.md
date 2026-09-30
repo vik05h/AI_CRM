@@ -212,6 +212,8 @@ CREATE TABLE campaign_analytics (
 ### Core CRM APIs
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+| `GET` | `/` | Root status check |
+| `GET` | `/health` | Real-time health & database connectivity check |
 | `GET` | `/api/customers` | List all customers (with pagination) |
 | `GET` | `/api/customers/{id}` | Get customer profile + order history |
 | `GET` | `/api/orders` | List orders (filter by customer, date range) |

@@ -11,14 +11,14 @@
     </div>
   </header>
 
-  @if (crm.loading() && !crm.analyticsSummary()) {
-  <div class="flex items-center space-x-4">
-    <div class="animate-pulse w-8 h-8 rounded-full bg-[#e7e7e4]"></div>
-    <p class="text-gray-400">Loading data...</p>
-  </div>
-  } @else if (crm.error()) {
-  <div class="bg-[#ffdad6] text-[#93000a] p-4 rounded-xl">
-    {{ crm.error() }}
+  @if (crm.backendStatus() === 'booting' || (!crm.analyticsSummary() && (crm.loading() || crm.error()))) {
+  <div class="mb-12">
+    <app-nano-banana-boot 
+      [isBooting]="true"
+      [elapsedSeconds]="crm.bootElapsedSeconds()"
+      [errorMessage]="crm.bootError() || crm.error()"
+      (retry)="manualRetry()">
+    </app-nano-banana-boot>
   </div>
   } @else {
 

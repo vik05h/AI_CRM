@@ -9,15 +9,13 @@ from sqlalchemy import text
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from app.database import SQLALCHEMY_DATABASE_URL
+from app.database import SQLALCHEMY_DATABASE_URL, engine, AsyncSessionLocal
 from app.models import Customer, Order, Campaign, Segment
 
 fake = Faker()
 
 async def seed_db():
     print(f"Connecting to database at {SQLALCHEMY_DATABASE_URL}...")
-    engine = create_async_engine(SQLALCHEMY_DATABASE_URL, echo=False)
-    AsyncSessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 
     async with AsyncSessionLocal() as session:
         # Check if we already have customers

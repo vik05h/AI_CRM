@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, text, func
 from typing import List
 
-from app.database import get_db
+from app.database import get_db, AsyncSessionLocal
 from app.models import Customer, Order, Segment, Campaign
 from app.schemas import (
     CustomerResponse, OrderResponse, SegmentRequest, SegmentResponse,
@@ -28,6 +28,34 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/", summary="Root status check")
+async def root():
+    """Root status check endpoint for Render health and quick checks."""
+    return {
+        "status": "online",
+        "service": "AI CRM API",
+        "version": "1.0.0"
+    }
+
+@app.get("/health", summary="Health check with DB status")
+async def health_check():
+    """Health check endpoint providing real-time database connectivity status."""
+    db_status = "unknown"
+    error_msg = None
+    try:
+        async with AsyncSessionLocal() as session:
+            await session.execute(text("SELECT 1"))
+            db_status = "connected"
+    except Exception as e:
+        db_status = "disconnected"
+        error_msg = str(e)
+
+    return {
+        "status": "healthy" if db_status == "connected" else "degraded",
+        "database": db_status,
+        "detail": error_msg
+    }
 
 @app.get("/customers", response_model=List[CustomerResponse], summary="Get all customers")
 async def get_customers(skip: int = Query(0, ge=0), limit: int = Query(100, ge=1, le=1000), db: AsyncSession = Depends(get_db)):

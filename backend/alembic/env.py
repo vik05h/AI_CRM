@@ -1,14 +1,12 @@
 from logging.config import fileConfig
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-from sqlalchemy.ext.asyncio import AsyncEngine
+from sqlalchemy.ext.asyncio import create_async_engine
 from alembic import context
 import os
 import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from app.database import Base, SQLALCHEMY_DATABASE_URL
+from app.database import Base, SQLALCHEMY_DATABASE_URL, engine_kwargs
 from app.models import Customer, Order, Campaign, Segment
 
 config = context.config
@@ -36,16 +34,9 @@ def do_run_migrations(connection):
         context.run_migrations()
 
 async def run_migrations_online() -> None:
-    configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = SQLALCHEMY_DATABASE_URL
-    
-    connectable = AsyncEngine(
-        engine_from_config(
-            configuration,
-            prefix="sqlalchemy.",
-            poolclass=pool.NullPool,
-            future=True,
-        )
+    connectable = create_async_engine(
+        SQLALCHEMY_DATABASE_URL,
+        **engine_kwargs
     )
 
     async with connectable.connect() as connection:
