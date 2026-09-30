@@ -5,13 +5,6 @@ import { Customer, Order, Segment, SegmentPreviewData, Campaign, CampaignDraftRe
 import { catchError, finalize } from 'rxjs/operators';
 import { Subscription, interval } from 'rxjs';
 
-export interface HealthResponse {
-  status: 'healthy' | 'degraded' | 'online';
-  database?: string;
-  detail?: string;
-  service?: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -50,33 +43,40 @@ export class CrmService {
   readonly bootError = computed(() => this._bootError());
 
   /**
-   * Proactively checks backend health and handles Render cold starts
+   * Loads initial dashboard and business data directly
+   */
+  loadInitialData() {
+    this._loading.set(true);
+    this.loadAnalytics();
+    this.loadCustomers(0, 5);
+    this.loadOrders(0, 5);
+    this.loadCampaigns();
+    this.startPollingCampaigns();
+  }
+
+  /**
+   * Health check with auto-recovery for Render cold starts
    */
   checkBackendHealth(autoLoadData: boolean = true) {
-    this._backendStatus.set('checking');
-    this.startBootTimer();
-
-    this.http.get<HealthResponse>(`${this.apiUrl}/health`).subscribe({
-      next: (res) => {
-        if (res.status === 'healthy') {
-          this._backendStatus.set('online');
-          this._bootError.set(null);
-          this.stopBootTimer();
-          if (autoLoadData) {
-            this.loadInitialData();
-          }
-        } else {
-          // Backend web container is up, but database is initializing or degraded
-          this._backendStatus.set('booting');
-          this._bootError.set(res.detail || 'Connecting to database...');
-          this.scheduleNextHealthCheck();
+    this.http.get<AnalyticsSummary>(`${this.apiUrl}/analytics/summary`).subscribe({
+      next: (data) => {
+        this._analyticsSummary.set(data);
+        this._backendStatus.set('online');
+        this._bootError.set(null);
+        this._loading.set(false);
+        this.stopBootTimer();
+        if (autoLoadData) {
+          this.loadInitialData();
         }
       },
       error: (err) => {
-        // Render instance is sleeping or spinning down (HTTP 502/504 or network timeout)
-        this._backendStatus.set('booting');
-        this._bootError.set(err.message || 'Render backend container is spinning up...');
-        this.scheduleNextHealthCheck();
+        // Cold start or network connection wait
+        if (err.status === 0 || err.status >= 500) {
+          this._backendStatus.set('booting');
+          this.startBootTimer();
+          this._bootError.set('Render free instance is spinning up. Waking container...');
+          this.scheduleNextHealthCheck();
+        }
       }
     });
   }
@@ -100,22 +100,20 @@ export class CrmService {
     if (this.healthPollSub) {
       this.healthPollSub.unsubscribe();
     }
-    // Poll every 4 seconds until the service is healthy
+    // Poll every 4 seconds until the service is active
     this.healthPollSub = interval(4000).subscribe(() => {
-      this.http.get<HealthResponse>(`${this.apiUrl}/health`).subscribe({
-        next: (res) => {
-          if (res.status === 'healthy') {
-            this._backendStatus.set('online');
-            this._bootError.set(null);
-            this.stopBootTimer();
-            if (this.healthPollSub) {
-              this.healthPollSub.unsubscribe();
-              this.healthPollSub = null;
-            }
-            this.loadInitialData();
-          } else {
-            this._bootError.set(res.detail || 'Connecting to database...');
+      this.http.get<AnalyticsSummary>(`${this.apiUrl}/analytics/summary`).subscribe({
+        next: (data) => {
+          this._analyticsSummary.set(data);
+          this._backendStatus.set('online');
+          this._bootError.set(null);
+          this._loading.set(false);
+          this.stopBootTimer();
+          if (this.healthPollSub) {
+            this.healthPollSub.unsubscribe();
+            this.healthPollSub = null;
           }
+          this.loadInitialData();
         },
         error: () => {
           // Still waiting for spin-up
@@ -124,34 +122,51 @@ export class CrmService {
     });
   }
 
-  loadInitialData() {
-    this.loadCustomers(0, 5);
-    this.loadOrders(0, 5);
-    this.loadCampaigns();
-    this.loadAnalytics();
-    this.startPollingCampaigns();
+  /**
+   * Loads analytics summary from the API
+   */
+  loadAnalytics() {
+    this.http.get<AnalyticsSummary>(`${this.apiUrl}/analytics/summary`)
+      .subscribe({
+        next: (data) => {
+          this._analyticsSummary.set(data);
+          this._backendStatus.set('online');
+          this._bootError.set(null);
+          this._loading.set(false);
+          this.stopBootTimer();
+        },
+        error: (err) => {
+          console.error('Failed to load analytics summary', err);
+          if (err.status === 0 || err.status >= 500) {
+            this._backendStatus.set('booting');
+            this.startBootTimer();
+            this.scheduleNextHealthCheck();
+          }
+        }
+      });
   }
 
   /**
    * Loads customers from the API
    */
   loadCustomers(skip: number = 0, limit: number = 100) {
-    this._loading.set(true);
-    this._error.set(null);
-    
     this.http.get<Customer[]>(`${this.apiUrl}/customers?skip=${skip}&limit=${limit}`)
       .subscribe({
         next: (data) => {
           this._customers.set(data);
           this._loading.set(false);
+          this._backendStatus.set('online');
         },
         error: (err) => {
           console.error('Failed to load customers', err);
-          this._error.set('Failed to load customers.');
-          this._loading.set(false);
-          if (this._backendStatus() !== 'online') {
+          if (err.status === 0 || err.status >= 500) {
             this._backendStatus.set('booting');
+            this.startBootTimer();
+            this.scheduleNextHealthCheck();
+          } else {
+            this._error.set('Failed to load customers.');
           }
+          this._loading.set(false);
         }
       });
   }
@@ -160,9 +175,6 @@ export class CrmService {
    * Loads orders from the API
    */
   loadOrders(skip: number = 0, limit: number = 100) {
-    this._loading.set(true);
-    this._error.set(null);
-    
     this.http.get<Order[]>(`${this.apiUrl}/orders?skip=${skip}&limit=${limit}`)
       .subscribe({
         next: (data) => {
@@ -171,8 +183,6 @@ export class CrmService {
         },
         error: (err) => {
           console.error('Failed to load orders', err);
-          this._error.set('Failed to load orders.');
-          this._loading.set(false);
         }
       });
   }
@@ -227,15 +237,15 @@ export class CrmService {
   }
 
   loadCampaigns(skip: number = 0, limit: number = 100) {
-    this._loading.set(true);
-    this._error.set(null);
     this.http.get<Campaign[]>(`${this.apiUrl}/campaigns?skip=${skip}&limit=${limit}`).pipe(
       catchError(err => {
-        this._error.set('Failed to load campaigns');
         throw err;
       }),
       finalize(() => this._loading.set(false))
-    ).subscribe(data => this._campaigns.set(data));
+    ).subscribe({
+      next: (data) => this._campaigns.set(data),
+      error: () => {}
+    });
   }
 
   draftCampaign(segmentId: string, goal: string) {
@@ -265,14 +275,6 @@ export class CrmService {
       },
       error: (err) => console.error('Failed to delete campaign', err)
     });
-  }
-
-  loadAnalytics() {
-    this.http.get<AnalyticsSummary>(`${this.apiUrl}/analytics/summary`)
-      .subscribe({
-        next: (data) => this._analyticsSummary.set(data),
-        error: (err) => console.error('Failed to load analytics summary', err)
-      });
   }
   
   startPollingCampaigns() {

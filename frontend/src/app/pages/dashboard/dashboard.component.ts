@@ -100,11 +100,11 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.crm.checkBackendHealth();
+    this.crm.loadInitialData();
   }
 
   manualRetry() {
-    this.crm.checkBackendHealth();
+    this.crm.loadInitialData();
   }
 
   ngAfterViewInit() {

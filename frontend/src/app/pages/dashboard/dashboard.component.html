@@ -11,7 +11,7 @@
     </div>
   </header>
 
-  @if (crm.backendStatus() === 'booting' || (!crm.analyticsSummary() && (crm.loading() || crm.error()))) {
+  @if (crm.backendStatus() === 'booting' || (crm.error() && !crm.analyticsSummary())) {
   <div class="mb-12">
     <app-nano-banana-boot 
       [isBooting]="true"
@@ -19,6 +19,11 @@
       [errorMessage]="crm.bootError() || crm.error()"
       (retry)="manualRetry()">
     </app-nano-banana-boot>
+  </div>
+  } @else if (crm.loading() && !crm.analyticsSummary()) {
+  <div class="flex items-center space-x-4 mb-12">
+    <div class="animate-pulse w-6 h-6 rounded-full bg-white/20"></div>
+    <p class="text-gray-400 text-sm">Loading workspace data...</p>
   </div>
   } @else {
 

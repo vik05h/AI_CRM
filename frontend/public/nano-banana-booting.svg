@@ -1,67 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 420" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 340" width="100%" height="100%">
   <defs>
-    <!-- Gradients -->
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0b0f19" />
-      <stop offset="50%" stop-color="#111827" />
-      <stop offset="100%" stop-color="#080c14" />
+    <!-- Background Gradient -->
+    <linearGradient id="proBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111318" />
+      <stop offset="100%" stop-color="#0a0c10" />
     </linearGradient>
 
-    <linearGradient id="bananaGrad" x1="20%" y1="0%" x2="80%" y2="100%">
-      <stop offset="0%" stop-color="#fef08a" />
-      <stop offset="40%" stop-color="#facc15" />
-      <stop offset="100%" stop-color="#eab308" />
+    <!-- Glass Surface -->
+    <linearGradient id="glassChassis" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e222d" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#141720" stop-opacity="0.9" />
     </linearGradient>
 
-    <linearGradient id="bananaShadow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ca8a04" stop-opacity="0.8" />
-      <stop offset="100%" stop-color="#a16207" stop-opacity="0.9" />
+    <!-- Emerald Glow -->
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#86efac" />
     </linearGradient>
 
-    <linearGradient id="serverGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#1e2433" />
-      <stop offset="50%" stop-color="#283244" />
-      <stop offset="100%" stop-color="#1a1f2c" />
-    </linearGradient>
-
-    <linearGradient id="cyanNeon" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#06b6d4" />
-      <stop offset="50%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#22d3ee" />
-    </linearGradient>
-
-    <linearGradient id="cableGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0284c7" />
-      <stop offset="50%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#0ea5e9" />
-    </linearGradient>
-
-    <linearGradient id="progressBarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="50%" stop-color="#4ade80" />
-      <stop offset="100%" stop-color="#38bdf8" />
-    </linearGradient>
-
-    <!-- Filters for Glow -->
-    <filter id="neonGlowCyan" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="4" result="blur" />
-      <feMerge>
-        <feMergeNode in="blur" />
-        <feMergeNode in="blur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-
-    <filter id="neonGlowYellow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="5" result="blur" />
-      <feMerge>
-        <feMergeNode in="blur" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-
-    <filter id="sparkGlow" x="-50%" y="-50%" width="200%" height="200%">
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="accentGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
@@ -70,337 +36,166 @@
   </defs>
 
   <style>
-    /* CSS Keyframe Animations */
-    @keyframes floatBanana {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-7px) rotate(-1.5deg); }
+    @keyframes pulseLed {
+      0%, 100% { opacity: 1; filter: drop-shadow(0 0 4px #86efac); }
+      50% { opacity: 0.3; filter: none; }
     }
 
-    @keyframes pulseGoggles {
-      0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 4px #38bdf8); }
-      50% { opacity: 1; filter: drop-shadow(0 0 12px #38bdf8); }
-    }
-
-    @keyframes electricPulse {
-      0%, 100% { stroke-dashoffset: 0; opacity: 0.9; }
-      50% { stroke-dashoffset: -30; opacity: 1; }
-    }
-
-    @keyframes blinkLedGreen {
-      0%, 100% { opacity: 1; filter: drop-shadow(0 0 6px #22c55e); }
+    @keyframes pulseCyan {
+      0%, 100% { opacity: 1; filter: drop-shadow(0 0 4px #38bdf8); }
       50% { opacity: 0.25; filter: none; }
     }
 
-    @keyframes blinkLedCyan {
-      0%, 100% { opacity: 0.2; filter: none; }
-      40% { opacity: 1; filter: drop-shadow(0 0 6px #06b6d4); }
-      70% { opacity: 0.3; }
+    @keyframes dataStream {
+      0% { stroke-dashoffset: 60; }
+      100% { stroke-dashoffset: 0; }
     }
 
-    @keyframes blinkLedYellow {
-      0%, 100% { opacity: 0.3; }
-      30% { opacity: 1; filter: drop-shadow(0 0 6px #eab308); }
-      80% { opacity: 0.2; filter: none; }
+    @keyframes scanLine {
+      0% { transform: translateY(0); opacity: 0.1; }
+      50% { opacity: 0.45; }
+      100% { transform: translateY(180px); opacity: 0.1; }
     }
 
-    @keyframes sparkFlicker {
-      0%, 100% { opacity: 0; transform: scale(0.6); }
-      25% { opacity: 1; transform: scale(1.1); }
-      50% { opacity: 0.2; transform: scale(0.8); }
-      75% { opacity: 1; transform: scale(1.2); }
+    @keyframes coreSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    @keyframes progressSweep {
+    @keyframes shimmerBar {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(200%); }
     }
 
-    @keyframes scanline {
-      0% { transform: translateY(0px); opacity: 0.6; }
-      50% { opacity: 0.9; }
-      100% { transform: translateY(28px); opacity: 0.2; }
+    .led-emerald { animation: pulseLed 1.6s ease-in-out infinite; }
+    .led-emerald-alt { animation: pulseLed 2.1s 0.4s ease-in-out infinite; }
+    .led-cyan { animation: pulseCyan 1.8s 0.2s ease-in-out infinite; }
+
+    .stream-line {
+      stroke-dasharray: 6 6;
+      animation: dataStream 1.2s linear infinite;
     }
 
-    @keyframes terminalTextFlicker {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
+    .scanner {
+      animation: scanLine 3s linear infinite;
     }
 
-    .banana-char {
-      animation: floatBanana 3.2s ease-in-out infinite;
-      transform-origin: 150px 220px;
+    .core-rings {
+      transform-origin: 100px 145px;
+      animation: coreSpin 16s linear infinite;
     }
 
-    .goggles-lens {
-      animation: pulseGoggles 2s ease-in-out infinite;
-    }
-
-    .spark-1 {
-      animation: sparkFlicker 1.4s ease-in-out infinite;
-      transform-origin: 295px 190px;
-    }
-
-    .spark-2 {
-      animation: sparkFlicker 1.8s 0.4s ease-in-out infinite;
-      transform-origin: 300px 185px;
-    }
-
-    .spark-3 {
-      animation: sparkFlicker 1.2s 0.7s ease-in-out infinite;
-      transform-origin: 290px 200px;
-    }
-
-    .led-g1 { animation: blinkLedGreen 1.2s infinite ease-in-out; }
-    .led-g2 { animation: blinkLedGreen 1.5s 0.3s infinite ease-in-out; }
-    .led-c1 { animation: blinkLedCyan 1.8s 0.2s infinite ease-in-out; }
-    .led-y1 { animation: blinkLedYellow 1.4s 0.5s infinite ease-in-out; }
-
-    .electric-wire {
-      stroke-dasharray: 8 4;
-      animation: electricPulse 1s linear infinite;
-    }
-
-    .progress-bar-inner {
-      animation: progressSweep 2s ease-in-out infinite;
-    }
-
-    .scanline-bar {
-      animation: scanline 2.5s linear infinite;
-    }
-
-    .terminal-title {
-      animation: terminalTextFlicker 2.5s ease-in-out infinite;
+    .shimmer {
+      animation: shimmerBar 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
   </style>
 
-  <!-- Background Canvas -->
-  <rect width="520" height="420" rx="20" fill="url(#bgGrad)" />
+  <!-- Deep Obsidian Canvas -->
+  <rect width="540" height="340" rx="20" fill="url(#proBg)" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5" />
 
-  <!-- Tech Grid Lines in Background -->
-  <g stroke="#1e293b" stroke-width="1" opacity="0.45">
-    <line x1="0" y1="70" x2="520" y2="70" />
-    <line x1="0" y1="140" x2="520" y2="140" />
-    <line x1="0" y1="210" x2="520" y2="210" />
-    <line x1="0" y1="280" x2="520" y2="280" />
-    <line x1="0" y1="350" x2="520" y2="350" />
-    <line x1="80" y1="0" x2="80" y2="420" />
-    <line x1="160" y1="0" x2="160" y2="420" />
-    <line x1="240" y1="0" x2="240" y2="420" />
-    <line x1="320" y1="0" x2="320" y2="420" />
-    <line x1="400" y1="0" x2="400" y2="420" />
+  <!-- Subtle Minimal Grid -->
+  <g stroke="#ffffff" stroke-opacity="0.03" stroke-width="1">
+    <line x1="0" y1="68" x2="540" y2="68" />
+    <line x1="0" y1="136" x2="540" y2="136" />
+    <line x1="0" y1="204" x2="540" y2="204" />
+    <line x1="0" y1="272" x2="540" y2="272" />
+    <line x1="90" y1="0" x2="90" y2="340" />
+    <line x1="180" y1="0" x2="180" y2="340" />
+    <line x1="270" y1="0" x2="270" y2="340" />
+    <line x1="360" y1="0" x2="360" y2="340" />
+    <line x1="450" y1="0" x2="450" y2="340" />
   </g>
 
-  <!-- Ground Shadow / Platform -->
-  <ellipse cx="160" cy="335" rx="75" ry="14" fill="#030712" opacity="0.6" />
-  <ellipse cx="380" cy="338" rx="85" ry="16" fill="#030712" opacity="0.7" />
+  <!-- Background Ambient Spotlights -->
+  <circle cx="100" cy="145" r="70" fill="#86efac" opacity="0.04" filter="url(#accentGlow)" />
+  <circle cx="430" cy="145" r="70" fill="#38bdf8" opacity="0.04" filter="url(#accentGlow)" />
 
-  <!-- Neon floor circuitry -->
-  <path d="M 60 340 L 160 340 L 210 325 L 300 325" fill="none" stroke="#0284c7" stroke-width="2" opacity="0.35" />
-  <path d="M 280 345 L 380 345 L 480 345" fill="none" stroke="#0ea5e9" stroke-width="2" opacity="0.3" />
-  <circle cx="210" cy="325" r="3" fill="#38bdf8" opacity="0.6" />
-  <circle cx="300" cy="325" r="3" fill="#38bdf8" opacity="0.6" />
+  <!-- ================= LEFT: AI NEURAL CORE ================= -->
+  <g id="ai-processor">
+    <!-- Outer Shield -->
+    <rect x="52" y="97" width="96" height="96" rx="16" fill="#141720" stroke="#ffffff" stroke-opacity="0.12" stroke-width="1.5" />
+    <rect x="60" y="105" width="80" height="80" rx="12" fill="#0d0f14" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1" />
 
-  <!-- ================= SERVER RACK ================= -->
-  <g id="server-rack">
-    <!-- Server Case Body -->
-    <rect x="310" y="65" width="165" height="260" rx="14" fill="url(#serverGrad)" stroke="#334155" stroke-width="2.5" />
-    <!-- Server Rack Inner Bevel -->
-    <rect x="316" y="72" width="153" height="246" rx="8" fill="#111827" stroke="#1f2937" stroke-width="1.5" />
-
-    <!-- Top Status Header on Server -->
-    <rect x="324" y="80" width="137" height="34" rx="5" fill="#1a2234" stroke="#2d3748" stroke-width="1" />
-    <circle cx="336" cy="97" r="4.5" fill="#22c55e" class="led-g1" />
-    <circle cx="349" cy="97" r="4.5" fill="#38bdf8" class="led-c1" />
-    <circle cx="362" cy="97" r="4.5" fill="#eab308" class="led-y1" />
-    <text x="375" y="101" font-family="'JetBrains Mono', monospace, sans-serif" font-size="10" font-weight="700" fill="#94a3b8" letter-spacing="1">RENDER:UP</text>
-
-    <!-- Unit 1: Screen with Boot Message -->
-    <rect x="324" y="122" width="137" height="48" rx="5" fill="#090d16" stroke="#0284c7" stroke-width="1" />
-    <g clip-path="url(#screenClip)">
-      <clipPath id="screenClip">
-        <rect x="324" y="122" width="137" height="48" rx="5" />
-      </clipPath>
-      <!-- Scanline effect -->
-      <rect x="324" y="122" width="137" height="6" fill="#38bdf8" opacity="0.25" class="scanline-bar" />
+    <!-- Rotating Concentric Tech Rings -->
+    <g class="core-rings">
+      <circle cx="100" cy="145" r="30" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1.5" stroke-dasharray="8 6" />
+      <circle cx="100" cy="145" r="22" fill="none" stroke="#86efac" stroke-opacity="0.4" stroke-width="1.5" stroke-dasharray="14 10" />
     </g>
-    <text x="332" y="140" font-family="'JetBrains Mono', monospace, sans-serif" font-size="9" font-weight="bold" fill="#38bdf8" class="terminal-title">&gt; BOOTING API...</text>
-    <text x="332" y="156" font-family="'JetBrains Mono', monospace, sans-serif" font-size="8.5" fill="#4ade80">&gt; DB CONNECTING</text>
-    <rect x="424" y="148" width="6" height="9" fill="#4ade80" class="led-g1" />
 
-    <!-- Unit 2: Power Socket Input Bay (where cable plugs in!) -->
-    <rect x="324" y="178" width="137" height="48" rx="5" fill="#182030" stroke="#374151" stroke-width="1" />
-    <!-- Socket Receptacle -->
-    <rect x="328" y="186" width="32" height="32" rx="4" fill="#0c111d" stroke="#0284c7" stroke-width="1.5" />
-    <!-- Socket Pins -->
-    <circle cx="338" cy="202" r="3.5" fill="#38bdf8" filter="url(#neonGlowCyan)" />
-    <circle cx="350" cy="202" r="3.5" fill="#38bdf8" filter="url(#neonGlowCyan)" />
-    <text x="368" y="198" font-family="'JetBrains Mono', monospace, sans-serif" font-size="8.5" font-weight="700" fill="#e2e8f0">MAIN POWER</text>
-    <text x="368" y="210" font-family="'JetBrains Mono', monospace, sans-serif" font-size="7.5" fill="#38bdf8">LINK: 100% OK</text>
+    <!-- Center AI Core Indicator -->
+    <circle cx="100" cy="145" r="12" fill="#1e222d" stroke="#86efac" stroke-width="1.5" />
+    <circle cx="100" cy="145" r="6" fill="#86efac" class="led-emerald" />
 
-    <!-- Unit 3: System Vitals / Graph Bars -->
-    <rect x="324" y="234" width="137" height="42" rx="5" fill="#151c2a" stroke="#2d3748" stroke-width="1" />
-    <!-- Bar 1 -->
-    <rect x="332" y="244" width="30" height="4" rx="2" fill="#334155" />
-    <rect x="332" y="244" width="24" height="4" rx="2" fill="#38bdf8" class="led-c1" />
-    <!-- Bar 2 -->
-    <rect x="370" y="244" width="30" height="4" rx="2" fill="#334155" />
-    <rect x="370" y="244" width="28" height="4" rx="2" fill="#4ade80" class="led-g2" />
-    <!-- Bar 3 -->
-    <rect x="408" y="244" width="40" height="4" rx="2" fill="#334155" />
-    <rect x="408" y="244" width="34" height="4" rx="2" fill="#facc15" class="led-y1" />
-    <!-- Server vent slots -->
-    <line x1="332" y1="262" x2="448" y2="262" stroke="#253046" stroke-width="2" stroke-linecap="round" />
-    <line x1="332" y1="267" x2="448" y2="267" stroke="#253046" stroke-width="2" stroke-linecap="round" />
-
-    <!-- Unit 4: Bottom Server Module -->
-    <rect x="324" y="284" width="137" height="26" rx="4" fill="#182030" stroke="#2d3748" stroke-width="1" />
-    <circle cx="334" cy="297" r="3" fill="#22c55e" class="led-g1" />
-    <circle cx="344" cy="297" r="3" fill="#22c55e" class="led-g2" />
-    <circle cx="354" cy="297" r="3" fill="#38bdf8" class="led-c1" />
-    <rect x="370" y="294" width="80" height="6" rx="3" fill="#2d3748" />
-    <rect x="370" y="294" width="55" height="6" rx="3" fill="#06b6d4" />
+    <!-- Core Label -->
+    <text x="100" y="210" text-anchor="middle" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="600" fill="#9ca3af" letter-spacing="1">AI ENGINE</text>
   </g>
 
-  <!-- ================= POWER CABLE ================= -->
-  <!-- Heavy Duty Industrial Cable from Banana to Server -->
-  <path d="M 185 240 C 220 280, 240 270, 280 220 C 295 200, 310 200, 328 202"
-        fill="none" stroke="#0f172a" stroke-width="12" stroke-linecap="round" />
-  <path d="M 185 240 C 220 280, 240 270, 280 220 C 295 200, 310 200, 328 202"
-        fill="none" stroke="url(#cableGrad)" stroke-width="7" stroke-linecap="round" />
-  <path d="M 185 240 C 220 280, 240 270, 280 220 C 295 200, 310 200, 328 202"
-        fill="none" stroke="#e0f2fe" stroke-width="2.5" stroke-linecap="round" class="electric-wire" />
+  <!-- Data Bus Connecting Core to Server Rack -->
+  <path d="M 148 145 L 210 145" fill="none" stroke="#ffffff" stroke-opacity="0.12" stroke-width="2" />
+  <path d="M 148 145 L 210 145" fill="none" stroke="#86efac" stroke-width="2" class="stream-line" />
 
-  <!-- Cable Plug Head entering the socket -->
-  <rect x="312" y="193" width="16" height="18" rx="3" fill="#334155" stroke="#64748b" stroke-width="1.5" />
-  <rect x="323" y="196" width="6" height="12" rx="2" fill="#0284c7" />
+  <!-- ================= CENTER: SERVER BLADES ================= -->
+  <g id="server-chassis">
+    <!-- Server Case Frame -->
+    <rect x="210" y="55" width="280" height="180" rx="12" fill="url(#glassChassis)" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1.5" />
 
-  <!-- Electric Spark VFX around the socket connection -->
-  <g filter="url(#sparkGlow)">
-    <!-- Spark 1 -->
-    <path d="M 305 186 L 312 194 L 306 198 L 316 205" fill="none" stroke="#38bdf8" stroke-width="2" class="spark-1" />
-    <!-- Spark 2 -->
-    <path d="M 320 180 L 315 190 L 322 193 L 318 200" fill="none" stroke="#facc15" stroke-width="1.8" class="spark-2" />
-    <!-- Spark 3 -->
-    <path d="M 308 214 L 315 208 L 311 204 L 320 198" fill="none" stroke="#67e8f9" stroke-width="1.5" class="spark-3" />
+    <!-- Scanning Line Effect -->
+    <g clip-path="url(#chassisClip)">
+      <clipPath id="chassisClip">
+        <rect x="210" y="55" width="280" height="180" rx="12" />
+      </clipPath>
+      <line x1="210" y1="55" x2="490" y2="55" stroke="#86efac" stroke-width="2" opacity="0.4" class="scanner" />
+    </g>
+
+    <!-- Blade Unit 1: FastAPI API Node -->
+    <rect x="224" y="70" width="252" height="42" rx="8" fill="#0d0f14" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+    <circle cx="242" cy="91" r="4" fill="#86efac" class="led-emerald" />
+    <circle cx="254" cy="91" r="4" fill="#38bdf8" class="led-cyan" />
+    <text x="272" y="88" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#ffffff">FASTAPI WORKER 01</text>
+    <text x="272" y="101" font-family="'Inter', monospace, sans-serif" font-size="9" fill="#9ca3af">PORT: 8000 • STATUS: ACTIVE</text>
+    <rect x="426" y="85" width="38" height="14" rx="4" fill="#86efac" fill-opacity="0.12" stroke="#86efac" stroke-opacity="0.3" stroke-width="1" />
+    <text x="445" y="95" text-anchor="middle" font-family="'Inter', sans-serif" font-size="8" font-weight="700" fill="#86efac">200 OK</text>
+
+    <!-- Blade Unit 2: PostgreSQL Storage Node -->
+    <rect x="224" y="122" width="252" height="42" rx="8" fill="#0d0f14" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+    <circle cx="242" cy="143" r="4" fill="#86efac" class="led-emerald-alt" />
+    <circle cx="254" cy="143" r="4" fill="#ffffff" opacity="0.3" />
+    <text x="272" y="140" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#ffffff">POSTGRESQL (RENDER)</text>
+    <text x="272" y="153" font-family="'Inter', monospace, sans-serif" font-size="9" fill="#9ca3af">HOST: OREGON • POOL: READY</text>
+    <rect x="426" y="137" width="38" height="14" rx="4" fill="#38bdf8" fill-opacity="0.12" stroke="#38bdf8" stroke-opacity="0.3" stroke-width="1" />
+    <text x="445" y="147" text-anchor="middle" font-family="'Inter', sans-serif" font-size="8" font-weight="700" fill="#38bdf8">LINKED</text>
+
+    <!-- Blade Unit 3: Channel Delivery Stub -->
+    <rect x="224" y="174" width="252" height="42" rx="8" fill="#0d0f14" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
+    <circle cx="242" cy="195" r="4" fill="#86efac" class="led-emerald" />
+    <circle cx="254" cy="195" r="4" fill="#86efac" class="led-emerald-alt" />
+    <text x="272" y="192" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="#ffffff">CHANNEL SERVICE STUB</text>
+    <text x="272" y="205" font-family="'Inter', monospace, sans-serif" font-size="9" fill="#9ca3af">PORT: 8001 • ASYNC DISPATCH</text>
+    <rect x="426" y="189" width="38" height="14" rx="4" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-opacity="0.15" stroke-width="1" />
+    <text x="445" y="199" text-anchor="middle" font-family="'Inter', sans-serif" font-size="8" font-weight="600" fill="#9ca3af">IDLE</text>
   </g>
 
-  <!-- ================= NANO BANANA CHARACTER ================= -->
-  <g class="banana-char" id="nano-banana">
-    
-    <!-- Banana Backpack Power Unit -->
-    <rect x="76" y="145" width="34" height="65" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2" />
-    <rect x="83" y="154" width="20" height="8" rx="2" fill="#38bdf8" class="led-c1" />
-    <rect x="83" y="167" width="20" height="8" rx="2" fill="#38bdf8" class="led-c1" />
-    <rect x="83" y="180" width="20" height="8" rx="2" fill="#22c55e" class="led-g1" />
-    <rect x="83" y="193" width="20" height="8" rx="2" fill="#22c55e" class="led-g1" />
-    <!-- Antenna on backpack -->
-    <line x1="88" y1="145" x2="84" y2="120" stroke="#64748b" stroke-width="3" stroke-linecap="round" />
-    <circle cx="84" cy="118" r="4.5" fill="#38bdf8" filter="url(#neonGlowCyan)" class="led-c1" />
+  <!-- ================= BOTTOM: SLEEK STATUS CONSOLE ================= -->
+  <g id="bottom-console">
+    <!-- Recessed Console Bar -->
+    <rect x="40" y="260" width="460" height="48" rx="12" fill="#0c0e14" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1" />
 
-    <!-- Banana Little Legs / Shoes -->
-    <!-- Left Leg -->
-    <path d="M 125 285 L 122 325 L 105 328" fill="none" stroke="#ca8a04" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
-    <ellipse cx="108" cy="328" rx="14" ry="7" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
-    <!-- Right Leg -->
-    <path d="M 160 280 L 168 322 L 185 325" fill="none" stroke="#ca8a04" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
-    <ellipse cx="180" cy="325" rx="14" ry="7" fill="#1e293b" stroke="#475569" stroke-width="1.5" />
+    <!-- Terminal Indicator -->
+    <circle cx="62" cy="284" r="5" fill="#86efac" class="led-emerald" />
 
-    <!-- Banana Body (Curved organic fruit shape) -->
-    <!-- Shadow side -->
-    <path d="M 165 72 
-             C 178 95, 215 170, 195 240 
-             C 182 285, 145 305, 115 285 
-             C 95 260, 92 215, 105 160 
-             C 118 108, 142 80, 155 70 Z" 
-          fill="url(#bananaShadow)" />
-
-    <!-- Main Yellow Banana Body -->
-    <path d="M 160 70 
-             C 175 95, 205 165, 190 235 
-             C 178 278, 142 295, 118 280 
-             C 96 255, 96 215, 108 162 
-             C 120 110, 140 80, 152 68 Z" 
-          fill="url(#bananaGrad)" 
-          stroke="#ca8a04" stroke-width="2" />
-
-    <!-- Banana Top Stem (Brown/Greenish Tip) -->
-    <path d="M 152 68 C 154 55, 160 45, 168 42 C 172 45, 170 55, 160 70 Z" fill="#65a30d" stroke="#4d7c0f" stroke-width="1.5" />
-    <rect x="165" y="40" width="7" height="6" rx="2" fill="#4d7c0f" />
-
-    <!-- Banana Bottom Tip -->
-    <path d="M 115 280 C 112 286, 114 292, 118 290 C 122 288, 120 282, 115 280 Z" fill="#854d0e" />
-
-    <!-- Tech Seams / Cyber Lines on Banana Skin -->
-    <path d="M 130 95 C 145 130, 150 170, 142 220" fill="none" stroke="#fef08a" stroke-width="1.8" stroke-linecap="round" opacity="0.75" />
-    <path d="M 168 120 C 178 150, 176 185, 168 215" fill="none" stroke="#eab308" stroke-width="1.5" stroke-linecap="round" opacity="0.5" />
-
-    <!-- Cute Smiling Mouth -->
-    <path d="M 148 188 Q 158 200 168 188" fill="none" stroke="#78350f" stroke-width="3" stroke-linecap="round" />
-    <!-- Cheerful Blushing Cheeks -->
-    <ellipse cx="134" cy="186" rx="6" ry="3.5" fill="#f87171" opacity="0.6" />
-    <ellipse cx="178" cy="184" rx="6" ry="3.5" fill="#f87171" opacity="0.6" />
-
-    <!-- ================= CYBER GOGGLES ================= -->
-    <!-- Goggles Strap around head -->
-    <path d="M 98 145 C 135 142, 175 140, 195 146" fill="none" stroke="#1e293b" stroke-width="7" stroke-linecap="round" />
-    <path d="M 98 145 C 135 142, 175 140, 195 146" fill="none" stroke="#475569" stroke-width="3" stroke-linecap="round" />
-
-    <!-- Goggles Frame -->
-    <rect x="122" y="132" width="68" height="34" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" />
-    <!-- Center Bridge -->
-    <rect x="151" y="142" width="10" height="12" fill="#1e293b" />
-
-    <!-- Left Glowing Eye Lens -->
-    <rect x="128" y="138" width="22" height="22" rx="7" fill="#0284c7" />
-    <rect x="130" y="140" width="18" height="18" rx="5" fill="#38bdf8" class="goggles-lens" />
-    <circle cx="137" cy="146" r="3" fill="#ffffff" />
-
-    <!-- Right Glowing Eye Lens -->
-    <rect x="162" y="138" width="22" height="22" rx="7" fill="#0284c7" />
-    <rect x="164" y="140" width="18" height="18" rx="5" fill="#38bdf8" class="goggles-lens" />
-    <circle cx="171" cy="146" r="3" fill="#ffffff" />
-
-    <!-- Tech Headset Mic -->
-    <path d="M 125 155 Q 115 175 130 182" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" />
-    <circle cx="132" cy="182" r="3" fill="#0284c7" />
-
-    <!-- Banana Cyber Arm / Hand Holding the Power Cable -->
-    <!-- Left Hand Resting on hip -->
-    <path d="M 108 190 Q 95 205 106 220" fill="none" stroke="#ca8a04" stroke-width="6" stroke-linecap="round" />
-    
-    <!-- Right Arm Stretching to Server holding Cable -->
-    <path d="M 165 200 C 185 205, 205 215, 222 230" fill="none" stroke="#ca8a04" stroke-width="7" stroke-linecap="round" />
-    <!-- Robotic Glove / Gauntlet on Right Hand -->
-    <rect x="180" y="215" width="24" height="20" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8" transform="rotate(25 180 215)" />
-    <!-- Glove Knuckle Lights -->
-    <circle cx="198" cy="226" r="2" fill="#22d3ee" class="led-c1" />
-    <circle cx="204" cy="229" r="2" fill="#22d3ee" class="led-c1" />
-  </g>
-
-  <!-- ================= BOTTOM BOOT PROGRESS BAR ================= -->
-  <g id="bottom-status-bar">
-    <!-- Bar Container -->
-    <rect x="50" y="365" width="420" height="34" rx="10" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
-
-    <!-- Terminal Status Indicator Dot -->
-    <circle cx="70" cy="382" r="5" fill="#38bdf8" filter="url(#neonGlowCyan)" class="led-c1" />
-
-    <!-- Status Text -->
-    <text x="86" y="386" font-family="'JetBrains Mono', 'Segoe UI', monospace, sans-serif" font-size="11" font-weight="700" fill="#e2e8f0" letter-spacing="1">
-      NANO BANANA: <tspan fill="#38bdf8">BOOTING RENDER BACKEND...</tspan>
+    <text x="80" y="288" font-family="'Inter', monospace, sans-serif" font-size="11" font-weight="600" fill="#e5e7eb" letter-spacing="0.5">
+      CLUSTER: <tspan fill="#86efac">ALL MICROSERVICES ONLINE</tspan>
     </text>
 
-    <!-- Mini Progress Bar Track -->
-    <rect x="330" y="377" width="125" height="10" rx="5" fill="#1e2433" stroke="#334155" stroke-width="1" />
-    
-    <!-- Animated Progress Bar Fill -->
-    <g clip-path="url(#progressClip)">
-      <clipPath id="progressClip">
-        <rect x="330" y="377" width="125" height="10" rx="5" />
+    <!-- Elegant Progress Line -->
+    <g clip-path="url(#barClip)">
+      <clipPath id="barClip">
+        <rect x="360" y="280" width="124" height="8" rx="4" />
       </clipPath>
-      <rect x="330" y="377" width="95" height="10" rx="5" fill="url(#progressBarGrad)" />
-      <!-- Shimmer light moving across bar -->
-      <rect x="320" y="377" width="40" height="10" fill="#ffffff" opacity="0.45" class="progress-bar-inner" />
+      <rect x="360" y="280" width="124" height="8" rx="4" fill="#1f2430" />
+      <rect x="360" y="280" width="124" height="8" rx="4" fill="url(#emeraldGrad)" />
+      <!-- Shimmer pulse -->
+      <rect x="340" y="280" width="40" height="8" fill="#ffffff" opacity="0.4" class="shimmer" />
     </g>
   </g>
 </svg>
