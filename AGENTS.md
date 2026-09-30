@@ -349,12 +349,10 @@ Is it backend-related?
 
 ---
 
-## 🎯 Assignment Context
+## Project Context
 
-This is the **Xeno Engineering Take-Home Assignment (June 2026)**.
-Evaluation criteria: Build & deploy, Creativity in scoping, AI-native development, Code quality, System design, Thought clarity.
-
-Every line of code will be reviewed live. Understand everything you ship.
+This is an AI-native Consumer Engagement & Mini CRM platform.
+Key objectives: High-throughput async callback loop, natural language customer segmentation, AI campaign drafting, and real-time analytics.
 
 ## Design
 

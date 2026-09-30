@@ -1,18 +1,16 @@
 # AI-Native Mini CRM for Consumer Brands
 
-> **Xeno Engineering Take-Home Assignment | SDE Internship 2026**
->
-> A production-grade, AI-native consumer engagement platform that helps marketers intelligently segment shoppers, auto-draft personalized campaigns, and track communication performance across channels.
+> A production-grade, AI-native consumer engagement and customer relationship management platform that helps marketers intelligently segment shoppers, auto-draft personalized campaigns, and track communication performance across channels.
 
 ---
 
-## 🎬 Product Walkthrough & Video Demo
+## Product Walkthrough & Live Demonstration
 
-> 📹 **High-Definition Video Recording:** [Download / Watch Walkthrough Video (WebM)](docs/videos/ai_crm_walkthrough.webm)
->
-> 🚀 **Live Interactive Application:** [https://ai-crm-edba6.web.app](https://ai-crm-edba6.web.app) *(Click **"Explore Live Demo"** or **"View Demo"** for instant evaluator access without requiring Google authentication).*
->
-> ⚙️ **Production API (FastAPI):** [https://crm-backend-15tu.onrender.com/docs](https://crm-backend-15tu.onrender.com/docs)
+![Platform Walkthrough](docs/videos/ai_crm_walkthrough.gif)
+
+- **Live Web Application:** [https://ai-crm-edba6.web.app](https://ai-crm-edba6.web.app) *(Select "Explore Live Demo" or "View Demo" for instant direct access).*
+- **Production API Documentation:** [https://crm-backend-15tu.onrender.com/docs](https://crm-backend-15tu.onrender.com/docs)
+- **High-Definition Video File:** [`docs/videos/ai_crm_walkthrough.webm`](docs/videos/ai_crm_walkthrough.webm)
 
 ### Visual Tour
 
@@ -32,12 +30,12 @@
 
 ## Product Point of View (POV)
 
-**The Problem:** Modern marketing is broken. Marketers either blast everyone with the same message (low relevance, high unsubscribe) or spend hours manually filtering spreadsheets to find the right audience (slow, error-prone).
+**The Problem:** Modern marketing is fragmented. Marketers either send broad, non-targeted messages (resulting in low relevance and high churn) or spend excessive manual effort filtering spreadsheets to discover prospective segments (slow, prone to human error).
 
-**Our Bet:** An AI-native CRM where the system *proactively* surfaces high-opportunity customer segments, explains *why* they matter, auto-drafts context-aware messages, and asks the marketer for a single confirmation before executing. The marketer stays in control; the AI does the heavy lifting.
+**Our Approach:** An AI-native CRM where the system proactively identifies high-opportunity customer cohorts, clarifies why they are significant, drafts context-aware messages with personalization tokens, and provides marketers with an explicit approval workflow before dispatch. The marketer retains full editorial control while AI automates segmentation and drafting.
 
-**What This Is:** A marketing & engagement tool for reaching shoppers/consumers — in the spirit of what Xeno does.
-**What This Is NOT:** A sales/support CRM for deals, pipelines, leads, or tickets (no Salesforce/Attio clone).
+**Scope:** A dedicated engagement and campaign platform designed for consumer brands and e-commerce enterprises.
+**Non-Goals:** Not a B2B sales pipeline or customer support ticketing tool.
 
 ---
 
@@ -376,7 +374,7 @@ App: `http://localhost:4200`
 - **Backend API (Render):** `https://crm-backend-15tu.onrender.com`
 - **Channel Stub (Render):** `https://channel-stub-ugn2.onrender.com`
 
-### ⚠️ Important: Render Free Database Maintenance (Action Required After 31st Oct)
+### Database Maintenance Schedule (Action Required After 31st Oct)
 
 > [!WARNING]
 > **Render Free PostgreSQL 30-Day Expiry Notice:**
@@ -455,14 +453,14 @@ This project was built using an AI-native workflow:
 
 ---
 
-## Assignment Evaluation Alignment
+## System Evaluation & Architecture Alignment
 
-| Evaluation Criteria | How This README Guides the Build |
+| Evaluation Criteria | Architectural Implementation |
 |--------------------|----------------------------------|
-| **Build & Deploy** | Clear local setup + deployment path (Render/Railway) |
-| **Creativity in Scoping** | Sharp POV: AI-assisted approval workflow, not everything shallow |
-| **AI-Native Development** | Documented AI workflow; AI woven into product, not bolted on |
-| **Code Quality & Structure** | Monorepo structure, clean separation of concerns |
+| **Build & Deploy** | Clear local setup + production deployment path (Render + Firebase) |
+| **Creativity in Scoping** | Sharp POV: AI-assisted approval workflow, not generic CRUD |
+| **AI-Native Development** | Documented AI workflow; AI woven into product architecture |
+| **Code Quality & Structure** | Clean monorepo structure, strict separation of concerns |
 | **System Design & Scalability** | Async callback loop, non-blocking send, retry logic documented |
 | **Thought Clarity** | Architecture diagrams, data model, API spec, tradeoff rationale |
 
@@ -500,8 +498,8 @@ This project was built using an AI-native workflow:
 
 ## License
 
-This project was built for the Xeno Engineering Take-Home Assignment (June 2026).
+This project is licensed under the MIT License.
 
 ---
 
-> *"Modern marketing shouldn't be about blind blasting."* — Built with AI, reviewed by humans.
+> *"Modern marketing should be proactive, personalized, and data-driven."*
