@@ -43,6 +43,10 @@ export class LandingComponent implements OnDestroy {
     await this.authService.loginWithGoogle();
   }
 
+  enterDemo() {
+    this.authService.enterDemoMode();
+  }
+
   ngOnDestroy() {
     if (this.ctx) {
       this.ctx.revert();

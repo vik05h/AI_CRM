@@ -6,6 +6,30 @@
 
 ---
 
+## 🎬 Product Walkthrough & Video Demo
+
+> 📹 **High-Definition Video Recording:** [Download / Watch Walkthrough Video (WebM)](docs/videos/ai_crm_walkthrough.webm)
+>
+> 🚀 **Live Interactive Application:** [https://ai-crm-edba6.web.app](https://ai-crm-edba6.web.app) *(Click **"Explore Live Demo"** or **"View Demo"** for instant evaluator access without requiring Google authentication).*
+>
+> ⚙️ **Production API (FastAPI):** [https://crm-backend-15tu.onrender.com/docs](https://crm-backend-15tu.onrender.com/docs)
+
+### Visual Tour
+
+| Landing Page (Engineered Night Theme) | Executive Overview Dashboard |
+|:---:|:---:|
+| ![Landing Page](docs/screenshots/01_landing_hero.png) | ![Dashboard Overview](docs/screenshots/03_dashboard_overview.png) |
+
+| AI Segment Discovery | Real Customer Database (1,000 Seeded) |
+|:---:|:---:|
+| ![AI Segments](docs/screenshots/05_segments.png) | ![Customers Table](docs/screenshots/04_customers.png) |
+
+| Campaign Builder & Channel Selection | Campaign Delivery & Analytics |
+|:---:|:---:|
+| ![Campaign Builder](docs/screenshots/06_campaigns.png) | ![Analytics Funnel](docs/screenshots/07_analytics.png) |
+
+---
+
 ## Product Point of View (POV)
 
 **The Problem:** Modern marketing is broken. Marketers either blast everyone with the same message (low relevance, high unsubscribe) or spend hours manually filtering spreadsheets to find the right audience (slow, error-prone).
@@ -452,8 +476,8 @@ This project was built using an AI-native workflow:
 | **Database** | Single PostgreSQL instance | Read replicas, connection pooling (PgBouncer) |
 | **AI calls** | Synchronous Gemini API calls | Async batching, caching, fallback to cached segments |
 | **Channel stub** | Single Python service | Dedicated microservice with its own queue |
-| **Frontend state** | Angular services | NgRx or similar for complex state |
-| **Auth** | Not implemented (assignment scope) | OAuth2 + JWT, role-based access |
+| **Frontend state** | Angular 21 Signals (`signal()`, `computed()`) | NgRx or Akita for complex nested state |
+| **Auth** | Firebase Auth (Google OAuth) + One-Click Demo Mode | Role-based access control (RBAC), multi-tenant enterprise SSO |
 
 **What We Consciously Chose NOT to Build:**
 -  Real messaging provider integration (assignment explicitly says stub)
@@ -466,11 +490,11 @@ This project was built using an AI-native workflow:
 
 ## Deliverables Checklist
 
-- [ ] **Hosted Product:** Public URL (Render/Railway/Fly.io)
-- [ ] **Code Repository:** GitHub repo with clean commit history
-- [ ] **Walkthrough Video:** ~5-6 min covering product, demo, architecture, code, AI workflow
-- [ ] **API Documentation:** Auto-generated Swagger at `/docs`
-- [ ] **Seed Data Script:** Generates realistic synthetic data for demo
+- [x] **Hosted Product:** [https://ai-crm-edba6.web.app](https://ai-crm-edba6.web.app) (Frontend on Firebase Hosting, Backend on Render)
+- [x] **Code Repository:** GitHub monorepo with clean conventional commit history (`git log`)
+- [x] **Walkthrough Video:** High-definition video walkthrough recorded at [`docs/videos/ai_crm_walkthrough.webm`](docs/videos/ai_crm_walkthrough.webm)
+- [x] **API Documentation:** Interactive Swagger UI at [`https://crm-backend-15tu.onrender.com/docs`](https://crm-backend-15tu.onrender.com/docs)
+- [x] **Seed Data Script:** Realistic synthetic dataset generator (`1,000` customers, `5,000` orders) in [`backend/scripts/seed_data.py`](backend/scripts/seed_data.py)
 
 ---
 
