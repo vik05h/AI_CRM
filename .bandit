@@ -1,0 +1,11 @@
+# ==============================================================================
+# Bandit Configuration for Python SAST (Static Application Security Testing)
+# ==============================================================================
+
+[bandit]
+exclude = /tests,/.venv,/build,/dist,/scratch
+skips = B101,B104
+
+# Severity and confidence levels for DevSecOps failure threshold
+level = MEDIUM
+confidence = MEDIUM

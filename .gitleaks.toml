@@ -1,0 +1,37 @@
+# ==============================================================================
+# Gitleaks Configuration for DevSecOps Secret Detection
+# Scans commits and code for leaked credentials, RSA keys, AWS tokens, PHI
+# ==============================================================================
+
+title = "AI-Native Healthcare CRM DevSecOps Secret Detection"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowed placeholder and test files"
+files = [
+    '''\.env\.example$''',
+    '''README\.md$''',
+    '''AGENTS\.md$''',
+    '''docs/.*'''
+]
+regexes = [
+    '''aicrmsecurepassword123!''',
+    '''aicrmpassword''',
+    '''postgres:postgres'''
+]
+
+[[rules]]
+id = "hipaa-phi-ssn"
+description = "Detected potential unencrypted Social Security Number / PHI"
+regex = '''\b(?!000|666|9\d{2})\d{3}-(?!00)\d{2}-(?!0000)\d{4}\b'''
+secretGroup = 0
+keywords = ["ssn", "social-security", "phi"]
+
+[[rules]]
+id = "aws-learner-lab-token"
+description = "Detected AWS Learner Lab Session Token"
+regex = '''(?i)aws_session_token\s*=\s*[A-Za-z0-9/+=]{100,}'''
+secretGroup = 0
+keywords = ["aws_session_token"]
