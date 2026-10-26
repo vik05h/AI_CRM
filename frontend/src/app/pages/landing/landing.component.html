@@ -1,7 +1,7 @@
 <div class="landing-page min-h-screen">
   <!-- Navigation -->
   <nav class="container-max py-6 flex justify-between items-center" #nav>
-    <div class="font-bold text-xl tracking-tighter text-white">AI CRM</div>
+    <div class="font-bold text-xl tracking-tighter text-white">Healthcare Patient CRM</div>
     <div class="flex gap-4">
       <button appMagnetic class="btn-secondary" (click)="enterDemo()">View Demo</button>
       <button appMagnetic class="btn-primary" (click)="login()">Sign in with Google</button>
@@ -13,15 +13,20 @@
     <div class="flex flex-col md:flex-row items-center gap-12">
       <!-- Left: Text content -->
       <div class="flex-1" #heroContent>
-        <div class="inline-block text-label-caps text-gray-400 mb-6 tracking-[0.1em] hero-item">
-          AI-Native Consumer Engagement
+        <div class="flex items-center gap-2 mb-6 hero-item">
+          <span class="inline-block text-label-caps text-gray-400 tracking-[0.1em]">
+            Healthcare Patient Engagement & Mini CRM
+          </span>
+          <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            HIPAA DevSecOps
+          </span>
         </div>
         <h1 class="text-h1 text-white mb-8 hero-item">
           Stop guessing.<br>
           Start connecting.
         </h1>
         <p class="text-body-lg text-gray-400 max-w-xl mb-10 hero-item">
-          The CRM that proactively surfaces high-opportunity segments, drafts personalized campaigns, and tracks performance across every channel. 
+          The clinical engagement CRM that proactively surfaces high-risk patient cohorts, drafts personalized treatment reminders, and ensures HIPAA-compliant engagement across every channel. 
         </p>
         <div class="flex gap-4 hero-item">
           <button appMagnetic class="btn-primary" (click)="enterDemo()">Explore Live Demo</button>

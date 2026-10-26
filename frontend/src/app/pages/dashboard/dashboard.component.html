@@ -2,12 +2,12 @@
 
   <header class="mb-12 flex flex-col md:flex-row justify-between md:items-end gap-6 textflow-wrap">
     <div class="textflow-line">
-      <h1 appTextSplitReveal class="text-h2 mb-1">Workspace Dashboard</h1>
-      <p class="text-body-md text-gray-400 mt-2">Overview of customers and recent orders.</p>
+      <h1 appTextSplitReveal class="text-h2 mb-1">Clinical Patient Dashboard</h1>
+      <p class="text-body-md text-gray-400 mt-2">Overview of patient care tiers, clinical appointments, and treatment revenue.</p>
     </div>
     <div class="flex textflow-line">
       <button appMagnetic class="btn-primary mr-4" routerLink="/campaigns">Create Campaign</button>
-      <button appMagnetic class="btn-secondary" routerLink="/customers">Add Contact</button>
+      <button appMagnetic class="btn-secondary" routerLink="/customers">View Patients</button>
     </div>
   </header>
 
@@ -31,7 +31,7 @@
   @if (crm.analyticsSummary(); as stats) {
   <div appScrollHint class="flex overflow-x-auto md:grid md:grid-cols-4 gap-4 md:gap-6 mb-12 pt-2 pb-4 snap-x snap-mandatory hide-scrollbar w-full">
     <div #kpiCard class="card-elevated p-6 relative overflow-hidden group min-w-[260px] md:min-w-0 snap-center shrink-0">
-      <p class="text-label-caps text-gray-400 mb-2">Total Contacts</p>
+      <p class="text-label-caps text-gray-400 mb-2">Total Patients (HIPAA Shield)</p>
       <div class="flex justify-between items-end">
         <p class="text-[32px] md:text-[40px] font-semibold tracking-[-0.02em]" appNumberCounter
           [appNumberCounter]="stats.total_customers">0</p>
