@@ -6,10 +6,18 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
     """
     Mock AI Service that returns realistic segments without hitting Vertex AI.
     It parses the natural language input for keywords and builds a segment.
+    Supports both CRM and Healthcare Patient Engagement domains (Item 9 DevSecOps).
     """
     criteria_lower = criteria.lower()
     
     # --- Keyword-based routing ---
+    # Healthcare & Clinical keywords (Item 9 Healthcare System)
+    healthcare_keywords = [
+        "patient", "healthcare", "chronic", "diabetic", "checkup", "therapy",
+        "hypertension", "clinical", "wellness", "medical", "appointment",
+        "doctor", "prescription", "hospital", "screening"
+    ]
+
     # Lapsed / inactive: customers who haven't ordered recently
     lapsed_keywords = [
         "lapsed", "churn", "inactive", "haven't ordered", "havent ordered",
@@ -30,6 +38,27 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
         sql_criteria = criteria # Pass the raw malicious input directly into the SQL criteria
         result = await db.execute(select(func.count(Customer.id)))
         size = 0
+
+    elif any(keyword in criteria_lower for keyword in healthcare_keywords):
+        name = "Chronic Care & Follow-up Patients"
+        description = "Patients requiring clinical follow-up consultations and preventative health screenings."
+        sql_criteria = """
+            SELECT 
+              c.id, 
+              c.name, 
+              c.email,
+              COUNT(o.id) as total_orders,
+              SUM(o.total_amount) as total_spent,
+              MAX(o.created_at) as last_order_date
+            FROM customers c 
+            LEFT JOIN orders o ON c.id = o.customer_id 
+            GROUP BY c.id, c.name, c.email
+            HAVING MAX(o.created_at) < NOW() - INTERVAL '60 days'
+               OR MAX(o.created_at) IS NULL
+        """
+        result = await db.execute(select(func.count(Customer.id)))
+        size = result.scalar() or 0
+        size = int(size * 0.35)
 
     elif any(keyword in criteria_lower for keyword in lapsed_keywords):
         name = "Lapsed Customers"
@@ -126,10 +155,15 @@ async def discover_segments(criteria: str, db: AsyncSession) -> Segment:
     return new_segment
 
 async def draft_campaign(goal: str, segment_name: str) -> dict:
-    """Mock AI campaign message drafting."""
+    """Mock AI campaign message drafting with Healthcare support."""
     goal_lower = goal.lower()
     
-    if "discount" in goal_lower or "sale" in goal_lower:
+    if any(k in goal_lower for k in ["health", "patient", "clinical", "appointment", "checkup", "therapy", "doctor", "medicine", "prescription"]):
+        return {
+            "subject_line": "Important Healthcare Advisory: Upcoming Care & Follow-Up",
+            "message_body": f"Hello {{name}},\n\nThis is a priority reminder from your Healthcare Care Team regarding your participation in {segment_name}. Regular clinical follow-ups and preventative screenings are essential to your long-term wellness.\n\nPlease log in to your patient portal to schedule your consultation or review your doctor's recommendations.\n\nBest regards,\nYour Clinical Support Team"
+        }
+    elif "discount" in goal_lower or "sale" in goal_lower:
         return {
             "subject_line": "Special 20% Off Just For You!",
             "message_body": f"Hi {{name}},\n\nWe noticed you're one of our {segment_name}. To say thanks, use code SALE20 at checkout for 20% off your next order.\n\nShop now!"
