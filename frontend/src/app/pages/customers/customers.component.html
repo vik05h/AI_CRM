@@ -1,13 +1,8 @@
 <div class="max-w-[1280px] mx-auto py-8 px-4 md:px-8 font-inter text-white">
   <header class="mb-12 flex flex-col md:flex-row justify-between md:items-end gap-6 textflow-wrap">
     <div class="textflow-line">
-      <div class="flex items-center gap-3">
-        <h1 class="text-h2 mb-2">Patients & Clinical Profiles</h1>
-        <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-          PHI Masked & HIPAA Protected
-        </span>
-      </div>
-      <p class="text-body-lg text-gray-400">View and manage protected clinical records, risk levels, and care tiers.</p>
+      <h1 class="text-h2 mb-2">Customers</h1>
+      <p class="text-body-lg text-gray-400">View and manage your entire customer database.</p>
     </div>
     <div class="textflow-line">
       <span class="text-body-md font-semibold bg-white/5 px-4 py-2 rounded-lg">{{ crm.analyticsSummary()?.total_customers | number }} Total</span>
@@ -19,26 +14,23 @@
       <table class="w-full text-left border-collapse">
         <thead>
           <tr class="bg-white/5 border-b border-white/10">
-            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Patient Name</th>
-            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Protected Email</th>
-            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Care Tier</th>
-            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Primary Condition / MRN</th>
-            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Registered</th>
+            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Name</th>
+            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Email</th>
+            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Location</th>
+            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Source</th>
+            <th class="px-6 py-4 text-label-caps text-gray-400 font-semibold">Joined</th>
           </tr>
         </thead>
         <tbody>
           @for (customer of crm.customers(); track customer.id) {
             <tr class="border-b border-white/10 last:border-0 hover:bg-white/10 transition-colors">
               <td class="px-6 py-4 font-semibold text-[15px]">{{ customer.name }}</td>
-              <td class="px-6 py-4 text-gray-400 text-[14px] font-mono">{{ customer.email }}</td>
+              <td class="px-6 py-4 text-gray-400 text-[14px]">{{ customer.email }}</td>
+              <td class="px-6 py-4 text-gray-400 text-[14px]">{{ customer.metadata_json['location'] || 'Unknown' }}</td>
               <td class="px-6 py-4">
-                <span class="panel-recessed text-label-caps px-3 py-1 rounded-full text-indigo-300">
-                  {{ customer.metadata_json['care_tier'] || 'Standard' }}
+                <span class="panel-recessed text-label-caps px-3 py-1 rounded-full">
+                  {{ customer.metadata_json['source'] || 'Unknown' }}
                 </span>
-              </td>
-              <td class="px-6 py-4 text-[14px]">
-                <div class="font-medium text-white">{{ customer.metadata_json['primary_condition'] || 'Routine Wellness' }}</div>
-                <div class="text-xs text-gray-400 font-mono">{{ customer.metadata_json['mrn'] || 'MRN-SECURED' }}</div>
               </td>
               <td class="px-6 py-4 text-gray-400 text-[14px]">{{ customer.created_at | date:'mediumDate' }}</td>
             </tr>

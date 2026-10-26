@@ -1,3 +1,5 @@
+import { CommonModule } from '@angular/common';
+import { CrmService } from '../../services/crm.service';
 import { Component, ChangeDetectionStrategy, afterNextRender, ElementRef, viewChild, OnDestroy, NgZone, inject } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,11 +16,12 @@ gsap.registerPlugin(ScrollTrigger);
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css',
-  imports: [Tilt3DDirective, SpotlightDirective, MagneticDirective]
+  imports: [CommonModule, Tilt3DDirective, SpotlightDirective, MagneticDirective]
 })
 export class LandingComponent implements OnDestroy {
   private ctx!: gsap.Context;
   private authService = inject(AuthService);
+  crm = inject(CrmService);
 
   screenshots = [
     '/image.png',
@@ -30,6 +33,7 @@ export class LandingComponent implements OnDestroy {
   ];
 
   constructor(private elementRef: ElementRef, private ngZone: NgZone) {
+    this.crm.loadDeploymentVersion();
     afterNextRender(() => {
       this.ngZone.runOutsideAngular(() => {
         this.ctx = gsap.context(() => {

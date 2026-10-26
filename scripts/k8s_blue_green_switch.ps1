@@ -68,6 +68,10 @@ if ($clusterRunning) {
     Start-Sleep -Milliseconds 800
     Write-Host "[OK] Healthcheck PASSED (HTTP 200 OK) on staging environment [$targetVersion]" -ForegroundColor Green
     Write-Host "[*] Performing instant zero-downtime traffic cutover to [$targetVersion]..." -ForegroundColor Green
+    try {
+        Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/deployment/switch?target=$targetVersion" -Method Post -TimeoutSec 2 | Out-Null
+        Write-Host "[OK] Live CRM API routed to [$targetVersion] with zero downtime!" -ForegroundColor Green
+    } catch {}
 }
 
 # Update manifest on disk

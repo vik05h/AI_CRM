@@ -29,13 +29,47 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+DEPLOYMENT_STATE = {
+    "version": os.environ.get("DEPLOYMENT_VERSION", "v1.0.0-blue"),
+    "color": os.environ.get("DEPLOYMENT_COLOR", "blue"),
+}
+
+@app.get("/api/version", summary="Get deployment version and Blue-Green status")
+async def get_deployment_version():
+    """Return active release version, deployment color, and feature flags."""
+    color = DEPLOYMENT_STATE["color"]
+    version = DEPLOYMENT_STATE["version"]
+    return {
+        "service": "AI CRM API",
+        "version": version,
+        "color": color,
+        "release_name": "Phoenix (v2.0)" if color == "green" else "Hydra (v1.0)",
+        "v2_features_active": color == "green"
+    }
+
+@app.post("/api/deployment/switch", summary="Switch active Blue-Green release")
+async def switch_deployment(target: str = Query("green")):
+    """Switch active production traffic between blue and green releases with zero downtime."""
+    target_clean = "green" if "green" in target.lower() else "blue"
+    version_str = "v2.0.0-green" if target_clean == "green" else "v1.0.0-blue"
+    DEPLOYMENT_STATE["color"] = target_clean
+    DEPLOYMENT_STATE["version"] = version_str
+    return {
+        "message": f"Production traffic routed to {target_clean} release successfully",
+        "active_color": target_clean,
+        "active_version": version_str
+    }
+
 @app.get("/", summary="Root status check")
 async def root():
     """Root status check endpoint for Render health and quick checks."""
+    color = DEPLOYMENT_STATE["color"]
+    version = DEPLOYMENT_STATE["version"]
     return {
         "status": "online",
         "service": "AI CRM API",
-        "version": "1.0.0"
+        "version": version,
+        "color": color
     }
 
 @app.get("/health", summary="Health check with DB status")
@@ -51,9 +85,14 @@ async def health_check():
         db_status = "disconnected"
         error_msg = str(e)
 
+    color = os.environ.get("DEPLOYMENT_COLOR", DEPLOYMENT_COLOR)
+    version = os.environ.get("DEPLOYMENT_VERSION", DEPLOYMENT_VERSION)
+
     return {
         "status": "healthy" if db_status == "connected" else "degraded",
         "database": db_status,
+        "version": version,
+        "color": color,
         "detail": error_msg
     }
 

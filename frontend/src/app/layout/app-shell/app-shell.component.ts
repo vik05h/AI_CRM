@@ -1,3 +1,4 @@
+import { CrmService } from '../../services/crm.service';
 import { Component, inject, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
@@ -17,14 +18,18 @@ import gsap from 'gsap';
       <header class="h-20 bg-black/40 backdrop-blur-2xl border-b border-white/10 sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 shadow-[0_4px_30px_rgba(0,0,0,0.02)]">
         <!-- Brand -->
         <div class="flex items-center gap-3">
-          <div class="font-bold text-xl tracking-tighter text-white">Healthcare CRM</div>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            HIPAA Shield
-          </span>
-          <span class="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-            K8s Blue-Green
-          </span>
+          <div class="font-bold text-xl tracking-tighter text-white">AI CRM</div>
+          @if (crm.deploymentColor() === 'green') {
+            <div class="flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold border bg-emerald-950/70 border-emerald-500/50 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.3)]">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Live: {{ crm.deploymentVersion() }}
+            </div>
+          } @else {
+            <div class="flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold border bg-blue-950/70 border-blue-500/50 text-blue-400 shadow-[0_0_12px_rgba(59,130,246,0.3)]">
+              <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+              Live: {{ crm.deploymentVersion() }}
+            </div>
+          }
         </div>
 
         <!-- Desktop Links -->
@@ -38,7 +43,7 @@ import gsap from 'gsap';
           </a>
           <a routerLink="/customers" routerLinkActive="active-link text-white font-semibold" class="px-4 py-2 rounded-lg text-gray-400 font-medium transition-colors hover:text-white flex items-center gap-2 z-10">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-            Patients
+            Customers
           </a>
           <a routerLink="/segments" routerLinkActive="active-link text-white font-semibold" class="px-4 py-2 rounded-lg text-gray-400 font-medium transition-colors hover:text-white flex items-center gap-2 z-10">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -108,6 +113,7 @@ export class AppShellComponent implements OnInit, OnDestroy {
   private activatedRoute = inject(ActivatedRoute);
   private ngZone = inject(NgZone);
   auth = inject(AuthService);
+  crm = inject(CrmService);
   
   pageTitle = 'Dashboard';
   sidebarOpen = false;

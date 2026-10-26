@@ -20,6 +20,8 @@ export class CrmService {
   private _loading = signal<boolean>(false);
   private _error = signal<string | null>(null);
   private _analyticsSummary = signal<AnalyticsSummary | null>(null);
+  private _deploymentVersion = signal<string>('v1.0.0-blue');
+  private _deploymentColor = signal<'blue' | 'green'>('blue');
   
   // Backend Boot / Health State
   private _backendStatus = signal<'checking' | 'booting' | 'online' | 'error'>('checking');
@@ -38,6 +40,8 @@ export class CrmService {
   readonly loading = computed(() => this._loading());
   readonly error = computed(() => this._error());
   readonly analyticsSummary = computed(() => this._analyticsSummary());
+  readonly deploymentVersion = computed(() => this._deploymentVersion());
+  readonly deploymentColor = computed(() => this._deploymentColor());
   readonly backendStatus = computed(() => this._backendStatus());
   readonly bootElapsedSeconds = computed(() => this._bootElapsedSeconds());
   readonly bootError = computed(() => this._bootError());
@@ -45,7 +49,18 @@ export class CrmService {
   /**
    * Loads initial dashboard and business data directly
    */
+  loadDeploymentVersion() {
+    this.http.get<{ version: string; color: 'blue' | 'green' }>(`${this.apiUrl}/api/version`).subscribe({
+      next: (res) => {
+        if (res && res.version) this._deploymentVersion.set(res.version);
+        if (res && res.color) this._deploymentColor.set(res.color);
+      },
+      error: () => {}
+    });
+  }
+
   loadInitialData() {
+    this.loadDeploymentVersion();
     this._loading.set(true);
     this.loadAnalytics();
     this.loadCustomers(0, 5);
@@ -283,6 +298,7 @@ export class CrmService {
       this.pollingSub = interval(5000).subscribe(() => {
         this.loadCampaigns();
         this.loadAnalytics();
+        this.loadDeploymentVersion();
       });
     }
   }

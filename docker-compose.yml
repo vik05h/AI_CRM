@@ -47,6 +47,8 @@ services:
       - CHANNEL_STUB_URL=http://channel_stub:8001
       - FRONTEND_URL=*
       - ENVIRONMENT=production
+      - DEPLOYMENT_COLOR=${DEPLOYMENT_COLOR:-blue}
+      - DEPLOYMENT_VERSION=${DEPLOYMENT_VERSION:-v1.0.0-blue}
     depends_on:
       db:
         condition: service_healthy
