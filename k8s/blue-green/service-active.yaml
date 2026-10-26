@@ -29,7 +29,7 @@ spec:
   type: ClusterIP
   selector:
     app: aicrm-backend
-    version: green
+    version: blue
   ports:
     - port: 8000
       targetPort: 8000
