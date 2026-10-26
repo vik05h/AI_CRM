@@ -1,9 +1,32 @@
-FROM python:3.11-slim
+# ==============================================================================
+# Multi-Stage Production Dockerfile for Channel Stub (Delivery Simulator)
+# DevSecOps Hardened: Non-root user, minimal surface
+# ==============================================================================
+
+FROM python:3.11-slim AS builder
+
+WORKDIR /build
+COPY requirements.txt .
+RUN pip install --no-cache-dir --user fastapi uvicorn httpx pydantic
+
+FROM python:3.11-slim AS runner
 
 WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+RUN groupadd -g 10002 stubgroup && useradd -u 10002 -g stubgroup -s /bin/bash -m stubuser
+
+COPY --from=builder /root/.local /home/stubuser/.local
+ENV PATH=/home/stubuser/.local/bin:$PATH
+ENV PYTHONUNBUFFERED=1
+
+COPY --chown=stubuser:stubgroup channel_stub/ ./channel_stub/
+
+USER stubuser
+
+EXPOSE 8001
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8001/ || exit 1
 
 CMD ["uvicorn", "channel_stub.main:app", "--host", "0.0.0.0", "--port", "8001"]

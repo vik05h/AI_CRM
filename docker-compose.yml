@@ -12,16 +12,66 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aicrm -d aicrm"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
+    networks:
+      - crm-net
 
   channel_stub:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile.stub
     container_name: aicrm-stub
     ports:
       - "8001:8001"
+    environment:
+      - PORT=8001
+      - CRM_CALLBACK_URL=http://backend:8000/api/callbacks
     restart: unless-stopped
+    networks:
+      - crm-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: aicrm-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://aicrm:aicrmpassword@db:5432/aicrm
+      - CHANNEL_STUB_URL=http://channel_stub:8001
+      - FRONTEND_URL=*
+      - ENVIRONMENT=production
+    depends_on:
+      db:
+        condition: service_healthy
+      channel_stub:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - crm-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: aicrm-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - crm-net
 
 volumes:
   postgres_data:
+
+networks:
+  crm-net:
+    driver: bridge
