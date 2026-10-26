@@ -9,7 +9,7 @@ param (
 )
 
 Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host "🔄 Automated Blue-Green Deployment Controller" -ForegroundColor Green
+Write-Host "[+] Automated Blue-Green Deployment Controller" -ForegroundColor Green
 Write-Host "   Namespace: $Namespace"
 Write-Host "=================================================================" -ForegroundColor Cyan
 
@@ -39,7 +39,7 @@ Write-Host "[*] Performing instant zero-downtime traffic switch to [$targetVersi
 kubectl patch service $ServiceName -n $Namespace -p "{`"spec`":{`"selector`":{`"version`":`"$targetVersion`"}}}"
 
 Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host "🎉 SUCCESS: Blue-Green Cutover Completed!" -ForegroundColor Green
+Write-Host "[SUCCESS] Blue-Green Cutover Completed!" -ForegroundColor Green
 Write-Host "   New Active Version: [$targetVersion]"
 Write-Host "   Previous Version:   [$currentVersion] (Kept warm for instant rollback)"
 Write-Host "=================================================================" -ForegroundColor Cyan

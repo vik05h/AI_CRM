@@ -16,10 +16,10 @@ Write-Host "[*] Fetching Initial Admin Password from Jenkins Container..." -Fore
 $adminPass = docker exec devops-jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword 2>$null
 
 Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host "🚀 Jenkins GUI is accessible at: http://localhost:8080" -ForegroundColor Green
+Write-Host "[URL] Jenkins GUI is accessible at: http://localhost:8080" -ForegroundColor Green
 if ($adminPass) {
-    Write-Host "🔑 Initial Admin Password: $adminPass" -ForegroundColor Yellow
+    Write-Host "[KEY] Initial Admin Password: $adminPass" -ForegroundColor Yellow
 } else {
-    Write-Host "🔑 To get your password run: docker exec devops-jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword"
+    Write-Host "[KEY] To get your password run: docker exec devops-jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword"
 }
 Write-Host "=================================================================" -ForegroundColor Cyan

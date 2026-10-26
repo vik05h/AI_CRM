@@ -48,6 +48,6 @@ switch ($Action) {
     "setup-db" {
         Write-Host "==> Uploading and executing PostgreSQL setup on AWS EC2..." -ForegroundColor Green
         $remoteScript = Get-Content -Raw "$PSScriptRoot\setup_aws_postgres.sh"
-        ssh -i "$KeyPath" -o StrictHostKeyChecking=no "$User@$PublicIp" "bash -s" <<< "$remoteScript"
+        $remoteScript | ssh -i "$KeyPath" -o StrictHostKeyChecking=no "$User@$PublicIp" "bash -s"
     }
 }
