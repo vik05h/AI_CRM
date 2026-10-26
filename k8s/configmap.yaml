@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aicrm-config
+  namespace: crm-healthcare
+data:
+  ENVIRONMENT: "production"
+  PORT: "8000"
+  CHANNEL_STUB_URL: "http://aicrm-stub-service:8001"
+  FRONTEND_URL: "*"
