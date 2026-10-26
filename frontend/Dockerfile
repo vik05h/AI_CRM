@@ -4,13 +4,13 @@
 # ==============================================================================
 
 # Stage 1: Build Angular application
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
 # Copy package manifests first for optimal layer caching
 COPY package*.json ./
-RUN npm ci
+RUN npm install --legacy-peer-deps --no-audit
 
 # Copy application source code
 COPY . .
