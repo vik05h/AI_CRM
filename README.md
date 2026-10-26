@@ -392,6 +392,22 @@ App: `http://localhost:4200`
 
 ---
 
+## 🚀 DevOps, Kubernetes Blue-Green & DevSecOps (College PBL-III)
+
+> **Complete Implementation Guide:** See [DEVOPS_GUIDE.md](DEVOPS_GUIDE.md) for full commands, screenshots, and architecture diagrams.
+
+### Evaluation Checklist
+
+| Item | Requirement | Implementation | Demo GUI / Command |
+| :--- | :--- | :--- | :--- |
+| **Item 7 (5 Marks)** | **CI/CD Pipeline on Kubernetes using Jenkins** | Multi-stage Dockerization (`backend/Dockerfile`, `frontend/Dockerfile`) deployed to Kubernetes via declarative manifests (`k8s/`). | **Jenkins GUI:** `http://localhost:8080`<br>`./jenkins/setup_jenkins.ps1` |
+| **Item 8 (5 Marks)** | **Automated Blue-Green Deployment Strategy** | Dual deployments (`crm-blue` & `crm-green`) with automated health verification and zero-downtime service selector switch. | **Switch Script:**<br>`./scripts/k8s_blue_green_switch.ps1` |
+| **Item 9 (5 Marks)** | **Secure DevOps (DevSecOps) in Healthcare System** | Healthcare Patient Engagement adaptation + automated Gitleaks secret detection, Bandit SAST, npm audit SCA, and Trivy CVE scanning. | **Pipeline Runner:**<br>`python scripts/run_devsecops_pipeline.py` |
+| **Observability** | **Grafana & Prometheus GUI** | Live metrics scraping, pod resource utilization, and deployment traffic split visualization. | **Grafana GUI:** `http://localhost:3000`<br>`./monitoring/start_monitoring.ps1` |
+| **Database** | **AWS Cloud PostgreSQL** | Hosted PostgreSQL running on AWS EC2 with secure SSL / SSH tunneling. | **AWS Connect:**<br>`./scripts/connect_aws_ec2.ps1` |
+
+---
+
 ## Simulated Data Strategy
 
 Since we don't have real customers/orders, we generate realistic synthetic data:
