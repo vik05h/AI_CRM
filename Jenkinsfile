@@ -26,7 +26,7 @@ pipeline {
                 echo "   2. Python SAST Static Code Analysis"
                 echo "   3. Frontend Dependency SCA Audit"
                 echo "============================================================"
-                sh 'python scripts/run_devsecops_pipeline.py'
+                sh 'python3 scripts/run_devsecops_pipeline.py || python scripts/run_devsecops_pipeline.py'
             }
         }
 
