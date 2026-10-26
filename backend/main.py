@@ -85,8 +85,8 @@ async def health_check():
         db_status = "disconnected"
         error_msg = str(e)
 
-    color = os.environ.get("DEPLOYMENT_COLOR", DEPLOYMENT_COLOR)
-    version = os.environ.get("DEPLOYMENT_VERSION", DEPLOYMENT_VERSION)
+    color = DEPLOYMENT_STATE["color"]
+    version = DEPLOYMENT_STATE["version"]
 
     return {
         "status": "healthy" if db_status == "connected" else "degraded",
