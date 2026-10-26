@@ -25,7 +25,7 @@ def normalize_database_url(url: str) -> str:
     # Detect if host is remote (not localhost/127.0.0.1)
     is_localhost = "localhost" in url or "127.0.0.1" in url
     requires_ssl = not is_localhost and any(
-        provider in url for provider in [".supabase.", ".neon.tech", ".render.com", "pooler.supabase.com"]
+        provider in url for provider in [".supabase.", ".neon.tech", ".render.com", "pooler.supabase.com", ".amazonaws.com"]
     )
 
     if requires_ssl and "ssl=" not in url:
